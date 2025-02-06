@@ -19,32 +19,13 @@ class AuthController extends GetxController {
   // **Cek Status Login**
   void checkLoginStatus() {
     String? token = box.read('token');
+    print("Token: $token");
     if (token != null && token.isNotEmpty) {
       isLoggedIn.value = true;
-      Future.delayed(Duration.zero, () => Get.offAllNamed('/profile'));
+      Future.delayed(Duration.zero, () => Get.offAllNamed('/home'));
     } else {
       isLoggedIn.value = false;
       Future.delayed(Duration.zero, () => Get.offAllNamed('/login'));
-    }
-  }
-
-  // **Register**
-  Future<void> register(String email, String password) async {
-    final url = Uri.parse('http://localhost:3000/api/auth/register');
-    try {
-      final response = await http.post(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"email": email, "password": password}),
-      );
-
-      if (response.statusCode == 201) {
-        Get.snackbar("Success", "User registered!");
-      } else {
-        Get.snackbar("Error", "Registration failed!");
-      }
-    } catch (e) {
-      Get.snackbar("Error", "Server error!");
     }
   }
 
@@ -65,9 +46,33 @@ class AuthController extends GetxController {
         // Simpan token ke GetStorage
         box.write('token', token);
         isLoggedIn.value = true;
-        Future.delayed(Duration.zero, () => Get.offAllNamed('/profile'));
+
+        print("Token setelah login: $token"); // Debugging
+
+        // Arahkan ke Home setelah login sukses
+        Future.delayed(Duration.zero, () => Get.offAllNamed('/home'));
       } else {
         Get.snackbar("Error", "Login gagal!");
+      }
+    } catch (e) {
+      Get.snackbar("Error", "Server error!");
+    }
+  }
+
+  // **Register**
+  Future<void> register(String email, String password) async {
+    final url = Uri.parse('http://localhost:3000/api/auth/register');
+    try {
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email, "password": password}),
+      );
+
+      if (response.statusCode == 201) {
+        Get.snackbar("Success", "User registered!");
+      } else {
+        Get.snackbar("Error", "Registration failed!");
       }
     } catch (e) {
       Get.snackbar("Error", "Server error!");
