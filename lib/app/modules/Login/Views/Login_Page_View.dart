@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vest_keren/app/routes/app_pages.dart';
-import '../controllers/auth_controller.dart';
+
+import '../Controllers/Auth_Controller.dart';
 
 class LoginPage extends StatelessWidget {
   final AuthController authC = Get.find<AuthController>();

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,9 @@ class AuthController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    checkLoginStatus(); // Cek apakah user sudah login saat aplikasi dimulai
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkLoginStatus();
+    });
   }
 
   // **Cek Status Login**
@@ -18,34 +21,10 @@ class AuthController extends GetxController {
     String? token = box.read('token');
     if (token != null && token.isNotEmpty) {
       isLoggedIn.value = true;
-      Get.offAllNamed('/profile'); // Langsung ke profile jika token ada
+      Future.delayed(Duration.zero, () => Get.offAllNamed('/profile'));
     } else {
       isLoggedIn.value = false;
-      Get.offAllNamed('/login'); // Jika tidak ada token, kembali ke login
-    }
-  }
-
-  // **Ambil Profil**
-  Future<void> getProfile() async {
-    final url = Uri.parse('http://localhost:3000/api/auth/profile');
-    try {
-      String? token = box.read('token');
-
-      final response = await http.get(
-        url,
-        headers: {
-          "Authorization": "Bearer $token",
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        print(data);
-      } else {
-        Get.snackbar("Error", "Unauthorized");
-      }
-    } catch (e) {
-      Get.snackbar("Error", "Server error!");
+      Future.delayed(Duration.zero, () => Get.offAllNamed('/login'));
     }
   }
 
@@ -86,9 +65,33 @@ class AuthController extends GetxController {
         // Simpan token ke GetStorage
         box.write('token', token);
         isLoggedIn.value = true;
-        Get.offAllNamed('/profile'); // Arahkan ke halaman profile setelah login
+        Future.delayed(Duration.zero, () => Get.offAllNamed('/profile'));
       } else {
         Get.snackbar("Error", "Login gagal!");
+      }
+    } catch (e) {
+      Get.snackbar("Error", "Server error!");
+    }
+  }
+
+  // **Ambil Profil**
+  Future<void> getProfile() async {
+    final url = Uri.parse('http://localhost:3000/api/auth/profile');
+    try {
+      String? token = box.read('token');
+
+      final response = await http.get(
+        url,
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print(data);
+      } else {
+        Get.snackbar("Error", "Unauthorized");
       }
     } catch (e) {
       Get.snackbar("Error", "Server error!");
@@ -99,6 +102,6 @@ class AuthController extends GetxController {
   void logout() {
     box.remove('token'); // Hapus token
     isLoggedIn.value = false;
-    Get.offAllNamed('/login'); // Kembali ke halaman login
+    Future.delayed(Duration.zero, () => Get.offAllNamed('/login'));
   }
 }

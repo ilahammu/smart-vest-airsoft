@@ -1,0 +1,1 @@
+ C:\\Telkom\ University\\Perkuliahan\\Magang\\smart_vest\\.dart_tool\\flutter_build\\7c2c682d49d22b660b9d9d4a86f70c12\\native_assets.yaml: 

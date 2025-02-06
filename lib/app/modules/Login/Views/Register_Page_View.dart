@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vest_keren/app/modules/Login/Controllers/Auth_Controller.dart';
+
+import '../Controllers/Auth_Controller.dart';
 
 class RegisterPage extends StatelessWidget {
   final AuthController authC = Get.put(AuthController());

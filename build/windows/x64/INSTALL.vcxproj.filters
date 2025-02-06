@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Telkom University\Perkuliahan\Magang\smart_vest\build\windows\x64\CMakeFiles\3d4c324ec24c0dbd6d1ddf4c9eaee508\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F63FDBFF-43C5-301B-95A6-46B97FCB17F5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

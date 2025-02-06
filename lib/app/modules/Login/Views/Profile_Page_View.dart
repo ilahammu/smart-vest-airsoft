@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/auth_controller.dart';
+
+import '../Controllers/Auth_Controller.dart';
 
 class ProfilePage extends StatelessWidget {
   final AuthController authC = Get.find<AuthController>();
