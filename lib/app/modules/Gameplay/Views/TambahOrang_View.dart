@@ -57,7 +57,7 @@ class TambahorangView extends StatelessWidget {
                   onChanged: (newValue) {
                     selectedTeam.value = newValue!;
                   },
-                  items: controller.Teams,
+                  items: controller.teamsDropdown,
                   hintText: 'Pilih Team',
                 ),
                 const SizedBox(height: 16),
@@ -77,7 +77,8 @@ class TambahorangView extends StatelessWidget {
                                     'Error', 'Nama tidak boleh kosong');
                                 return;
                               }
-                              await controller.addPlayer(name, esp32Id);
+                              await controller.addPlayer(
+                                  name, selectedEsp32Id.value, selectedTeam);
                             },
                       child: controller.isLoading.value
                           ? const CircularProgressIndicator(color: Colors.white)
