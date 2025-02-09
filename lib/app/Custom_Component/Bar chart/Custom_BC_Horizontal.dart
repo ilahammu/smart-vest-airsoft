@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../../Data/chart.dart';
+
+class Chart {
+  final String label;
+  final double value;
+
+  Chart({required this.label, required this.value});
+}
 
 class CustomBarchartHorizontal extends StatelessWidget {
   final List<Chart> datalist;

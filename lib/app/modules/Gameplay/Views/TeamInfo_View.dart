@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vest_keren/app/modules/Gameplay/Bindings/TeamInfo_Binding.dart';
+import '../../../Custom_Component/Table/Custom_DataTabelPerson.dart';
+import '../Controllers/TeamInfo_Controller.dart';
 
-class TeaminfoView extends GetView<TeaminfoBinding> {
+class TeaminfoView extends GetView<TeaminfoController> {
   @override
-  final TeaminfoBinding controller = Get.put(TeaminfoBinding());
+  final TeaminfoController controller = Get.put(TeaminfoController());
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +16,30 @@ class TeaminfoView extends GetView<TeaminfoBinding> {
         title: Text('Team Info'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text(
-          'Team Info is working',
-          style: TextStyle(fontSize: 20),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              const Color.fromARGB(255, 51, 9, 63),
+              const Color.fromARGB(255, 83, 48, 105),
+              const Color.fromARGB(255, 0, 0, 0),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.centerRight,
+          ),
+        ),
+        child: Center(
+          child: Obx(() {
+            if (controller.listDataTable.isEmpty) {
+              return CircularProgressIndicator();
+            } else {
+              return CustomDatatabelperson(
+                listcolumn: controller.listColumn,
+                listdata: controller.listDataTable.toList(),
+                columnMap: controller.columnMap,
+              );
+            }
+          }),
         ),
       ),
     );
