@@ -1,0 +1,41 @@
+# Flutter/Dart/Pub related
+**/doc/api/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+# Obsolete
+.flutter-plugins
+.flutter-plugins-dependencies
+# IntelliJ related
+.idea/
+*.iml
+# VS Code related
+.vscode/
+# Mac related
+*.DS_Store
+# Windows related
+*.exe
+*.dll
+*.bat
+*.pdb
+# Linux related
+*.so
+# Android related
+*.apk
+*.aar
+*.jks
+# iOS related
+*.xcworkspace
+ios/Pods/
+# Web related
+lib/generated_plugin_registrant.dart
+# Symbolication related
+app.*.symbols
+# Obfuscation related
+app.*.map.json
+# Android Studio related
+local.properties

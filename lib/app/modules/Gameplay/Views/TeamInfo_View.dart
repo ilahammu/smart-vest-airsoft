@@ -11,8 +11,7 @@ class TeaminfoView extends GetView<TeaminfoController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(
-            255, 90, 27, 206), // Set a non-transparent background color
+        backgroundColor: const Color.fromARGB(255, 90, 27, 206),
         title: Text('Team Info'),
         centerTitle: true,
       ),
@@ -28,18 +27,22 @@ class TeaminfoView extends GetView<TeaminfoController> {
             end: Alignment.centerRight,
           ),
         ),
-        child: Center(
-          child: Obx(() {
-            if (controller.listDataTable.isEmpty) {
-              return CircularProgressIndicator();
-            } else {
-              return CustomDatatabelperson(
-                listcolumn: controller.listColumn,
-                listdata: controller.listDataTable.toList(),
-                columnMap: controller.columnMap,
-              );
-            }
-          }),
+        child: SingleChildScrollView(
+          // ✅ Fix Overflow
+          physics: BouncingScrollPhysics(), // ✅ Scroll lebih halus
+          child: Center(
+            child: Obx(() {
+              if (controller.listDataTable.isEmpty) {
+                return CircularProgressIndicator();
+              } else {
+                return CustomDatatabelperson(
+                  listcolumn: controller.listColumn,
+                  listdata: controller.listDataTable.toList(),
+                  columnMap: controller.columnMap,
+                );
+              }
+            }),
+          ),
         ),
       ),
     );

@@ -25,9 +25,9 @@ class OverviewView extends GetView<OverviewController> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.lightBlue,
-              Colors.purple[400]!,
-              Colors.blue[900]!,
+              const Color.fromARGB(255, 51, 9, 63),
+              const Color.fromARGB(255, 57, 37, 69),
+              const Color.fromARGB(255, 0, 0, 0),
             ],
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,

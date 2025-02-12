@@ -2,7 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../data/TableGampelay.dart';
+import '../../data/TablePerson.dart';
 
 class CustomDatatabelperson extends StatelessWidget {
   final List<String> listcolumn;

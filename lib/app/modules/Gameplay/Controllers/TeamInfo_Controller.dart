@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:vest_keren/app/data/TableGampelay.dart';
+import 'package:vest_keren/app/data/TablePerson.dart';
 
 class TeaminfoController extends GetxController {
   Timer? timer;
@@ -30,8 +30,6 @@ class TeaminfoController extends GetxController {
       print('Data received from API: $data'); // Logging data received from API
       listDataTable.value =
           data.map((item) => DataTablePerson.fromJson(item)).toList();
-      print(
-          'DataTablePerson list: ${listDataTable.value}'); // Logging converted data
     } else {
       print('Error: ${response.statusCode}');
     }
