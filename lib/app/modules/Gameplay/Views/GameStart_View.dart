@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vest_keren/app/modules/Gameplay/Controllers/GameStart_Controller.dart';
+import '../../../Custom_Component/Table/Custom_DataTableGameplay.dart';
 
 class GamestartView extends GetView<GamestartController> {
-  // Mengambil controller yang sudah di-binding
   @override
   final GamestartController controller = Get.put(GamestartController());
 
@@ -11,45 +11,56 @@ class GamestartView extends GetView<GamestartController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(
-            255, 90, 27, 206), // Set a non-transparent background color
-        title: Text('Game Start'),
+        backgroundColor: const Color.fromARGB(255, 90, 27, 206),
+        title: const Text('Game Start'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Menampilkan status game (apakah dimulai atau tidak)
-            Obx(() {
-              return Text(
-                controller.isGameStarted.value
-                    ? 'Game is Started!'
-                    : 'Game is not Started',
-                style: TextStyle(fontSize: 20),
-              );
-            }),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              const Color.fromARGB(255, 51, 9, 63),
+              const Color.fromARGB(255, 83, 48, 105),
+              const Color.fromARGB(255, 0, 0, 0),
+            ],
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Obx(() {
+                  if (controller.listDataTable.isEmpty) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return CustomDataTable(dataList: controller.listDataTable);
+                }),
+              ),
+              _buildStartButton(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-            SizedBox(height: 20),
-
-            // Tombol untuk memulai game
-            ElevatedButton(
-              onPressed: () {
-                controller.startGame(); // Memulai game
-              },
-              child: Text('Start Game'),
-            ),
-
-            SizedBox(height: 10),
-
-            // Tombol untuk menghentikan game
-            ElevatedButton(
-              onPressed: () {
-                controller.stopGame(); // Menghentikan game
-              },
-              child: Text('Stop Game'),
-            ),
-          ],
+  Widget _buildStartButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey[600],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Text("START",
+              style: TextStyle(fontSize: 18, color: Colors.black)),
         ),
       ),
     );

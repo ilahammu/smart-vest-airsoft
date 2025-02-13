@@ -1,37 +1,58 @@
+import 'dart:async';
 import 'package:get/get.dart';
+import '../../../data/TableGameplay.dart';
 
-class GamestartController extends GetxController with StateMixin {
-  var name = ''.obs; // Reactive variable untuk nama
-  var team = 'Team A'.obs; // Reactive variable untuk team
-  var isGameStarted = false.obs; // Reactive variable untuk status game
+class GamestartController extends GetxController {
+  Timer? timer;
+  final GetConnect _http = GetConnect();
 
-  final GetConnect _connect = GetConnect();
+  final kolomData = ['NO', 'Nama Anggota', 'HP'].obs;
+  final Map<String, String> kolomMap = {
+    'NO': 'no',
+    'Nama Anggota': 'name',
+    'HP': 'health',
+  };
+  final RxList<DataTableGameplay> listDataTable = <DataTableGameplay>[].obs;
 
-  // Fungsi untuk mengirim data ke backend
-  Future<void> savePersonData() async {
-    final response = await _connect.post(
-      'http://localhost:3000/api/addPerson', // Gantilah dengan URL backend Anda
-      {
-        'name': name.value,
-        'team': team.value,
-      },
-      contentType: 'application/json',
-    );
+  @override
+  void onInit() {
+    super.onInit();
+    fetchDataTable(); // Panggil saat controller diinisialisasi
+  }
 
-    if (response.statusCode == 200) {
-      Get.snackbar('Success', 'Data berhasil disimpan!');
-    } else {
-      Get.snackbar('Error', 'Gagal menyimpan data.');
+  void fetchDataTable() async {
+    try {
+      final response =
+          await _http.get('http://localhost:3000/api/register/players');
+
+      if (response.statusCode == 200) {
+        final data = response.body['players'] as List<dynamic>;
+        print('Data received from API: $data');
+
+        listDataTable.value = data.map((item) {
+          try {
+            return DataTableGameplay.fromJson(item);
+          } catch (e) {
+            print("Error parsing player data: $e");
+            return DataTableGameplay(
+                no: 0, name: "Unknown", health: 100, selectedTeam: "Unknown");
+          }
+        }).toList();
+
+        // 🔥 Debugging untuk memastikan data sudah dipisah dengan benar
+        final teamA =
+            listDataTable.where((p) => p.selectedTeam == "TeamA").toList();
+        final teamB =
+            listDataTable.where((p) => p.selectedTeam == "TeamB").toList();
+        print("Team A: $teamA");
+        print("Team B: $teamB");
+
+        listDataTable.refresh(); // 🔥 Memastikan UI diperbarui
+      } else {
+        print('Error fetching data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Exception occurred while fetching data: $e");
     }
-  }
-
-  // Fungsi untuk memulai game
-  void startGame() {
-    isGameStarted.value = true;
-  }
-
-  // Fungsi untuk menghentikan game
-  void stopGame() {
-    isGameStarted.value = false;
   }
 }

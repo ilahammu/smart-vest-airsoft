@@ -16,11 +16,7 @@ class TeaminfoController extends GetxController {
 
   final RxList<DataTablePerson> listDataTable = <DataTablePerson>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchDataTable();
-  }
+//======================================================================================
 
   void fetchDataTable() async {
     final response =
@@ -33,5 +29,13 @@ class TeaminfoController extends GetxController {
     } else {
       print('Error: ${response.statusCode}');
     }
+  }
+
+//======================================================================================
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchDataTable();
   }
 }

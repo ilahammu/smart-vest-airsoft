@@ -1,27 +1,22 @@
 class DataTableGameplay {
+  final int no;
   final String name;
-  final String team;
-  final String HP;
+  final int health;
+  final String selectedTeam;
 
   DataTableGameplay({
+    required this.no,
     required this.name,
-    required this.team,
-    required this.HP,
+    required this.health,
+    required this.selectedTeam,
   });
 
   factory DataTableGameplay.fromJson(Map<String, dynamic> json) {
     return DataTableGameplay(
-      name: json['name'] ?? 'Unknown', // Provide default value if null
-      team: json['selectedTeam'] ?? 'Unknown', // Provide default value if null
-      HP: json['health'] ?? 'Unknown', // Provide default value if null
+      no: json['no'] ?? 0,
+      name: json['name'] ?? "Unknown",
+      health: json['health'] ?? 100,
+      selectedTeam: json['selectedTeam'] ?? "Unknown",
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'team': team,
-      'health': HP,
-    };
   }
 }
