@@ -7,10 +7,9 @@
 .pub-cache/
 .pub/
 build/
+lib/generated_plugin_registrant.dart
 
 # Exclude Flutter build artifacts
-.flutter-plugins
-.flutter-plugins-dependencies
 .dart_tool/flutter_build/
 
 # IntelliJ related
@@ -21,7 +20,7 @@ build/
 .vscode/
 
 # Mac related
-*.DS_Store
+.DS_Store
 
 # Windows related
 *.exe
@@ -36,19 +35,17 @@ build/
 *.apk
 *.aar
 *.jks
+/local.properties
 
 # iOS related
 *.xcworkspace
 ios/Pods/
 
 # Web related
-lib/generated_plugin_registrant.dart
+web/.dart_tool/
 
 # Symbolication related
 app.*.symbols
 
 # Obfuscation related
 app.*.map.json
-
-# Android Studio related
-local.properties
