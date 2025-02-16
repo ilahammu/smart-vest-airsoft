@@ -34,8 +34,8 @@ class CustomDataTable extends StatelessWidget {
         ),
         child: DataTable2(
           border: TableBorder.all(color: Colors.black, width: 3),
-          headingRowHeight: 40,
-          dataRowHeight: 100,
+          headingRowHeight: 60,
+          dataRowHeight: 65,
           columnSpacing: 0,
           horizontalMargin: 0,
           minWidth: 600,
@@ -70,8 +70,12 @@ class CustomDataTable extends StatelessWidget {
                     fontSize: 25),
               ),
             )),
-            DataColumn(label: Container(color: Colors.blue[300])),
-            DataColumn(label: Container(color: Colors.blue[300])),
+            DataColumn(
+              label: Container(color: Colors.blue[300]),
+            ),
+            DataColumn(
+              label: Container(color: Colors.blue[300]),
+            ),
           ],
           rows: [
             // 🟡 NO, Nama, HP Header untuk masing-masing tim
@@ -156,7 +160,7 @@ class CustomDataTable extends StatelessWidget {
   // 🔥 Styling Header
   TextStyle _headerStyle() {
     return GoogleFonts.ramabhadra(
-        color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20);
+        color: Colors.black, fontWeight: FontWeight.bold, fontSize: 30);
   }
 
   // 🔥 Styling Data

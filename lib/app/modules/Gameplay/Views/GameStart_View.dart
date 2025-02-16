@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:vest_keren/app/modules/Gameplay/Controllers/GameStart_Controller.dart';
 import '../../../Custom_Component/Button/Custom_Button_Start.dart';
 import '../../../Custom_Component/Table/Custom_DataTableGameplay.dart';
-import '../../../Custom_Component/Button/Custom_ButtonStart.dart';
 
 class GamestartView extends GetView<GamestartController> {
   @override
@@ -37,18 +36,19 @@ class GamestartView extends GetView<GamestartController> {
                 if (controller.listDataTable.isEmpty) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                return CustomDataTable(dataList: controller.listDataTable);
+                return CustomDataTable(
+                  dataList: controller.listDataTable,
+                );
               }),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: CustomButtonStart(
-                onPressed: () {
-                  print("Game Started!");
-                  controller.startGame(); // Jika ada fungsi di controller
-                },
-                opacity: 1.0,
-              ),
+              padding: const EdgeInsets.all(20),
+              child: Obx(() => CustomButtonStart(
+                    onPressed: controller.isStartEnabled.value
+                        ? controller.startGame
+                        : null, // 🔥 Disable tombol jika tidak memenuhi syarat
+                    opacity: controller.isStartEnabled.value ? 1.0 : 0.5,
+                  )),
             ),
           ],
         ),

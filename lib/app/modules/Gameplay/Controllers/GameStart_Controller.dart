@@ -13,13 +13,9 @@ class GamestartController extends GetxController {
     'HP': 'health',
   };
   final RxList<DataTableGameplay> listDataTable = <DataTableGameplay>[].obs;
+  var isStartEnabled = false.obs; // 🔥 State untuk tombol Start
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchDataTable(); // Panggil saat controller diinisialisasi
-  }
-
+  // 🔥 Ambil data pemain dan cek status game
   void fetchDataTable() async {
     try {
       final response =
@@ -39,20 +35,50 @@ class GamestartController extends GetxController {
           }
         }).toList();
 
-        // 🔥 Debugging untuk memastikan data sudah dipisah dengan benar
-        final teamA =
-            listDataTable.where((p) => p.selectedTeam == "TeamA").toList();
-        final teamB =
-            listDataTable.where((p) => p.selectedTeam == "TeamB").toList();
-        print("Team A: $teamA");
-        print("Team B: $teamB");
-
-        listDataTable.refresh(); // 🔥 Memastikan UI diperbarui
+        checkGameStatus(); // 🔥 Cek apakah game bisa dimulai
+        listDataTable.refresh();
       } else {
         print('Error fetching data: ${response.statusCode}');
       }
     } catch (e) {
       print("Exception occurred while fetching data: $e");
     }
+  }
+
+  // 🔥 Cek apakah kedua tim memiliki minimal satu pemain
+  void checkGameStatus() {
+    final teamA =
+        listDataTable.where((p) => p.selectedTeam == "TeamA").toList();
+    final teamB =
+        listDataTable.where((p) => p.selectedTeam == "TeamB").toList();
+
+    isStartEnabled.value = teamA.isNotEmpty && teamB.isNotEmpty;
+    print("Start Button Enabled: ${isStartEnabled.value}");
+  }
+
+  // 🔥 Fungsi untuk memulai game
+  void startGame() {
+    if (isStartEnabled.value) {
+      Get.snackbar("Success", "Game Started!");
+      print("Game Started!");
+    } else {
+      Get.snackbar("Error", "Both teams must have at least one player!");
+      print("Game cannot start, teams are incomplete!");
+    }
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchDataTable();
+    // Set up a timer to call fetchDataTable every 5 seconds
+    timer = Timer.periodic(Duration(seconds: 5), (Timer t) => fetchDataTable());
+  }
+
+  @override
+  void onClose() {
+    // Cancel the timer when the controller is disposed
+    timer?.cancel();
+    super.onClose();
   }
 }
