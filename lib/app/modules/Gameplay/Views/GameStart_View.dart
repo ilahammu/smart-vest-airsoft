@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vest_keren/app/modules/Gameplay/Controllers/GameStart_Controller.dart';
+import '../../../Custom_Component/Button/Custom_Button_Start.dart';
 import '../../../Custom_Component/Table/Custom_DataTableGameplay.dart';
+import '../../../Custom_Component/Button/Custom_ButtonStart.dart';
 
 class GamestartView extends GetView<GamestartController> {
   @override
@@ -21,46 +23,34 @@ class GamestartView extends GetView<GamestartController> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              const Color.fromARGB(255, 51, 9, 63),
-              const Color.fromARGB(255, 83, 48, 105),
-              const Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 51, 9, 63),
+              Color.fromARGB(255, 83, 48, 105),
+              Color.fromARGB(255, 0, 0, 0),
             ],
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Obx(() {
-                  if (controller.listDataTable.isEmpty) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  return CustomDataTable(dataList: controller.listDataTable);
-                }),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Obx(() {
+                if (controller.listDataTable.isEmpty) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return CustomDataTable(dataList: controller.listDataTable);
+              }),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: CustomButtonStart(
+                onPressed: () {
+                  print("Game Started!");
+                  controller.startGame(); // Jika ada fungsi di controller
+                },
+                opacity: 1.0,
               ),
-              _buildStartButton(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStartButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey[600],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Text("START",
-              style: TextStyle(fontSize: 18, color: Colors.black)),
+            ),
+          ],
         ),
       ),
     );

@@ -23,7 +23,7 @@ class TambahorangController extends GetxController {
   void fetchMacAddresses() async {
     try {
       final response = await http.get(Uri.parse(
-          'http://localhost:3000/api/register/esp32')); // Ganti IP jika pakai device
+          'http://localhost:3001/api/register/esp32')); // Ganti IP jika pakai device
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
@@ -72,7 +72,7 @@ class TambahorangController extends GetxController {
       print("Request Body: $requestBody");
 
       final response = await GetConnect().post(
-        'http://localhost:3000/api/register/register-player',
+        'http://localhost:3001/api/register/register-player',
         requestBody,
       );
 

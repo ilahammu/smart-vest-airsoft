@@ -31,7 +31,7 @@ class AuthController extends GetxController {
 
   // **Login**
   Future<void> login(String email, String password) async {
-    final url = Uri.parse('http://localhost:3000/api/auth/login');
+    final url = Uri.parse('http://localhost:3001/api/auth/login');
     try {
       final response = await http.post(
         url,
@@ -61,7 +61,7 @@ class AuthController extends GetxController {
 
   // **Register**
   Future<void> register(String email, String password) async {
-    final url = Uri.parse('http://localhost:3000/api/auth/register');
+    final url = Uri.parse('http://localhost:3001/api/auth/register');
     try {
       final response = await http.post(
         url,
@@ -81,7 +81,7 @@ class AuthController extends GetxController {
 
   // **Ambil Profil**
   Future<void> getProfile() async {
-    final url = Uri.parse('http://localhost:3000/api/auth/profile');
+    final url = Uri.parse('http://localhost:3001/api/auth/profile');
     try {
       String? token = box.read('token');
 
