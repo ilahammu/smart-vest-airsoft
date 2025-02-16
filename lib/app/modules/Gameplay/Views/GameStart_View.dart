@@ -47,7 +47,7 @@ class GamestartView extends GetView<GamestartController> {
                     onPressed: controller.isStartEnabled.value
                         ? controller.startGame
                         : null, // 🔥 Disable tombol jika tidak memenuhi syarat
-                    opacity: controller.isStartEnabled.value ? 1.0 : 0.5,
+                    opacity: controller.isStartEnabled.value ? 1.0 : 0.8,
                   )),
             ),
           ],

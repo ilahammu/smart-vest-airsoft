@@ -4,6 +4,7 @@ import '../../../data/TableGameplay.dart';
 
 class GamestartController extends GetxController {
   Timer? timer;
+  Timer? statusTimer;
   final GetConnect _http = GetConnect();
 
   final kolomData = ['NO', 'Nama Anggota', 'HP'].obs;
@@ -19,7 +20,7 @@ class GamestartController extends GetxController {
   void fetchDataTable() async {
     try {
       final response =
-          await _http.get('http://localhost:3001/api/register/players');
+          await _http.get('http://localhost:3001/api/update/players');
 
       if (response.statusCode == 200) {
         final data = response.body['players'] as List<dynamic>;
@@ -31,7 +32,12 @@ class GamestartController extends GetxController {
           } catch (e) {
             print("Error parsing player data: $e");
             return DataTableGameplay(
-                no: 0, name: "Unknown", health: 100, selectedTeam: "Unknown");
+                no: 0,
+                name: "Unknown",
+                health: 100,
+                selectedTeam: "Unknown",
+                macAddress: "Unknown",
+                statusReady: false);
           }
         }).toList();
 
@@ -45,14 +51,18 @@ class GamestartController extends GetxController {
     }
   }
 
-  // 🔥 Cek apakah kedua tim memiliki minimal satu pemain
+  // 🔥 Cek apakah kedua tim memiliki minimal satu pemain dan semua pemain siap
   void checkGameStatus() {
     final teamA =
         listDataTable.where((p) => p.selectedTeam == "TeamA").toList();
     final teamB =
         listDataTable.where((p) => p.selectedTeam == "TeamB").toList();
 
-    isStartEnabled.value = teamA.isNotEmpty && teamB.isNotEmpty;
+    // Check if all players in both teams are ready
+    final allReady =
+        teamA.every((p) => p.statusReady) && teamB.every((p) => p.statusReady);
+
+    isStartEnabled.value = teamA.isNotEmpty && teamB.isNotEmpty && allReady;
     print("Start Button Enabled: ${isStartEnabled.value}");
   }
 
@@ -62,8 +72,28 @@ class GamestartController extends GetxController {
       Get.snackbar("Success", "Game Started!");
       print("Game Started!");
     } else {
-      Get.snackbar("Error", "Both teams must have at least one player!");
-      print("Game cannot start, teams are incomplete!");
+      Get.snackbar("Error",
+          "Both teams must have at least one player and all players must be ready!");
+      print(
+          "Game cannot start, teams are incomplete or not all players are ready!");
+    }
+  }
+
+  // 🔥 Update player status
+  void updatePlayerStatus(String macAddress, bool isReady) async {
+    try {
+      final response = await _http.post(
+        'http://localhost:3001/api/update/update-status',
+        {'mac_address': macAddress, 'status_ready': isReady ? 1 : 0},
+      );
+
+      if (response.statusCode == 200) {
+        fetchDataTable(); // Refresh data after updating status
+      } else {
+        print('Error updating status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Exception occurred while updating status: $e");
     }
   }
 
@@ -73,12 +103,19 @@ class GamestartController extends GetxController {
     fetchDataTable();
     // Set up a timer to call fetchDataTable every 5 seconds
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) => fetchDataTable());
+    // Set up a timer to call updatePlayerStatus every 5 seconds
+    statusTimer = Timer.periodic(Duration(seconds: 5), (Timer t) {
+      for (var player in listDataTable) {
+        updatePlayerStatus(player.macAddress, player.statusReady);
+      }
+    });
   }
 
   @override
   void onClose() {
-    // Cancel the timer when the controller is disposed
+    // Cancel the timers when the controller is disposed
     timer?.cancel();
+    statusTimer?.cancel();
     super.onClose();
   }
 }
