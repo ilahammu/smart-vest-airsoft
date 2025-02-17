@@ -31,6 +31,16 @@ class GamestartView extends GetView<GamestartController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Obx(() => Text(
+                  controller.gameStarted.value
+                      ? "Game Started"
+                      : "Game Not Started",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
             Expanded(
               child: Obx(() {
                 if (controller.listDataTable.isEmpty) {
@@ -38,6 +48,7 @@ class GamestartView extends GetView<GamestartController> {
                 }
                 return CustomDataTable(
                   dataList: controller.listDataTable,
+                  gameStarted: controller.gameStarted.value,
                 );
               }),
             ),

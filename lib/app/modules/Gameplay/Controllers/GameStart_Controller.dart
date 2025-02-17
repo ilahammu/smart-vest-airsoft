@@ -4,7 +4,6 @@ import '../../../data/TableGameplay.dart';
 
 class GamestartController extends GetxController {
   Timer? timer;
-  Timer? statusTimer;
   final GetConnect _http = GetConnect();
 
   final kolomData = ['NO', 'Nama Anggota', 'HP'].obs;
@@ -15,6 +14,7 @@ class GamestartController extends GetxController {
   };
   final RxList<DataTableGameplay> listDataTable = <DataTableGameplay>[].obs;
   var isStartEnabled = false.obs; // 🔥 State untuk tombol Start
+  var gameStarted = false.obs; // 🔥 State untuk game status
 
   // 🔥 Ambil data pemain dan cek status game
   void fetchDataTable() async {
@@ -37,7 +37,8 @@ class GamestartController extends GetxController {
                 health: 100,
                 selectedTeam: "Unknown",
                 macAddress: "Unknown",
-                statusReady: false);
+                statusReady: false,
+                statusWeapon: false); // Tambahkan atribut statusWeapon
           }
         }).toList();
 
@@ -67,10 +68,25 @@ class GamestartController extends GetxController {
   }
 
   // 🔥 Fungsi untuk memulai game
-  void startGame() {
+  void startGame() async {
     if (isStartEnabled.value) {
       Get.snackbar("Success", "Game Started!");
       print("Game Started!");
+
+      // Perbarui status weapon untuk semua pemain
+      for (var player in listDataTable) {
+        await updateWeaponStatus(player.macAddress, true);
+        await logHealth(player.name, player.health);
+      }
+
+      // Update game status
+      gameStarted.value = true;
+
+      // Refresh data to reflect the updated statusWeapon
+      fetchDataTable();
+
+      // Start updating health points
+      startHealthUpdate();
     } else {
       Get.snackbar("Error",
           "Both teams must have at least one player and all players must be ready!");
@@ -97,25 +113,117 @@ class GamestartController extends GetxController {
     }
   }
 
+  // 🔥 Update weapon status
+  Future<void> updateWeaponStatus(String macAddress, bool statusWeapon) async {
+    try {
+      final response = await _http.post(
+        'http://localhost:3001/api/game_session_route/update-session-native', // Endpoint untuk memperbarui status weapon
+        {'mac_address': macAddress, 'status_weapon': statusWeapon ? 1 : 0},
+      );
+
+      if (response.statusCode == 200) {
+        print('Weapon status updated successfully for $macAddress');
+      } else {
+        print('Error updating weapon status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Exception occurred while updating weapon status: $e");
+    }
+  }
+
+  // 🔥 Log health to the backend
+  Future<void> logHealth(String name, int health) async {
+    try {
+      final response = await _http.post(
+        'http://localhost:3001/api/update/log-health',
+        {'name': name, 'health': health},
+      );
+
+      if (response.statusCode == 200) {
+        print('Health logged successfully for $name');
+      } else {
+        print('Error logging health: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Exception occurred while logging health: $e");
+    }
+  }
+
+  // 🔥 Start updating health points
+  void startHealthUpdate() {
+    timer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
+      for (var player in listDataTable) {
+        if (player.health > 0) {
+          int newHealth = player.health - 10; // Example decrement
+          await updateHealth(player.name, newHealth);
+        }
+      }
+      fetchDataTable(); // Refresh data to reflect updated health
+    });
+  }
+
+  // 🔥 Update health points
+  Future<void> updateHealth(String name, int health) async {
+    try {
+      final response = await _http.post(
+        'http://localhost:3001/api/update/update-health',
+        {'name': name, 'health': health},
+      );
+
+      if (response.statusCode == 200) {
+        print('Health updated successfully for $name');
+      } else {
+        print('Error updating health: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Exception occurred while updating health: $e");
+    }
+  }
+
+  // 🔥 Reset health to 100
+  Future<void> resetHealth(String playerName) async {
+    try {
+      final response = await _http.post(
+        'http://localhost:3001/api/update/update-health',
+        {'name': playerName, 'health': 100},
+      );
+
+      if (response.statusCode == 200) {
+        print('Health reset successfully for $playerName');
+        // Refresh the data table to reflect the updated health
+        fetchDataTable();
+      } else {
+        print('Error resetting health: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Exception occurred while resetting health: $e");
+    }
+  }
+
+  // 🔥 Reset health of all players to 100
+  Future<void> resetAllHealth() async {
+    try {
+      for (var player in listDataTable) {
+        await resetHealth(player.name);
+      }
+      print('All players health reset successfully');
+    } catch (e) {
+      print("Exception occurred while resetting all players' health: $e");
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
     fetchDataTable();
-    // Set up a timer to call fetchDataTable every 5 seconds
-    timer = Timer.periodic(Duration(seconds: 5), (Timer t) => fetchDataTable());
-    // Set up a timer to call updatePlayerStatus every 5 seconds
-    statusTimer = Timer.periodic(Duration(seconds: 5), (Timer t) {
-      for (var player in listDataTable) {
-        updatePlayerStatus(player.macAddress, player.statusReady);
-      }
-    });
+    // Comment out or remove the timer setup to disable automatic refresh
+    // timer = Timer.periodic(Duration(seconds: 5), (Timer t) => fetchDataTable());
   }
 
   @override
   void onClose() {
-    // Cancel the timers when the controller is disposed
+    // Cancel the timer when the controller is disposed
     timer?.cancel();
-    statusTimer?.cancel();
     super.onClose();
   }
 }

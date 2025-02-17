@@ -5,6 +5,7 @@ class DataTableGameplay {
   final String selectedTeam;
   final String macAddress;
   final bool statusReady;
+  final bool statusWeapon; // Tambahkan atribut statusWeapon
 
   DataTableGameplay({
     required this.no,
@@ -13,6 +14,7 @@ class DataTableGameplay {
     required this.selectedTeam,
     required this.macAddress,
     required this.statusReady,
+    required this.statusWeapon, // Tambahkan atribut statusWeapon
   });
 
   factory DataTableGameplay.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,8 @@ class DataTableGameplay {
       selectedTeam: json['selectedTeam'] ?? 'Unknown',
       macAddress: json['macAddress'] ?? 'Unknown',
       statusReady: json['statusReady'] ?? false,
+      statusWeapon:
+          json['statusWeapon'] ?? false, // Tambahkan atribut statusWeapon
     );
   }
 }

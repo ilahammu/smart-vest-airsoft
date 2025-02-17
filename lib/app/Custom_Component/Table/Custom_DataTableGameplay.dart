@@ -3,17 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/TableGameplay.dart';
+import '../../modules/Gameplay/Controllers/GameStart_Controller.dart';
 
 class CustomDataTable extends StatelessWidget {
   final List<DataTableGameplay> dataList;
+  final bool gameStarted;
 
   const CustomDataTable({
     Key? key,
     required this.dataList,
+    required this.gameStarted,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final GamestartController controller = Get.find();
+
     // 🔥 Pisahkan pemain berdasarkan tim
     final teamAPlayers =
         dataList.where((p) => p.selectedTeam == "TeamA").toList();
@@ -125,18 +130,43 @@ class CustomDataTable extends StatelessWidget {
                                     style: _dataStyle(),
                                   ),
                                   const SizedBox(width: 10),
-                                  Text(
-                                    teamAPlayers[i].statusReady
-                                        ? "Ready"
-                                        : "Not Ready",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: teamAPlayers[i].statusReady
-                                          ? Colors.green
-                                          : const Color.fromARGB(
-                                              255, 255, 255, 255),
+                                  if (!gameStarted)
+                                    Text(
+                                      teamAPlayers[i].statusReady
+                                          ? "Ready"
+                                          : "Not Ready",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: teamAPlayers[i].statusReady
+                                            ? Colors.green
+                                            : const Color.fromARGB(
+                                                255, 255, 255, 255),
+                                      ),
                                     ),
-                                  ),
+                                  if (teamAPlayers[i].health <= 0)
+                                    Column(
+                                      children: [
+                                        Container(
+                                          color: Colors.grey,
+                                          padding: const EdgeInsets.all(4),
+                                          child: Text(
+                                            "DEFEAT",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            controller.resetHealth(
+                                                teamAPlayers[i].name);
+                                          },
+                                          child: Text("Reset"),
+                                        ),
+                                      ],
+                                    ),
                                 ],
                               )
                             : Text("-", style: _dataStyle())))),
@@ -166,18 +196,43 @@ class CustomDataTable extends StatelessWidget {
                                     style: _dataStyle(),
                                   ),
                                   const SizedBox(width: 10),
-                                  Text(
-                                    teamBPlayers[i].statusReady
-                                        ? "Ready"
-                                        : "Not Ready",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: teamBPlayers[i].statusReady
-                                          ? Colors.green
-                                          : const Color.fromARGB(
-                                              255, 255, 255, 255),
+                                  if (!gameStarted)
+                                    Text(
+                                      teamBPlayers[i].statusReady
+                                          ? "Ready"
+                                          : "Not Ready",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: teamBPlayers[i].statusReady
+                                            ? Colors.green
+                                            : const Color.fromARGB(
+                                                255, 255, 255, 255),
+                                      ),
                                     ),
-                                  ),
+                                  if (teamBPlayers[i].health <= 0)
+                                    Column(
+                                      children: [
+                                        Container(
+                                          color: Colors.grey,
+                                          padding: const EdgeInsets.all(4),
+                                          child: Text(
+                                            "DEFEAT",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            controller.resetHealth(
+                                                teamBPlayers[i].name);
+                                          },
+                                          child: Text("Reset"),
+                                        ),
+                                      ],
+                                    ),
                                 ],
                               )
                             : Text("-", style: _dataStyle())))),
