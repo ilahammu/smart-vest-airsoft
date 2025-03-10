@@ -152,26 +152,26 @@ class GamestartController extends GetxController {
   // 🔥 Start updating health points
   void startHealthUpdate() {
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
-      for (var player in listDataTable) {
-        if (player.health > 0) {
-          int newHealth = player.health - 10; // Example decrement
-          await updateHealth(player.name, newHealth);
-        }
-      }
       fetchDataTable(); // Refresh data to reflect updated health
     });
   }
 
   // 🔥 Update health points
-  Future<void> updateHealth(String name, int health) async {
+  Future<void> updateHealth(String macAddress, int damage) async {
     try {
+      final player =
+          listDataTable.firstWhere((p) => p.macAddress == macAddress);
+      final newHealth = (player.health - damage)
+          .clamp(0, 100); // Ensure health doesn't go below 0
+
       final response = await _http.post(
         'http://localhost:3001/api/update/update-health',
-        {'name': name, 'health': health},
+        {'mac_address': macAddress, 'health': newHealth},
       );
 
       if (response.statusCode == 200) {
-        print('Health updated successfully for $name');
+        print('Health updated successfully for $macAddress');
+        fetchDataTable(); // Refresh data to reflect updated health
       } else {
         print('Error updating health: ${response.statusCode}');
       }

@@ -25,233 +25,202 @@ class CustomDataTable extends StatelessWidget {
     final teamBPlayers =
         dataList.where((p) => p.selectedTeam == "TeamB").toList();
 
-    // Menentukan jumlah baris maksimum untuk keseimbangan tampilan
+    // 🔥 Cek apakah salah satu tim sudah kalah
+    final teamADead =
+        teamAPlayers.isNotEmpty && teamAPlayers.every((p) => p.health <= 0);
+    final teamBDead =
+        teamBPlayers.isNotEmpty && teamBPlayers.every((p) => p.health <= 0);
+
+    // 🔥 Tentukan jumlah maksimum baris untuk menjaga keseimbangan tampilan
     final maxRows = teamAPlayers.length > teamBPlayers.length
         ? teamAPlayers.length
         : teamBPlayers.length;
 
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        width: Get.width * 1,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-          color: const Color.fromARGB(255, 111, 106, 106),
-          borderRadius: BorderRadius.circular(10),
+    return Column(
+      children: [
+        // 🔥 Notifikasi jika salah satu tim kalah
+        if (teamADead || teamBDead)
+          Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              teamADead
+                  ? "🔥 TEAM RED HAS BEEN DEFEATED!"
+                  : "🔥 TEAM BLUE HAS BEEN DEFEATED!",
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+
+        // 🔥 Tabel Data Pemain
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                width: Get.width * 1,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  color: const Color.fromARGB(255, 111, 106, 106),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: DataTable2(
+                  border: TableBorder.all(color: Colors.black, width: 3),
+                  columnSpacing: 10, // 🔥 Beri sedikit ruang antar kolom
+                  horizontalMargin: 10,
+                  minWidth: 700,
+                  dataRowHeight: 50, // 🔥 Pastikan tinggi cukup untuk teks
+                  columns: [
+                    DataColumn(label: _buildHeaderCell("RED TEAM", Colors.red)),
+                    DataColumn(
+                        label: _buildHeaderCell("Nama", Colors.redAccent)),
+                    DataColumn(
+                        label:
+                            _buildHeaderCell("Health Point", Colors.redAccent)),
+                    DataColumn(
+                        label: _buildHeaderCell("BLUE TEAM", Colors.blue)),
+                    DataColumn(
+                        label: _buildHeaderCell("Nama", Colors.blueAccent)),
+                    DataColumn(
+                        label: _buildHeaderCell(
+                            "Health Point", Colors.blueAccent)),
+                  ],
+                  rows: [
+                    for (int i = 0; i < maxRows; i++)
+                      DataRow(cells: [
+                        // 🔥 Kolom Team Red
+                        DataCell(_buildDataCell(i < teamAPlayers.length
+                            ? (i + 1).toString()
+                            : "-")),
+                        DataCell(_buildDataCell(i < teamAPlayers.length
+                            ? teamAPlayers[i].name
+                            : "-")),
+                        DataCell(i < teamAPlayers.length
+                            ? _buildHealthCell(teamAPlayers[i], controller)
+                            : _buildDataCell("-")),
+
+                        // 🔥 Kolom Team Blue
+                        DataCell(_buildDataCell(i < teamBPlayers.length
+                            ? (i + 1).toString()
+                            : "-")),
+                        DataCell(_buildDataCell(i < teamBPlayers.length
+                            ? teamBPlayers[i].name
+                            : "-")),
+                        DataCell(i < teamBPlayers.length
+                            ? _buildHealthCell(teamBPlayers[i], controller)
+                            : _buildDataCell("-")),
+                      ]),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
-        child: DataTable2(
-          border: TableBorder.all(color: Colors.black, width: 3),
-          columnSpacing: 0,
-          horizontalMargin: 0,
-          minWidth: 600,
-          columns: [
-            DataColumn(
-              label: Container(
-                color: Colors.red,
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  "RED TEAM",
-                  style: GoogleFonts.ramabhadra(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25),
-                ),
-              ),
-            ),
-            DataColumn(label: Container(color: Colors.red)),
-            DataColumn(label: Container(color: Colors.red)),
-            DataColumn(
-              label: Container(
-                color: Colors.blue,
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  "BLUE TEAM",
-                  style: GoogleFonts.ramabhadra(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25),
-                ),
-              ),
-            ),
-            DataColumn(label: Container(color: Colors.blue)),
-            DataColumn(label: Container(color: Colors.blue)),
-          ],
-          rows: [
-            DataRow(cells: [
-              DataCell(Container(
-                  color: Colors.red[200],
-                  child: Center(child: Text("NO", style: _headerStyle())))),
-              DataCell(Container(
-                  color: Colors.red[200],
-                  child: Center(child: Text("Nama", style: _headerStyle())))),
-              DataCell(Container(
-                  color: Colors.red[200],
-                  child: Center(
-                      child: Text("Health Point", style: _headerStyle())))),
-              DataCell(Container(
-                  color: Colors.blue[200],
-                  child: Center(child: Text("NO", style: _headerStyle())))),
-              DataCell(Container(
-                  color: Colors.blue[200],
-                  child: Center(child: Text("Nama", style: _headerStyle())))),
-              DataCell(Container(
-                  color: Colors.blue[200],
-                  child: Center(
-                      child: Text("Health Point", style: _headerStyle())))),
-            ]),
-            for (int i = 0; i < maxRows; i++)
-              DataRow(cells: [
-                DataCell(Container(
-                    color: const Color.fromARGB(255, 196, 19, 36),
-                    child: Center(
-                        child: Text(
-                            i < teamAPlayers.length ? (i + 1).toString() : "-",
-                            style: _dataStyle())))),
-                DataCell(Container(
-                    color: const Color.fromARGB(255, 196, 19, 36),
-                    child: Center(
-                        child: Text(
-                            i < teamAPlayers.length
-                                ? teamAPlayers[i].name
-                                : "-",
-                            style: _dataStyle())))),
-                DataCell(Container(
-                    color: const Color.fromARGB(255, 196, 19, 36),
-                    child: Center(
-                        child: i < teamAPlayers.length
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    teamAPlayers[i].health.toString(),
-                                    style: _dataStyle(),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  if (!gameStarted)
-                                    Text(
-                                      teamAPlayers[i].statusReady
-                                          ? "Ready"
-                                          : "Not Ready",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: teamAPlayers[i].statusReady
-                                            ? Colors.green
-                                            : const Color.fromARGB(
-                                                255, 255, 255, 255),
-                                      ),
-                                    ),
-                                  if (teamAPlayers[i].health <= 0)
-                                    Column(
-                                      children: [
-                                        Container(
-                                          color: Colors.grey,
-                                          padding: const EdgeInsets.all(4),
-                                          child: Text(
-                                            "DEFEAT",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            controller.resetHealth(
-                                                teamAPlayers[i].name);
-                                          },
-                                          child: Text("Reset"),
-                                        ),
-                                      ],
-                                    ),
-                                ],
-                              )
-                            : Text("-", style: _dataStyle())))),
-                DataCell(Container(
-                    color: const Color.fromARGB(255, 62, 149, 220),
-                    child: Center(
-                        child: Text(
-                            i < teamBPlayers.length ? (i + 1).toString() : "-",
-                            style: _dataStyle())))),
-                DataCell(Container(
-                    color: const Color.fromARGB(255, 62, 149, 220),
-                    child: Center(
-                        child: Text(
-                            i < teamBPlayers.length
-                                ? teamBPlayers[i].name
-                                : "-",
-                            style: _dataStyle())))),
-                DataCell(Container(
-                    color: const Color.fromARGB(255, 62, 149, 220),
-                    child: Center(
-                        child: i < teamBPlayers.length
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    teamBPlayers[i].health.toString(),
-                                    style: _dataStyle(),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  if (!gameStarted)
-                                    Text(
-                                      teamBPlayers[i].statusReady
-                                          ? "Ready"
-                                          : "Not Ready",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: teamBPlayers[i].statusReady
-                                            ? Colors.green
-                                            : const Color.fromARGB(
-                                                255, 255, 255, 255),
-                                      ),
-                                    ),
-                                  if (teamBPlayers[i].health <= 0)
-                                    Column(
-                                      children: [
-                                        Container(
-                                          color: Colors.grey,
-                                          padding: const EdgeInsets.all(4),
-                                          child: Text(
-                                            "DEFEAT",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            controller.resetHealth(
-                                                teamBPlayers[i].name);
-                                          },
-                                          child: Text("Reset"),
-                                        ),
-                                      ],
-                                    ),
-                                ],
-                              )
-                            : Text("-", style: _dataStyle())))),
-              ]),
-          ],
+      ],
+    );
+  }
+
+  // 🔥 Widget untuk Cell Header
+  Widget _buildHeaderCell(String title, Color color) {
+    return Container(
+      color: color,
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(8),
+      child: Text(
+        title,
+        style: GoogleFonts.ramabhadra(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
         ),
       ),
     );
   }
 
-  // 🔥 Styling Header
-  TextStyle _headerStyle() {
-    return GoogleFonts.ramabhadra(
-        color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20);
+  // 🔥 Widget untuk Cell Data
+  Widget _buildDataCell(String text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      alignment: Alignment.center,
+      child: Text(
+        text,
+        style: GoogleFonts.roboto(
+          color: Colors.black,
+          fontSize: 18,
+        ),
+        overflow: TextOverflow.ellipsis, // 🔥 Mencegah Overflow
+        softWrap: false,
+      ),
+    );
   }
 
-  // 🔥 Styling Data
+  // 🔥 Fungsi untuk Menampilkan HP dan Status Ready di dalam Tabel
+  Widget _buildHealthCell(
+      DataTableGameplay player, GamestartController controller) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(player.health.toString(), style: _dataStyle()),
+
+          const SizedBox(height: 5),
+
+          // 🔥 Status Ready/Not Ready
+          if (!gameStarted)
+            Text(
+              player.statusReady ? "Ready" : "Not Ready",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: player.statusReady ? Colors.green : Colors.white,
+              ),
+            ),
+
+          // 🔥 Jika pemain kehabisan darah, tampilkan DEFEAT dan tombol Reset
+          if (player.health <= 0)
+            Column(
+              children: [
+                Container(
+                  color: Colors.grey,
+                  padding: const EdgeInsets.all(4),
+                  child: const Text(
+                    "DEFEAT",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    controller.resetHealth(player.name);
+                  },
+                  child: const Text("Reset"),
+                ),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+
+  // 🔥 Styling Data Tabel
   TextStyle _dataStyle() {
     return GoogleFonts.roboto(
-        color: Colors.black, fontWeight: FontWeight.normal, fontSize: 18);
+      color: Colors.black,
+      fontWeight: FontWeight.normal,
+      fontSize: 18,
+    );
   }
 }
