@@ -1,8 +1,17 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
+  // Index menu yang aktif
   var selectedIndex = 0.obs;
-  var isDrawerExpanded = true.obs;
+
+  // Scroll controller untuk halaman utama
+  final scrollController = ScrollController();
+
+  // GlobalKey untuk setiap section
+  final overviewKey = GlobalKey();
+  final settingsKey = GlobalKey();
+  final aboutKey = GlobalKey();
 
   @override
   void onInit() {
@@ -14,11 +23,17 @@ class HomeController extends GetxController {
     selectedIndex.value = index;
   }
 
-  void toggleDrawer() {
-    isDrawerExpanded.value = !isDrawerExpanded.value;
+  void scrollToSection(GlobalKey key) {
+    Scrollable.ensureVisible(
+      key.currentContext!,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
   }
 
-  void navigateTo(String route) {
-    Get.toNamed(route);
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
   }
 }

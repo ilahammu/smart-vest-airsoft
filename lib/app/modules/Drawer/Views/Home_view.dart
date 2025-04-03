@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../AppBar.dart';
 import '../Controllers/Home_controller.dart';
-import '../Drawer.dart';
 
 import 'Overview_view.dart';
 import 'About_Views.dart';
@@ -19,31 +19,17 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       body: Column(
         children: [
+          CustomAppBar(),
           Expanded(
-            child: Row(
-              children: <Widget>[
-                MainDrawer(),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    width: Get.width,
-                    height: Get.height,
-                    color: const Color.fromARGB(255, 164, 25, 25),
-                    child: Obx(() {
-                      switch (controller.selectedIndex.value) {
-                        case 0:
-                          return OverviewView();
-                        case 1:
-                          return PengaturanView();
-                        case 2:
-                          return AboutView();
-                        default:
-                          return Container();
-                      }
-                    }),
-                  ),
-                ),
-              ],
+            child: SingleChildScrollView(
+              controller: controller.scrollController,
+              child: Column(
+                children: [
+                  OverviewView(key: controller.overviewKey),
+                  PengaturanView(key: controller.settingsKey),
+                  AboutView(key: controller.aboutKey),
+                ],
+              ),
             ),
           ),
         ],
