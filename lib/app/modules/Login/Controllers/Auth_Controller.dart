@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -7,6 +8,8 @@ import 'package:http/http.dart' as http;
 class AuthController extends GetxController {
   final box = GetStorage();
   var isLoggedIn = false.obs;
+
+  var devUser = {}.obs;
 
   @override
   void onInit() {
@@ -18,15 +21,28 @@ class AuthController extends GetxController {
 
   // **Cek Status Login**
   void checkLoginStatus() {
-    String? token = box.read('token');
-    print("Token: $token");
-    if (token != null && token.isNotEmpty) {
+    if (kDebugMode) {
+      // ✅ Skip login saat development
+      devUser.value = {
+        "email": "dev@example.com",
+        "role": "admin",
+        "name": "Developer"
+      };
+      print("🛠 DEV MODE — Auto login aktif");
       isLoggedIn.value = true;
       Future.delayed(Duration.zero, () => Get.offAllNamed('/home'));
-    } else {
-      isLoggedIn.value = false;
-      Future.delayed(Duration.zero, () => Get.offAllNamed('/login'));
+      return;
     }
+
+    // String? token = box.read('token');
+    // print("Token: $token");
+    // if (token != null && token.isNotEmpty) {
+    //   isLoggedIn.value = true;
+    //   Future.delayed(Duration.zero, () => Get.offAllNamed('/home'));
+    // } else {
+    //   isLoggedIn.value = false;
+    //   Future.delayed(Duration.zero, () => Get.offAllNamed('/login'));
+    // }
   }
 
   // **Login**

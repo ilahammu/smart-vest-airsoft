@@ -8,7 +8,6 @@ class PengaturanView extends GetView<PengaturanController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      key: key, // ✅ ini tambahan opsional, tapi aman
       height: 600,
       color: Colors.blueGrey,
       child: Center(

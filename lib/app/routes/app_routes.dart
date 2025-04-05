@@ -9,13 +9,10 @@ abstract class Routes {
   static const overview = _Paths.overview;
   static const about = _Paths.about;
   static const settings = _Paths.settings;
-  static const arena = _Paths.arena;
   static const gamestart = _Paths.gamestart;
   static const teaminfo = _Paths.teaminfo;
   static const tambahorang = _Paths.tambahorang;
-  static const vest = _Paths.vest;
-  static const weapon = _Paths.weapon;
-  static const maps = _Paths.maps;
+  static const monitoring = _Paths.monitoring;
   static const login = _Paths.login;
   static const register = _Paths.register;
   static const profile = _Paths.profile;
@@ -30,10 +27,7 @@ abstract class _Paths {
   static const gamestart = '/gamestart';
   static const teaminfo = '/teaminfo';
   static const tambahorang = '/tambahorang';
-  static const arena = '/arena';
-  static const vest = '/vest';
-  static const weapon = '/weapon';
-  static const maps = '/maps';
+  static const monitoring = '/monitoring';
   static const login = '/login';
   static const register = '/register';
   static const profile = '/profile';

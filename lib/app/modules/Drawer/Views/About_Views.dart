@@ -5,8 +5,8 @@ import '../Controllers/About_Controller.dart';
 
 class AboutView extends GetView<AboutController> {
   const AboutView({Key? key}) : super(key: key);
-  // final AboutController controller = Get.put(AboutController());
   @override
+  
   Widget build(BuildContext context) {
     return Container(
       height: 600,

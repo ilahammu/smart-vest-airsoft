@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 // HomeView
 import '../modules/Drawer/Bindings/Home_binding.dart';
-import '../modules/Drawer/Views/Home_view.dart';
+import '../modules/Drawer/HomePage.dart';
 // Overview
 import '../modules/Drawer/Bindings/Overview_binding.dart';
 import '../modules/Drawer/Views/Overview_view.dart';
@@ -21,15 +21,9 @@ import 'package:vest_keren/app/modules/Gameplay/Views/TeamInfo_View.dart';
 // Tambah Orang
 import '../modules/Gameplay/Bindings/TambahOrang_Binding.dart';
 import '../modules/Gameplay/Views/TambahOrang_View.dart';
-// Arena
-import '../modules/Information/Bindings/Arena_Binding.dart';
-import '../modules/Information/Views/Arena_Views.dart';
-// Vest
-import '../modules/Information/Bindings/Vest_Binding.dart';
-import '../modules/Information/Views/Vest_Views.dart';
-// Weapons
-import '../modules/Information/Bindings/Weapon_Binding.dart';
-import '../modules/Information/Views/Weapon_Views.dart';
+// Monitoring
+import 'package:vest_keren/app/modules/Monitoring/Monitoring_Binding.dart';
+import 'package:vest_keren/app/modules/Monitoring/Monitoring_View.dart';
 // Autentikasi
 import '../modules/Login/Bindings/Auth_Bindings.dart';
 import 'package:vest_keren/app/modules/Login/Views/Login_Page_View.dart';
@@ -44,6 +38,7 @@ class AppPages {
   static const initial = Routes.home;
 
   static final routes = [
+    // Login & Register
     GetPage(
       name: _Paths.login,
       page: () => LoginPage(),
@@ -59,9 +54,11 @@ class AppPages {
       page: () => ProfilePage(),
       binding: AuthBinding(),
     ),
+
+    // Tampilan Utama
     GetPage(
       name: _Paths.home,
-      page: () => HomeView(),
+      page: () => HomePage(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -79,6 +76,8 @@ class AppPages {
       page: () => AboutView(),
       binding: AboutBinding(),
     ),
+
+    // Game Start
     GetPage(
       name: _Paths.gamestart,
       page: () => GamestartView(),
@@ -95,19 +94,9 @@ class AppPages {
       binding: TambahorangBinding(),
     ),
     GetPage(
-      name: _Paths.arena,
-      page: () => ArenaView(),
-      binding: ArenaBinding(),
-    ),
-    GetPage(
-      name: _Paths.vest,
-      page: () => VestView(),
-      binding: VestBinding(),
-    ),
-    GetPage(
-      name: _Paths.weapon,
-      page: () => WeaponView(),
-      binding: WeaponBinding(),
+      name: _Paths.monitoring,
+      page: () => MonitoringView(),
+      binding: MonitoringBinding(),
     ),
   ];
 }

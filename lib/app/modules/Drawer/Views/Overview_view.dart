@@ -5,7 +5,7 @@ import '../Controllers/Overview_controller.dart';
 
 class OverviewView extends GetView<OverviewController> {
   const OverviewView({Key? key}) : super(key: key);
-  @override
+
   @override
   Widget build(BuildContext context) {
     return Container(
