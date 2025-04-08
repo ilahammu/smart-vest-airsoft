@@ -10,19 +10,39 @@ class OverviewView extends GetView<OverviewController> {
   @override
   Widget build(BuildContext context) {
     return AppbarShared(
-      backgroundColor: Colors.brown.shade900,
+      backgroundColor: Colors.transparent,
       child: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Text(
-              "Information",
-              style: TextStyle(
-                fontSize: 32,
-                color: Colors.white,
+        child: Column(
+          children: [
+            Container(
+              height: 500,
+              width: double.infinity,
+              color: const Color.fromARGB(255, 38, 36, 30),
+              child: Center(
+                child: Text(
+                  "Information",
+                  style: TextStyle(
+                    fontSize: 32,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
-          ),
+            Container(
+              height: 500,
+              width: double.infinity,
+              color: const Color.fromARGB(255, 109, 85, 84),
+              child: Center(
+                child: Text(
+                  "Information",
+                  style: TextStyle(
+                    fontSize: 32,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
