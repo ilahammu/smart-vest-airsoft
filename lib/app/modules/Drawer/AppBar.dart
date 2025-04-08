@@ -14,23 +14,20 @@ class CustomAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.home, color: Colors.white),
-          SizedBox(width: 10),
-          _buildNavButton("Home", 0, controller.overviewKey),
+          _buildNavButton("Home", 0),
           SizedBox(width: 20),
-          _buildNavButton("Information", 1, controller.settingsKey),
+          _buildNavButton("Information", 1),
           SizedBox(width: 20),
-          _buildNavButton("About", 2, controller.aboutKey),
+          _buildNavButton("About", 2),
         ],
       ),
     );
   }
 
-  Widget _buildNavButton(String label, int index, GlobalKey key) {
+  Widget _buildNavButton(String label, int index) {
     return Obx(() => TextButton(
           onPressed: () {
-            controller.scrollToSection(key);
-            controller.selectedIndex.value = index;
+            controller.selectedIndex.value = index; // ✅ Ganti index
           },
           child: Text(
             label,

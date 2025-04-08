@@ -8,7 +8,7 @@ abstract class Routes {
   static const home = _Paths.home;
   static const overview = _Paths.overview;
   static const about = _Paths.about;
-  static const settings = _Paths.settings;
+  static const settings = _Paths.information;
   static const gamestart = _Paths.gamestart;
   static const teaminfo = _Paths.teaminfo;
   static const tambahorang = _Paths.tambahorang;
@@ -22,7 +22,7 @@ abstract class _Paths {
   _Paths._();
   static const home = '/home';
   static const overview = '/overview';
-  static const settings = '/settings';
+  static const information = '/information';
   static const about = '/about';
   static const gamestart = '/gamestart';
   static const teaminfo = '/teaminfo';

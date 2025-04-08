@@ -13,8 +13,6 @@ class HomeController extends GetxController {
 
   // GlobalKey untuk setiap section
   final overviewKey = GlobalKey();
-  final settingsKey = GlobalKey();
-  final aboutKey = GlobalKey();
 
   @override
   void onInit() {

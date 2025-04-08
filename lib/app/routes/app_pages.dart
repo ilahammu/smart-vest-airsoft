@@ -2,19 +2,19 @@ import 'package:get/get.dart';
 
 // HomeView
 import '../modules/Drawer/Bindings/Home_binding.dart';
-import '../modules/Drawer/HomePage.dart';
+import '../modules/Drawer/Views/HomePage.dart';
 // Overview
 import '../modules/Drawer/Bindings/Overview_binding.dart';
+import '../modules/Drawer/Views/Information_view.dart';
 import '../modules/Drawer/Views/Overview_view.dart';
 // About
 import '../modules/Drawer/Bindings/About_Binding.dart';
 import '../modules/Drawer/Views/About_Views.dart';
 // Settings
 import '../modules/Drawer/Bindings/Settings_binding.dart';
-import '../modules/Drawer/Views/settings_view.dart';
 // Gamestart
-import 'package:vest_keren/app/modules/Function%20System/Gameplay/Bindings/GameStart_Binding.dart';
-import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/GameStart_View.dart';
+import '../modules/Function System/Gameplay/Views/GameStart_View.dart';
+import '../modules/Function System/Gameplay/Bindings/GameStart_Binding.dart';
 // Team Info
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Bindings/TeamInfo_Binding.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/TeamInfo_View.dart';
@@ -67,9 +67,9 @@ class AppPages {
       binding: OverviewBinding(),
     ),
     GetPage(
-      name: _Paths.settings,
-      page: () => PengaturanView(),
-      binding: PengaturanBinding(),
+      name: _Paths.information,
+      page: () => InformationView(),
+      binding: InformationBinding(),
     ),
     GetPage(
       name: _Paths.about,
