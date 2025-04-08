@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:vest_keren/app/modules/Gameplay/Controllers/TeamInfo_Controller.dart';
+import 'package:vest_keren/app/modules/Function%20System/Gameplay/Controllers/TeamInfo_Controller.dart';
 
 class TeaminfoBinding extends Bindings {
   @override

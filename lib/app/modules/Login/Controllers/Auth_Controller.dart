@@ -22,15 +22,14 @@ class AuthController extends GetxController {
   // **Cek Status Login**
   void checkLoginStatus() {
     if (kDebugMode) {
-      // ✅ Skip login saat development
-      devUser.value = {
-        "email": "dev@example.com",
-        "role": "admin",
-        "name": "Developer"
-      };
-      print("🛠 DEV MODE — Auto login aktif");
-      isLoggedIn.value = true;
-      Future.delayed(Duration.zero, () => Get.offAllNamed('/home'));
+      if (!isLoggedIn.value) {
+        isLoggedIn.value = true;
+        Future.microtask(() {
+          if (Get.currentRoute != '/home') {
+            Get.offAllNamed('/home');
+          }
+        });
+      }
       return;
     }
 

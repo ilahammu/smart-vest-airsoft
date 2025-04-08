@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/TableGameplay.dart';
-import '../../modules/Gameplay/Controllers/GameStart_Controller.dart';
+import '../../modules/Function System/Gameplay/Controllers/GameStart_Controller.dart';
 
 class CustomDataTable extends StatelessWidget {
   final List<DataTableGameplay> dataList;

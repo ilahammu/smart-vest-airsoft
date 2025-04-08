@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import '../../../data/TableGameplay.dart';
+import '../../../../data/TableGameplay.dart';
 
 class GamestartController extends GetxController {
   Timer? timer;

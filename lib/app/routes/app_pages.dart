@@ -13,17 +13,17 @@ import '../modules/Drawer/Views/About_Views.dart';
 import '../modules/Drawer/Bindings/Settings_binding.dart';
 import '../modules/Drawer/Views/settings_view.dart';
 // Gamestart
-import 'package:vest_keren/app/modules/Gameplay/Bindings/GameStart_Binding.dart';
-import 'package:vest_keren/app/modules/Gameplay/Views/GameStart_View.dart';
+import 'package:vest_keren/app/modules/Function%20System/Gameplay/Bindings/GameStart_Binding.dart';
+import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/GameStart_View.dart';
 // Team Info
-import 'package:vest_keren/app/modules/Gameplay/Bindings/TeamInfo_Binding.dart';
-import 'package:vest_keren/app/modules/Gameplay/Views/TeamInfo_View.dart';
+import 'package:vest_keren/app/modules/Function%20System/Gameplay/Bindings/TeamInfo_Binding.dart';
+import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/TeamInfo_View.dart';
 // Tambah Orang
-import '../modules/Gameplay/Bindings/TambahOrang_Binding.dart';
-import '../modules/Gameplay/Views/TambahOrang_View.dart';
+import '../modules/Function System/Gameplay/Bindings/TambahOrang_Binding.dart';
+import '../modules/Function System/Gameplay/Views/TambahOrang_View.dart';
 // Monitoring
-import 'package:vest_keren/app/modules/Monitoring/Monitoring_Binding.dart';
-import 'package:vest_keren/app/modules/Monitoring/Monitoring_View.dart';
+import 'package:vest_keren/app/modules/Function%20System/Monitoring/Monitoring_Binding.dart';
+import 'package:vest_keren/app/modules/Function%20System/Monitoring/Monitoring_View.dart';
 // Autentikasi
 import '../modules/Login/Bindings/Auth_Bindings.dart';
 import 'package:vest_keren/app/modules/Login/Views/Login_Page_View.dart';

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../Controllers/TambahOrang_Controller.dart';
-import '../../../Custom_Component/Dropdown/Custom_DropdownESP.dart';
-import '../../../Custom_Component/Dropdown/Custom_Dropdwon.dart';
-import '../../../Custom_Component/Card/Custom_CardAdd.dart';
-import '../../../Custom_Component/Card/Custom_Card_text.dart';
+import '../../../../Custom_Component/Dropdown/Custom_DropdownESP.dart';
+import '../../../../Custom_Component/Dropdown/Custom_Dropdwon.dart';
+import '../../../../Custom_Component/Card/Custom_CardAdd.dart';
+import '../../../../Custom_Component/Card/Custom_Card_text.dart';
 
 class TambahorangView extends StatelessWidget {
   final TambahorangController controller = Get.put(TambahorangController());

@@ -18,7 +18,7 @@ class CustomAppBar extends StatelessWidget {
           SizedBox(width: 10),
           _buildNavButton("Home", 0, controller.overviewKey),
           SizedBox(width: 20),
-          _buildNavButton("Settings", 1, controller.settingsKey),
+          _buildNavButton("Information", 1, controller.settingsKey),
           SizedBox(width: 20),
           _buildNavButton("About", 2, controller.aboutKey),
         ],
