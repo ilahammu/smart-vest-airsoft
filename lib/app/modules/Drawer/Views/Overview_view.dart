@@ -16,7 +16,7 @@ class OverviewView extends GetView<OverviewController> {
           child: Padding(
             padding: const EdgeInsets.all(32.0),
             child: Text(
-              "Overview",
+              "Information",
               style: TextStyle(
                 fontSize: 32,
                 color: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vest_keren/app/modules/Drawer/AppBar.dart';
 
 class AppbarShared extends StatelessWidget {
   final Widget child;
@@ -16,6 +17,7 @@ class AppbarShared extends StatelessWidget {
       backgroundColor: backgroundColor,
       body: Column(
         children: [
+          CustomAppBar(), // ⬅️ appbar selalu muncul
           Expanded(child: child), // ⬅️ halaman kontennya
         ],
       ),
