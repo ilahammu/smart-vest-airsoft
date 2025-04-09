@@ -1,0 +1,61 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:vest_keren/app/Custom_Component/List/Custom_ListTile.dart';
+import 'package:vest_keren/app/modules/Function%20System/Monitoring/Monitoring_Controller.dart';
+
+class MainDrawer extends GetView<MonitoringController> {
+  final MonitoringController controller = Get.put(MonitoringController());
+
+  @override
+  Widget build(BuildContext context) {
+    final double drawerWidth = 250.0; // Set the desired width for the drawer
+
+    return Material(
+      child: Container(
+        width: drawerWidth,
+        color: const Color.fromARGB(255, 57, 40, 40),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            CustomListTile(
+              title: 'Monitoring',
+              iconLeading: Icons.monitor_heart,
+              isSelected: controller.selectedIndex.value == 0,
+              onClick: () {
+                controller.changeIndex(0);
+              },
+              isDrawerExpanded: true,
+            ),
+            CustomListTile(
+              title: 'Game Start',
+              iconLeading: Icons.monitor_heart,
+              isSelected: controller.selectedIndex.value == 1,
+              onClick: () {
+                controller.changeIndex(1);
+              },
+              isDrawerExpanded: true,
+            ),
+            CustomListTile(
+              title: 'Add Player',
+              iconLeading: Icons.monitor_heart,
+              isSelected: controller.selectedIndex.value == 2,
+              onClick: () {
+                controller.changeIndex(2);
+              },
+              isDrawerExpanded: true,
+            ),
+            CustomListTile(
+              title: 'Team Information',
+              iconLeading: Icons.monitor_heart,
+              isSelected: controller.selectedIndex.value == 3,
+              onClick: () {
+                controller.changeIndex(3);
+              },
+              isDrawerExpanded: true,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

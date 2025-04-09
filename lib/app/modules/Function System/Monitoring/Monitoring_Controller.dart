@@ -1,17 +1,15 @@
 import 'package:get/get.dart';
 
 class MonitoringController extends GetxController {
-  // Add your properties and methods here
-  // For example:
-  String status = "Monitoring is active";
+  var selectedIndex = 0.obs;
 
-  void startMonitoring() {
-    // Logic to start monitoring
-    status = "Monitoring started";
+  @override
+  void onInit() {
+    super.onInit();
+    selectedIndex.value = 0;
   }
 
-  void stopMonitoring() {
-    // Logic to stop monitoring
-    status = "Monitoring stopped";
+  void changeIndex(int index) {
+    selectedIndex.value = index;
   }
 }

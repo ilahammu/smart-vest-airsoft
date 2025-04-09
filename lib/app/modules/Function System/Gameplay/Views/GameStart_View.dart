@@ -5,7 +5,6 @@ import '../../../../Custom_Component/Button/Custom_Button_Start.dart';
 import '../../../../Custom_Component/Table/Custom_DataTableGameplay.dart';
 
 class GamestartView extends GetView<GamestartController> {
-  @override
   final GamestartController controller = Get.put(GamestartController());
 
   @override

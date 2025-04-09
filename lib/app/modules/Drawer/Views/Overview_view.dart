@@ -19,11 +19,17 @@ class OverviewView extends GetView<OverviewController> {
               width: double.infinity,
               color: const Color.fromARGB(255, 38, 36, 30),
               child: Center(
-                child: Text(
-                  "Information",
-                  style: TextStyle(
-                    fontSize: 32,
-                    color: Colors.white,
+                child: TextButton(
+                  onPressed: () {
+                    Get.toNamed('/monitoring');
+                  },
+                  child: Text(
+                    "Get Started",
+                    style: TextStyle(
+                      backgroundColor: Colors.yellow,
+                      fontSize: 32,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

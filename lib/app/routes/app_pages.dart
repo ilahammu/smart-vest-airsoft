@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:vest_keren/app/modules/Function%20System/Gameplay/Bindings/Chart_Binding.dart';
+import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/Chart_View.dart';
 
 // HomeView
 import '../modules/Drawer/Bindings/Home_binding.dart';
@@ -78,6 +80,11 @@ class AppPages {
     ),
 
     // Game Start
+    GetPage(
+      name: _Paths.chart,
+      page: () => ChartView(),
+      binding: ChartBinding(),
+    ),
     GetPage(
       name: _Paths.gamestart,
       page: () => GamestartView(),
