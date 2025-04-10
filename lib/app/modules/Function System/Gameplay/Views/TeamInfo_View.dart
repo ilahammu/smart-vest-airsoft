@@ -10,12 +10,9 @@ class TeaminfoView extends GetView<TeaminfoController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 90, 27, 206),
-        title: Text('Team Info'),
-        centerTitle: true,
-      ),
       body: Container(
+        height: Get.height,
+        width: Get.width,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [

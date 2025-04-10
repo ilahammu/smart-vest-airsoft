@@ -8,7 +8,25 @@ class ChartView extends GetView<ChartController> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 90, 27, 206),
+        title: const Text('Chart View'),
+        centerTitle: true,
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color.fromARGB(255, 51, 9, 63),
+              Color.fromARGB(255, 83, 48, 105),
+              Color.fromARGB(255, 0, 0, 0),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

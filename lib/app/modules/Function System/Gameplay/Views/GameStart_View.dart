@@ -10,11 +10,6 @@ class GamestartView extends GetView<GamestartController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 90, 27, 206),
-        title: const Text('Game Start'),
-        centerTitle: true,
-      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(

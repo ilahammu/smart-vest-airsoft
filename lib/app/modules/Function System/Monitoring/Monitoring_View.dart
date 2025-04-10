@@ -38,7 +38,12 @@ class MonitoringView extends GetView<MonitoringController> {
                         case 3:
                           return TeaminfoView();
                         default:
-                          return MonitoringView();
+                          return Center(
+                            child: Text(
+                              'Invalid selection',
+                              style: TextStyle(fontSize: 24),
+                            ),
+                          );
                       }
                     }),
                   ),
