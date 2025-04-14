@@ -6,7 +6,6 @@ class CustomListTile extends StatefulWidget {
   final IconData? iconLeading;
   final bool? isSelected;
   final VoidCallback onClick;
-  final bool isDrawerExpanded;
 
   const CustomListTile({
     super.key,
@@ -14,7 +13,6 @@ class CustomListTile extends StatefulWidget {
     this.iconLeading,
     required this.onClick,
     this.isSelected,
-    required this.isDrawerExpanded,
   });
 
   @override
@@ -49,20 +47,18 @@ class _CustomListTileState extends State<CustomListTile> {
               color: widget.isSelected ?? false
                   ? const Color.fromARGB(255, 0, 0, 0)
                   : Colors.black,
-              size: widget.isDrawerExpanded ? 24 : 30,
+              size: 30, // Ukuran tetap tanpa isDrawerExpanded
             ),
-            title: widget.isDrawerExpanded
-                ? Text(
-                    widget.title!,
-                    style: GoogleFonts.ramabhadra(
-                      color: widget.isSelected ?? false
-                          ? const Color.fromARGB(255, 0, 0, 0)
-                          : const Color.fromARGB(255, 0, 0, 0),
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                : null,
+            title: Text(
+              widget.title!,
+              style: GoogleFonts.ramabhadra(
+                color: widget.isSelected ?? false
+                    ? const Color.fromARGB(255, 0, 0, 0)
+                    : const Color.fromARGB(255, 0, 0, 0),
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
       ),

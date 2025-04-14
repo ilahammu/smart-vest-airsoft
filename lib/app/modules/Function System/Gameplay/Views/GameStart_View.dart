@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Controllers/GameStart_Controller.dart';
 import '../../../../Custom_Component/Button/Custom_Button_Start.dart';
-import '../../../../Custom_Component/Table/Custom_DataTableGameplay.dart';
+import '../../../../Custom_Component/Table/Custom_Table-Gameplay.dart';
 
 class GamestartView extends GetView<GamestartController> {
   final GamestartController controller = Get.put(GamestartController());

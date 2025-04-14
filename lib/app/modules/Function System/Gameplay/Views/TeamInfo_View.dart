@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../Custom_Component/Table/Custom_DataTabelPerson.dart';
+import '../../../../Custom_Component/Table/Custom_Tabel-Orang.dart';
 import '../Controllers/TeamInfo_Controller.dart';
 
 class TeaminfoView extends GetView<TeaminfoController> {

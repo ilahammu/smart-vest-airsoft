@@ -8,7 +8,7 @@ class MainDrawer extends GetView<MonitoringController> {
 
   @override
   Widget build(BuildContext context) {
-    final double drawerWidth = 250.0; // Set the desired width for the drawer
+    final double drawerWidth = 200.0; // Set the desired width for the drawer
 
     return Material(
       child: Container(
@@ -27,13 +27,12 @@ class MainDrawer extends GetView<MonitoringController> {
           children: [
             const SizedBox(height: 20),
             CustomListTile(
-              title: 'Monitoring',
+              title: ' Sistem Monitoring',
               iconLeading: Icons.monitor_heart,
               isSelected: controller.selectedIndex.value == 0,
               onClick: () {
                 controller.changeIndex(0);
               },
-              isDrawerExpanded: true,
             ),
             CustomListTile(
               title: 'Game Start',
@@ -42,7 +41,6 @@ class MainDrawer extends GetView<MonitoringController> {
               onClick: () {
                 controller.changeIndex(1);
               },
-              isDrawerExpanded: true,
             ),
             CustomListTile(
               title: 'Add Player',
@@ -51,7 +49,6 @@ class MainDrawer extends GetView<MonitoringController> {
               onClick: () {
                 controller.changeIndex(2);
               },
-              isDrawerExpanded: true,
             ),
             CustomListTile(
               title: 'Team Information',
@@ -60,7 +57,6 @@ class MainDrawer extends GetView<MonitoringController> {
               onClick: () {
                 controller.changeIndex(3);
               },
-              isDrawerExpanded: true,
             ),
           ],
         ),
