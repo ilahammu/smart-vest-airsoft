@@ -1,20 +1,25 @@
 import 'package:get/get.dart';
 
 class ChartController extends GetxController {
-  // Add your controller logic here
-  // For example, you can define variables and methods to manage the chart data and behavior.
+  // Tipe data eksplisit: List of Map<String, dynamic>
+  final RxList<Map<String, dynamic>> chartData = <Map<String, dynamic>>[].obs;
 
-  // Example variable
-  var chartData = [].obs; // Observable list to hold chart data
-
-  // Example method to update chart data
-  void updateChartData(List newData) {
+  void updateChartData(List<Map<String, dynamic>> newData) {
     chartData.value = newData;
   }
 
   @override
   void onInit() {
     super.onInit();
-    // Initialize your controller here if needed
+    chartData.addAll([
+      {'label': 'Bahu Kiri', 'blue': 4.0},
+      {'label': 'Bahu Kanan', 'blue': 6.0},
+      {'label': 'Punggung Kiri', 'blue': 10.0},
+      {'label': 'Punggung Kanan', 'blue': 12.0},
+      {'label': 'Pinggang Kiri ', 'blue': 15.0},
+      {'label': 'Pinggang Kanan', 'blue': 18.0},
+      {'label': 'Jantung', 'blue': 14.0},
+      {'label': 'Pusar', 'blue': 14.0},
+    ]);
   }
 }

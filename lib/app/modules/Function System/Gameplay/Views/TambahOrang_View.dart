@@ -22,13 +22,13 @@ class TambahorangView extends StatelessWidget {
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.center,
             colors: [
-              Color.fromARGB(255, 51, 9, 63),
-              Color.fromARGB(255, 83, 48, 105),
-              Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 3, 0, 23),
+              Color.fromARGB(255, 21, 20, 33),
+              Color.fromARGB(255, 25, 24, 39),
             ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
           ),
         ),
         child: Center(

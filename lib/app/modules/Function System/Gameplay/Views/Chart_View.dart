@@ -1,7 +1,7 @@
 // chart_view.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:vest_keren/app/Custom_Component/Chart/Custom_Barchart.dart';
 import '../Controllers/chart_controller.dart';
 
 class ChartView extends GetView<ChartController> {
@@ -18,81 +18,107 @@ class ChartView extends GetView<ChartController> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.topCenter,
+            end: Alignment.center,
             colors: [
-              Color.fromARGB(255, 51, 9, 63),
-              Color.fromARGB(255, 83, 48, 105),
-              Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 3, 0, 23),
+              Color.fromARGB(255, 21, 20, 33),
+              Color.fromARGB(255, 25, 24, 39),
             ],
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Expanded(
-                child: Row(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    // Info Box
-                    Container(
-                      width: 250,
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.deepPurple[300],
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          CircleAvatar(
-                            backgroundColor: Colors.red,
-                            radius: 50,
+                    // Info & Status Box
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.deepPurple[300],
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          SizedBox(height: 10),
-                          Text('Name: A',
-                              style: TextStyle(color: Colors.white)),
-                          SizedBox(height: 10),
-                          Text('Team: A / B',
-                              style: TextStyle(color: Colors.white)),
-                          SizedBox(height: 10),
-                          Text('ID: 001',
-                              style: TextStyle(color: Colors.white)),
-                        ],
-                      ),
+                          child: Center(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.arrow_drop_down,
+                                  color: const Color.fromARGB(255, 0, 0, 0),
+                                  size: 40,
+                                ),
+                                Text(
+                                  "Gerald",
+                                  style: TextStyle(
+                                      color: const Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          width: Get.width * 0.2,
+                          height: Get.height * 0.58,
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(50, 214, 255, 63),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 50,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Name: Gerald',
+                                style:
+                                    TextStyle(color: Colors.blue, fontSize: 20),
+                              ),
+                              SizedBox(height: 10),
+                              Text('Team: A ',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 20,
+                                  )),
+                              SizedBox(height: 10),
+                              Text('ID: 001',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 20,
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(width: 20),
                     // Chart Section
                     Expanded(
                       child: Column(
                         children: [
-                          Expanded(
-                            child: Obx(() => BarChart(
-                                  BarChartData(
-                                    titlesData: FlTitlesData(show: false),
-                                    barGroups: List.generate(
-                                        controller.chartData.length, (index) {
-                                      return BarChartGroupData(
-                                          x: index,
-                                          barRods: [
-                                            BarChartRodData(
-                                              toY: controller.chartData[index]
-                                                  .toDouble(),
-                                              width: 15,
-                                              color: Colors.amber,
-                                            ),
-                                          ]);
-                                    }),
-                                  ),
-                                )),
-                          ),
+                          CustomBarChart(),
                           SizedBox(height: 20),
-                          Expanded(
+                          SizedBox(
+                            height: 200,
                             child: Container(
                               color: Colors.deepPurple[600],
                               child: Center(
-                                  child: Text('Line Chart Placeholder',
-                                      style: TextStyle(color: Colors.white))),
+                                child: Text('Line Chart Placeholder',
+                                    style: TextStyle(color: Colors.white)),
+                              ),
                             ),
                           ),
                         ],
@@ -100,54 +126,123 @@ class ChartView extends GetView<ChartController> {
                     ),
                   ],
                 ),
-              ),
-              SizedBox(height: 20),
-              // Table Section
-              Expanded(
-                child: Container(
-                  color: Colors.white.withOpacity(0.1),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      columns: const [
-                        DataColumn(label: Text('Name')),
-                        DataColumn(label: Text('Team')),
-                        DataColumn(label: Text('Hit')),
-                      ],
-                      rows: const [
-                        DataRow(cells: [
-                          DataCell(Text('A')),
-                          DataCell(Text('A')),
-                          DataCell(Text('3')),
-                        ]),
-                        DataRow(cells: [
-                          DataCell(Text('B')),
-                          DataCell(Text('B')),
-                          DataCell(Text('5')),
-                        ]),
-                      ],
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                          columns: const [
+                            DataColumn(
+                              label: Text(
+                                'Name',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Text(
+                                'Team',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Text(
+                                'Bagian',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Text(
+                                'TimeStamp',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                          rows: const [
+                            DataRow(cells: [
+                              DataCell(Text('A',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ))),
+                              DataCell(Text('Alpha',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ))),
+                              DataCell(Text('Chest',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ))),
+                              DataCell(Text('2023-10-01 12:05:00',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ))),
+                            ]),
+                            DataRow(cells: [
+                              DataCell(Text(
+                                'B',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                              DataCell(Text(
+                                'Beta',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                              DataCell(Text(
+                                'Head',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                              DataCell(Text(
+                                '2023-10-01 12:10:00',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                            ]),
+                            DataRow(cells: [
+                              DataCell(Text(
+                                'Gerald',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                              DataCell(Text(
+                                'Beta',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                              DataCell(Text(
+                                'Head',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                              DataCell(Text(
+                                '2023-10-01 12:10:00',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                            ]),
+                            DataRow(cells: [
+                              DataCell(Text(
+                                'B',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                              DataCell(Text(
+                                'Beta',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                              DataCell(Text(
+                                'Head',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                              DataCell(Text(
+                                '2023-10-01 12:10:00',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                            ]),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ],
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-}
-
-Widget _tableInfo(String kolom) {
-  return Container(
-    padding: const EdgeInsets.all(8.0),
-    decoration: BoxDecoration(
-      color: Colors.white.withOpacity(0.1),
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Text(
-      kolom,
-      style: const TextStyle(color: Colors.white, fontSize: 16),
-    ),
-  );
 }

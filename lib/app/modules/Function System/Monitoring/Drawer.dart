@@ -23,42 +23,44 @@ class MainDrawer extends GetView<MonitoringController> {
             end: Alignment.bottomRight,
           ),
         ),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            CustomListTile(
-              title: ' Sistem Monitoring',
-              iconLeading: Icons.monitor_heart,
-              isSelected: controller.selectedIndex.value == 0,
-              onClick: () {
-                controller.changeIndex(0);
-              },
-            ),
-            CustomListTile(
-              title: 'Game Start',
-              iconLeading: Icons.monitor_heart,
-              isSelected: controller.selectedIndex.value == 1,
-              onClick: () {
-                controller.changeIndex(1);
-              },
-            ),
-            CustomListTile(
-              title: 'Add Player',
-              iconLeading: Icons.monitor_heart,
-              isSelected: controller.selectedIndex.value == 2,
-              onClick: () {
-                controller.changeIndex(2);
-              },
-            ),
-            CustomListTile(
-              title: 'Team Information',
-              iconLeading: Icons.monitor_heart,
-              isSelected: controller.selectedIndex.value == 3,
-              onClick: () {
-                controller.changeIndex(3);
-              },
-            ),
-          ],
+        child: Obx(
+          () => Column(
+            children: [
+              const SizedBox(height: 150),
+              CustomListTile(
+                title: ' Sistem Monitoring',
+                iconLeading: Icons.monitor_heart,
+                isSelected: controller.selectedIndex.value == 0,
+                onClick: () {
+                  controller.changeIndex(0);
+                },
+              ),
+              CustomListTile(
+                title: 'Game Start',
+                iconLeading: Icons.monitor_heart,
+                isSelected: controller.selectedIndex.value == 1,
+                onClick: () {
+                  controller.changeIndex(1);
+                },
+              ),
+              CustomListTile(
+                title: 'Add Player',
+                iconLeading: Icons.monitor_heart,
+                isSelected: controller.selectedIndex.value == 2,
+                onClick: () {
+                  controller.changeIndex(2);
+                },
+              ),
+              CustomListTile(
+                title: 'Team Information',
+                iconLeading: Icons.monitor_heart,
+                isSelected: controller.selectedIndex.value == 3,
+                onClick: () {
+                  controller.changeIndex(3);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

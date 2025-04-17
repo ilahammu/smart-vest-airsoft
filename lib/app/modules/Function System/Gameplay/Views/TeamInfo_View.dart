@@ -13,15 +13,15 @@ class TeaminfoView extends GetView<TeaminfoController> {
       body: Container(
         height: Get.height,
         width: Get.width,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.center,
             colors: [
-              const Color.fromARGB(255, 51, 9, 63),
-              const Color.fromARGB(255, 83, 48, 105),
-              const Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 3, 0, 23),
+              Color.fromARGB(255, 21, 20, 33),
+              Color.fromARGB(255, 25, 24, 39),
             ],
-            begin: Alignment.topLeft,
-            end: Alignment.centerRight,
           ),
         ),
         child: SingleChildScrollView(
