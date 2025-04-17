@@ -12,15 +12,25 @@ class AboutView extends GetView<AboutController> {
     return AppbarShared(
       backgroundColor: Colors.brown.shade900,
       child: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Text(
-              "About",
-              style: TextStyle(
-                fontSize: 32,
-                color: Colors.white,
-              ),
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomRight,
+              end: Alignment.topRight,
+              colors: [
+                Color.fromARGB(255, 3, 0, 23),
+                Color.fromARGB(255, 21, 20, 33),
+                Color.fromARGB(255, 25, 24, 39),
+              ],
+            ),
+          ),
+          width: double.infinity,
+          height: 500,
+          child: Text(
+            "About",
+            style: TextStyle(
+              fontSize: 32,
+              color: Colors.white,
             ),
           ),
         ),

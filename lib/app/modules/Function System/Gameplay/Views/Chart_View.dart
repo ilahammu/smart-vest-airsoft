@@ -88,7 +88,7 @@ class ChartView extends GetView<ChartController> {
                                     TextStyle(color: Colors.blue, fontSize: 20),
                               ),
                               SizedBox(height: 10),
-                              Text('Team: A ',
+                              Text('Team: A',
                                   style: TextStyle(
                                     color: Colors.blue,
                                     fontSize: 20,
