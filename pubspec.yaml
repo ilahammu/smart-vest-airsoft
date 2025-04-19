@@ -11,6 +11,7 @@ dependencies:
   get_storage: ^2.1.1
   flutter: 
     sdk: flutter
+  animate_do: ^4.2.0
   google_fonts: ^6.1.0
   material_design_icons_flutter: ^7.0.7296
   expansion_tile_group: ^1.2.4
@@ -36,20 +37,11 @@ flutter:
   uses-material-design: true
 
   assets:
-    # Khusus Senjata
-    - assets/images/senjata/pistol.png
-    - assets/images/senjata/ak47.png
-    - assets/images/senjata/shotgun.png
-    - assets/images/senjata/glock17.png
-    - assets/images/senjata/double_barrel.png
-    - assets/images/senjata/m416.png
+    - assets/images/militer.jpg
+    - assets/images/militer2.jpeg
     # Khusus Logo
     - assets/images/logo/stas-panjang.png
     - assets/images/logo/stas-G.png
-    # Khusus Arena
-    - assets/images/arena/map_keren.png
-    # Khusus Rompi Modern
-    - assets/images/vest.png
     # Apalah
     - assets/images/ngawur.jpg
   
