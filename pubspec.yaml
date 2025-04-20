@@ -37,8 +37,14 @@ flutter:
   uses-material-design: true
 
   assets:
+    # Informasi Section
     - assets/images/militer.jpg
     - assets/images/militer2.jpeg
+    - assets/images/web.png
+    - assets/images/mikro.png  
+    - assets/images/piezo.png  
+    - assets/images/wifi.png  
+    - assets/images/api.png  
     # Khusus Logo
     - assets/images/logo/stas-panjang.png
     - assets/images/logo/stas-G.png
