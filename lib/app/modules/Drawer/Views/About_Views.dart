@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vest_keren/app/modules/Drawer/AppBar_Shared.dart';
 
 import '../Controllers/About_Controller.dart';
@@ -9,33 +10,37 @@ class AboutView extends GetView<AboutController> {
 
   final List<Map<String, String>> anggota = const [
     {
-      "image.asset": 'assets/images/api.png',
+      "foto": 'assets/images/Anggota/PRI.jpeg',
       'name': 'Periyadi, S.T., M.T.',
       'role': 'Ketua Proyek'
     },
     {
-      'initial': 'AL',
+      'foto': 'assets/images/Anggota/GVA.jpeg',
       'name': 'Giva Andriana Mutiara, S.T., M.T., Ph.D ',
       'role': 'Backend Engineer'
     },
     {
-      'initial': 'MR',
+      'foto': 'assets/images/Anggota/RQY.jpeg',
       'name': 'Muhammad Rizqy Alfarisi, S.ST, M.T.',
       'role': 'Dosen'
     },
     {
-      'initial': 'FD',
-      'name': 'Muhammad Abyan Wibowo',
+      'foto': 'assets/images/Anggota/bowo.jpeg',
+      'name': 'Muhammad Abyan Wibowo, A.Md Kom',
       'role': 'PIC Smart Vest'
     },
-    {'initial': 'AN', 'name': 'Raka Duta Adhira', 'role': 'Anggota Smart Vest'},
     {
-      'initial': 'AN',
+      'foto': 'assets/images/Anggota/raka.jpg',
+      'name': 'Raka Duta Adhira',
+      'role': 'Anggota Smart Vest'
+    },
+    {
+      'foto': 'assets/images/Anggota/ganteng.jpg',
       'name': 'Ilham Muhijri Yosefin',
       'role': 'Anggota Smart Vest'
     },
     {
-      'initial': 'AN',
+      'foto': 'assets/images/Anggota/faris.jpg',
       'name': 'Faris Aziz Fatahillah',
       'role': 'Anggota Smart Vest'
     },
@@ -45,94 +50,124 @@ class AboutView extends GetView<AboutController> {
   Widget build(BuildContext context) {
     return AppbarShared(
       backgroundColor: Colors.brown.shade900,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomRight,
-            end: Alignment.topRight,
-            colors: [
-              Color.fromARGB(255, 3, 0, 23),
-              Color.fromARGB(255, 21, 20, 33),
-              Color.fromARGB(255, 25, 24, 39),
-            ],
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Tim Pengembang SmartVest",
-              style: TextStyle(
-                fontSize: 28,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomRight,
+                    end: Alignment.topRight,
+                    colors: [
+                      Color.fromARGB(255, 3, 0, 23),
+                      Color.fromARGB(255, 21, 20, 33),
+                      Color.fromARGB(255, 25, 24, 39),
+                    ],
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Tim Pengembang SmartVest",
+                      style: TextStyle(
+                        fontSize: 28,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Wrap(
+                      spacing: 20,
+                      runSpacing: 20,
+                      children: anggota
+                          .take(3)
+                          .map((data) => _buildAnggotaCard(data))
+                          .toList(),
+                    ),
+                    const SizedBox(height: 30),
+                    Wrap(
+                      spacing: 20,
+                      runSpacing: 20,
+                      alignment: WrapAlignment.center,
+                      children: anggota
+                          .skip(3)
+                          .map((data) => _buildAnggotaCard(data))
+                          .toList(),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 30),
-            Wrap(
-              spacing: 50,
-              runSpacing: 20,
-              alignment: WrapAlignment.center,
-              children: anggota.map((data) => _buildAnggotaCard(data)).toList(),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
+}
 
-  Widget _buildAnggotaCard(Map<String, String> data) {
-    return Container(
-      width: 160,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.brown.shade900.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            blurRadius: 6,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.greenAccent,
-            child: Text(
-              data['Image.asset'] ?? '',
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
+Widget _buildAnggotaCard(Map<String, String> data) {
+  return Container(
+    width: 260,
+    padding: const EdgeInsets.all(26),
+    decoration: BoxDecoration(
+      color: Colors.brown.shade900.withOpacity(0.25),
+      borderRadius: BorderRadius.circular(16),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.6),
+          blurRadius: 3,
+          offset: const Offset(0, 10),
+        ),
+      ],
+    ),
+    child: Column(
+      children: [
+        CircleAvatar(
+          radius: 60,
+          backgroundColor: Colors.greenAccent,
+          backgroundImage:
+              data['foto'] != null ? AssetImage(data['foto']!) : null,
+        ),
+        const SizedBox(height: 20),
+        SizedBox(
+          height: 50, // Ubah sesuai kebutuhan
+          child: Text(
             data['name'] ?? '',
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.tiltWarp(
+              color: const Color.fromARGB(179, 255, 199, 43),
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 20),
+
+        // Role dengan tinggi tetap
+        SizedBox(
+          height: 20,
+          child: Text(
+            data['role'] ?? '',
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.tiltWarp(
               color: Colors.white,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            data['role'] ?? '',
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 12,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
 }

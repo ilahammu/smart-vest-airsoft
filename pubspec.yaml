@@ -38,16 +38,23 @@ flutter:
 
   assets:
     # Informasi Section
-    - assets/images/militer.jpg
-    - assets/images/militer2.jpeg
-    - assets/images/web.png
-    - assets/images/mikro.png  
-    - assets/images/piezo.png  
-    - assets/images/wifi.png  
-    - assets/images/api.png  
+    - assets/images/Information/militer.jpg
+    - assets/images/Information/militer2.jpeg
+    - assets/images/Information/web.png
+    - assets/images/Information/mikro.png  
+    - assets/images/Information/piezo.png  
+    - assets/images/Information/wifi.png  
+    - assets/images/Information/api.png  
+
+    # Anggtoa Riset
+    - assets/images/Anggota/raka.jpg
+    - assets/images/Anggota/faris.jpg
+    - assets/images/Anggota/ganteng.jpg
+    - assets/images/Anggota/bowo.jpeg
+    - assets/images/Anggota/GVA.jpeg
+    - assets/images/Anggota/RQY.jpeg
+    - assets/images/Anggota/PRI.jpeg
     # Khusus Logo
     - assets/images/logo/stas-panjang.png
     - assets/images/logo/stas-G.png
-    # Apalah
-    - assets/images/ngawur.jpg
   

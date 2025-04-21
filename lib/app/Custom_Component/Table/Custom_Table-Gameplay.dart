@@ -76,10 +76,10 @@ class CustomDataTable extends StatelessWidget {
                 ),
                 child: DataTable2(
                   border: TableBorder.all(color: Colors.black, width: 3),
-                  columnSpacing: 10, // 🔥 Beri sedikit ruang antar kolom
-                  horizontalMargin: 10,
+                  columnSpacing: 0, // 🔥 Beri sedikit ruang antar kolom
+                  horizontalMargin: 0,
                   minWidth: 700,
-                  dataRowHeight: 50, // 🔥 Pastikan tinggi cukup untuk teks
+                  dataRowHeight: 60, // 🔥 Pastikan tinggi cukup untuk teks
                   columns: [
                     DataColumn(label: _buildHeaderCell("RED TEAM", Colors.red)),
                     DataColumn(
@@ -156,7 +156,7 @@ class CustomDataTable extends StatelessWidget {
         text,
         style: GoogleFonts.roboto(
           color: Colors.black,
-          fontSize: 18,
+          fontSize: 20,
         ),
         overflow: TextOverflow.ellipsis, // 🔥 Mencegah Overflow
         softWrap: false,

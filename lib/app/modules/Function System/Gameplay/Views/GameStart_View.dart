@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Controllers/GameStart_Controller.dart';
-import '../../../../Custom_Component/Button/Custom_Button_Start.dart';
 import '../../../../Custom_Component/Table/Custom_Table-Gameplay.dart';
 
 class GamestartView extends GetView<GamestartController> {
@@ -48,11 +47,13 @@ class GamestartView extends GetView<GamestartController> {
             ),
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Obx(() => CustomButtonStart(
-                    onPressed: controller.isStartEnabled.value
+              child: Obx(() => _tombolMulai(
+                    controller.isStartEnabled.value
+                        ? 1.0
+                        : 0.5, // Pass opacity as the first argument
+                    controller.isStartEnabled.value
                         ? controller.startGame
-                        : null, // 🔥 Disable tombol jika tidak memenuhi syarat
-                    opacity: controller.isStartEnabled.value ? 1.0 : 0.8,
+                        : null, // Pass onPressed as the second argument
                   )),
             ),
           ],
@@ -60,4 +61,15 @@ class GamestartView extends GetView<GamestartController> {
       ),
     );
   }
+}
+
+Widget _tombolMulai(double tebal, VoidCallback? onPressed) {
+  return ElevatedButton(
+    onPressed: onPressed,
+    child: Text(tebal.toString()),
+    style: ElevatedButton.styleFrom(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      textStyle: const TextStyle(fontSize: 20),
+    ),
+  );
 }
