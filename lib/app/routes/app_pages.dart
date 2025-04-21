@@ -13,7 +13,6 @@ import '../modules/Drawer/Views/Overview_view.dart';
 import '../modules/Drawer/Bindings/About_Binding.dart';
 import '../modules/Drawer/Views/About_Views.dart';
 // Settings
-import '../modules/Drawer/Bindings/Settings_binding.dart';
 // Gamestart
 import '../modules/Function System/Gameplay/Views/GameStart_View.dart';
 import '../modules/Function System/Gameplay/Bindings/GameStart_Binding.dart';
@@ -71,7 +70,6 @@ class AppPages {
     GetPage(
       name: _Paths.information,
       page: () => InformationView(),
-      binding: InformationBinding(),
     ),
     GetPage(
       name: _Paths.about,

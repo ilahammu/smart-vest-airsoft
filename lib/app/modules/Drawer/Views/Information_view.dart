@@ -298,33 +298,6 @@ Widget _build_Feature(String title, List<String> subPoints) {
   );
 }
 
-Widget _build_Tujuan(List<String> text) {
-  return Container(
-    width: Get.width * 0.8,
-    height: Get.height * 0.3,
-    padding: const EdgeInsets.all(40),
-    decoration: BoxDecoration(
-      color: const Color.fromARGB(111, 16, 13, 13),
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: text
-          .map((point) => Padding(
-                padding: const EdgeInsets.only(left: 16.0, top: 4.0),
-                child: Text(
-                  "➤ $point",
-                  style: GoogleFonts.akshar(
-                    fontSize: 26,
-                    color: const Color.fromARGB(150, 255, 255, 255),
-                  ),
-                ),
-              ))
-          .toList(),
-    ),
-  );
-}
-
 Widget _build_Komponen(String name, String imagePath) {
   return Container(
     padding: const EdgeInsets.all(12),
@@ -359,6 +332,33 @@ Widget _build_Komponen(String name, String imagePath) {
           textAlign: TextAlign.center,
         ),
       ],
+    ),
+  );
+}
+
+Widget _build_Tujuan(List<String> text) {
+  return Container(
+    width: Get.width * 0.8,
+    height: Get.height * 0.3,
+    padding: const EdgeInsets.all(40),
+    decoration: BoxDecoration(
+      color: const Color.fromARGB(111, 16, 13, 13),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: text
+          .map((point) => Padding(
+                padding: const EdgeInsets.only(left: 16.0, top: 4.0),
+                child: Text(
+                  "➤ $point",
+                  style: GoogleFonts.akshar(
+                    fontSize: 26,
+                    color: const Color.fromARGB(150, 255, 255, 255),
+                  ),
+                ),
+              ))
+          .toList(),
     ),
   );
 }
