@@ -43,7 +43,7 @@ flutter:
     - assets/images/Information/web.png
     - assets/images/Information/mikro.png  
     - assets/images/Information/piezo.png  
-    - assets/images/Information/wifi.png  
+    - assets/images/Information/wifi.png
     - assets/images/Information/api.png  
 
     # Anggtoa Riset
@@ -54,7 +54,9 @@ flutter:
     - assets/images/Anggota/GVA.jpeg
     - assets/images/Anggota/RQY.jpeg
     - assets/images/Anggota/PRI.jpeg
+    
     # Khusus Logo
     - assets/images/logo/stas-panjang.png
     - assets/images/logo/stas-G.png
+    - assets/images/logo/orangMiliter.png
   

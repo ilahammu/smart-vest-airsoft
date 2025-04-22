@@ -10,7 +10,9 @@ import 'app/modules/Login/Controllers/Auth_Controller.dart';
 void main() async {
   await GetStorage.init();
 
-  // Auto-login saat development
+  // Get.put(AuthController());
+
+  // Auto login
   final AuthController authC = Get.put(AuthController());
   if (kDebugMode) {
     print("🚀 DEV MODE ACTIVE — auto login bypass enabled");
@@ -21,6 +23,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  // final AuthController authC = Get.find<AuthController>();
   final AuthController authC = Get.put(AuthController());
 
   @override

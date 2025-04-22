@@ -179,25 +179,25 @@ class InformationView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _build_Komponen(
-                                "Mikro ESP32 ", "assets/images/mikro.png"),
+                            _build_Komponen("Mikro ESP32 ",
+                                "assets/images/Information/mikro.png"),
                             const SizedBox(width: 30),
                             _build_Komponen("Sensor Piezoelectrik",
-                                "assets/images/piezo.png"),
+                                "assets/images/Information/piezo.png"),
                             const SizedBox(width: 30),
                             _build_Komponen("Modul Wifi(ESP-NOW)",
-                                "assets/images/wifi.png"),
+                                "assets/images/Information/wifi.png"),
                           ],
                         ),
                         const SizedBox(height: 30),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _build_Komponen(
-                                "Tampilan Website", "assets/images/web.png"),
+                            _build_Komponen("Tampilan Website",
+                                "assets/images/Information/web.png"),
                             const SizedBox(width: 30),
-                            _build_Komponen(
-                                "Komponen 5", "assets/images/api.png"),
+                            _build_Komponen("Komponen 5",
+                                "assets/images/Information/api.png"),
                           ],
                         ),
                       ],
@@ -306,7 +306,7 @@ Widget _build_Komponen(String name, String imagePath) {
     margin: const EdgeInsets.all(8),
     decoration: BoxDecoration(
       color: const Color.fromARGB(76, 139, 159, 175),
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(15),
     ),
     child: Column(
       children: [
@@ -317,7 +317,7 @@ Widget _build_Komponen(String name, String imagePath) {
             shape: BoxShape.circle,
             image: DecorationImage(
               image: AssetImage(imagePath),
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
           ),
         ),
