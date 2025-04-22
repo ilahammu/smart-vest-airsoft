@@ -30,9 +30,9 @@ class _CustomListTileState extends State<CustomListTile> {
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
         color: widget.isSelected ?? false
-            ? Colors.deepPurple
+            ? const Color.fromARGB(236, 20, 19, 19)
             : _isHovering
-                ? Colors.deepPurple
+                ? const Color.fromARGB(255, 139, 126, 161)
                 : Colors.transparent,
         child: Card(
           color: Colors.transparent,
@@ -45,17 +45,17 @@ class _CustomListTileState extends State<CustomListTile> {
             leading: Icon(
               widget.iconLeading!,
               color: widget.isSelected ?? false
-                  ? const Color.fromARGB(255, 0, 0, 0)
+                  ? const Color.fromARGB(255, 213, 255, 63)
                   : Colors.black,
-              size: 30, // Ukuran tetap tanpa isDrawerExpanded
+              size: 20, // Ukuran tetap tanpa isDrawerExpanded
             ),
             title: Text(
               widget.title!,
-              style: GoogleFonts.ramabhadra(
+              style: GoogleFonts.orbitron(
                 color: widget.isSelected ?? false
-                    ? const Color.fromARGB(255, 0, 0, 0)
+                    ? const Color.fromARGB(255, 213, 255, 63)
                     : const Color.fromARGB(255, 0, 0, 0),
-                fontSize: 12,
+                fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
             ),

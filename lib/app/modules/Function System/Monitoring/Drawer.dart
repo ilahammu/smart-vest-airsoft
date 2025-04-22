@@ -16,8 +16,8 @@ class MainDrawer extends GetView<MonitoringController> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 36, 21, 21),
-              Color.fromARGB(255, 40, 36, 36),
+              Color.fromRGBO(13, 27, 42, 1),
+              Color.fromRGBO(50, 27, 58, 1),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -37,7 +37,7 @@ class MainDrawer extends GetView<MonitoringController> {
               ),
               CustomListTile(
                 title: 'Game Start',
-                iconLeading: Icons.monitor_heart,
+                iconLeading: Icons.games,
                 isSelected: controller.selectedIndex.value == 1,
                 onClick: () {
                   controller.changeIndex(1);
@@ -45,7 +45,7 @@ class MainDrawer extends GetView<MonitoringController> {
               ),
               CustomListTile(
                 title: 'Add Player',
-                iconLeading: Icons.monitor_heart,
+                iconLeading: Icons.people_sharp,
                 isSelected: controller.selectedIndex.value == 2,
                 onClick: () {
                   controller.changeIndex(2);
@@ -53,11 +53,32 @@ class MainDrawer extends GetView<MonitoringController> {
               ),
               CustomListTile(
                 title: 'Team Information',
-                iconLeading: Icons.monitor_heart,
+                iconLeading: Icons.info,
                 isSelected: controller.selectedIndex.value == 3,
                 onClick: () {
                   controller.changeIndex(3);
                 },
+              ),
+              Spacer(),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Image.asset(
+                      'assets/images/logo/stas.png', // Replace with your image path
+                      width: 70,
+                      height: 70,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Image.asset(
+                      'assets/images/logo/pindad.png', // Replace with your image path
+                      width: 70,
+                      height: 70,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

@@ -11,8 +11,13 @@ class ChartView extends GetView<ChartController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 90, 27, 206),
-        title: const Text('Chart View'),
+        backgroundColor: const Color.fromARGB(235, 0, 0, 0),
+        title: Text(
+          'Chart View',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
       ),
       body: Container(
@@ -43,7 +48,7 @@ class ChartView extends GetView<ChartController> {
                           width: 150,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.deepPurple[300],
+                            color: const Color.fromARGB(236, 20, 19, 19),
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Center(
@@ -51,13 +56,15 @@ class ChartView extends GetView<ChartController> {
                               children: [
                                 Icon(
                                   Icons.arrow_drop_down,
-                                  color: const Color.fromARGB(255, 0, 0, 0),
+                                  color:
+                                      const Color.fromARGB(255, 213, 255, 63),
                                   size: 40,
                                 ),
                                 Text(
                                   "Gerald",
                                   style: TextStyle(
-                                      color: const Color.fromARGB(255, 0, 0, 0),
+                                      color: const Color.fromARGB(
+                                          255, 213, 255, 63),
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -71,7 +78,7 @@ class ChartView extends GetView<ChartController> {
                           height: Get.height * 0.58,
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(50, 214, 255, 63),
+                            color: const Color.fromARGB(169, 15, 15, 14),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Column(

@@ -18,7 +18,7 @@ class OverviewView extends GetView<OverviewController> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/logo/orangMiliter.png"),
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.contain,
           ),
           gradient: LinearGradient(
             begin: Alignment.topCenter,

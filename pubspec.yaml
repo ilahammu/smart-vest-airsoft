@@ -56,7 +56,7 @@ flutter:
     - assets/images/Anggota/PRI.jpeg
     
     # Khusus Logo
-    - assets/images/logo/stas-panjang.png
-    - assets/images/logo/stas-G.png
+    - assets/images/logo/stas.png
+    - assets/images/logo/pindad.png
     - assets/images/logo/orangMiliter.png
   
