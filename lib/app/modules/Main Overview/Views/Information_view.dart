@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 
-import 'package:vest_keren/app/modules/Drawer/AppBar_Shared.dart';
+import 'package:vest_keren/app/modules/Main%20Overview/AppBar_Shared.dart';
 
 class InformationView extends StatelessWidget {
   const InformationView({Key? key}) : super(key: key); // ✅ ini benar

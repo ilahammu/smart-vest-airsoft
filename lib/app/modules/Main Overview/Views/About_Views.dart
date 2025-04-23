@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vest_keren/app/modules/Drawer/AppBar_Shared.dart';
+import 'package:vest_keren/app/modules/Main%20Overview/AppBar_Shared.dart';
 
-import '../Controllers/About_Controller.dart';
-
-class AboutView extends GetView<AboutController> {
+class AboutView extends StatelessWidget {
   const AboutView({Key? key}) : super(key: key);
 
   final List<Map<String, String>> anggota = const [

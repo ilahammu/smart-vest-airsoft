@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/GameStart_View.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/TambahOrang_View.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/TeamInfo_View.dart';
-import 'package:vest_keren/app/modules/Function%20System/Monitoring/Drawer.dart';
+import 'package:vest_keren/app/modules/Function%20System/Drawer%20Monitoring/Drawer.dart';
 
 import '../Gameplay/Views/Chart_View.dart';
 import 'Monitoring_Controller.dart';

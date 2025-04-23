@@ -1,18 +1,19 @@
 import 'package:get/get.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Bindings/Chart_Binding.dart';
-import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/Chart_View.dart';
 
 // HomeView
-import '../modules/Drawer/Bindings/Home_binding.dart';
-import '../modules/Drawer/Views/HomePage.dart';
+import '../modules/Main Overview/Bindings/Home_binding.dart';
+import '../modules/Main Overview/Views/HomePage.dart';
 // Overview
-import '../modules/Drawer/Bindings/Overview_binding.dart';
-import '../modules/Drawer/Views/Information_view.dart';
-import '../modules/Drawer/Views/Overview_view.dart';
+import '../modules/Main Overview/Bindings/Overview_binding.dart';
+import '../modules/Main Overview/Views/Overview_view.dart';
 // About
-import '../modules/Drawer/Bindings/About_Binding.dart';
-import '../modules/Drawer/Views/About_Views.dart';
-// Settings
+import '../modules/Main Overview/Views/About_Views.dart';
+// Information
+import '../modules/Main Overview/Views/Information_view.dart';
+// Sistem Monitoring
+import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/Chart_View.dart';
+
 // Gamestart
 import '../modules/Function System/Gameplay/Views/GameStart_View.dart';
 import '../modules/Function System/Gameplay/Bindings/GameStart_Binding.dart';
@@ -23,8 +24,9 @@ import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/TeamInfo
 import '../modules/Function System/Gameplay/Bindings/TambahOrang_Binding.dart';
 import '../modules/Function System/Gameplay/Views/TambahOrang_View.dart';
 // Monitoring
-import 'package:vest_keren/app/modules/Function%20System/Monitoring/Monitoring_Binding.dart';
-import 'package:vest_keren/app/modules/Function%20System/Monitoring/Monitoring_View.dart';
+import 'package:vest_keren/app/modules/Function%20System/Drawer%20Monitoring/Monitoring_Binding.dart';
+import 'package:vest_keren/app/modules/Function%20System/Drawer%20Monitoring/Monitoring_View.dart';
+
 // Autentikasi
 import '../modules/Login/Bindings/Auth_Bindings.dart';
 import 'package:vest_keren/app/modules/Login/Views/Login_Page_View.dart';
@@ -74,7 +76,6 @@ class AppPages {
     GetPage(
       name: _Paths.about,
       page: () => AboutView(),
-      binding: AboutBinding(),
     ),
 
     // Game Start
