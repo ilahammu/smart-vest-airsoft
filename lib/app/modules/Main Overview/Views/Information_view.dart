@@ -80,7 +80,8 @@ class InformationView extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               image: const DecorationImage(
-                                image: AssetImage("assets/images/militer.jpg"),
+                                image: AssetImage(
+                                    "assets/images/Information/militer.jpg"),
                                 fit: BoxFit.fill,
                               ),
                             ),
@@ -92,8 +93,8 @@ class InformationView extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               image: const DecorationImage(
-                                image:
-                                    AssetImage("assets/images/militer2.jpeg"),
+                                image: AssetImage(
+                                    "assets/images/Information/militer2.jpeg"),
                                 fit: BoxFit.fill,
                               ),
                             ),

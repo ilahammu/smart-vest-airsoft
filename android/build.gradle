@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Pastikan menggunakan versi yang kompatibel dengan JDK 17
+        classpath 'com.android.tools.build:gradle:7.3.0'  // Ganti jika perlu, versi ini stabil untuk JDK 17
+    }
+}
+
 allprojects {
     repositories {
         google()
