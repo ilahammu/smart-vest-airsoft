@@ -35,6 +35,7 @@ class InformationView extends StatelessWidget {
                   delay: const Duration(milliseconds: 300),
                   child: _cardTitle(
                     "Informasi SmartVest",
+                    context,
                   ),
                 ),
               ),
@@ -56,7 +57,9 @@ class InformationView extends StatelessWidget {
                         child: Text(
                           "SmartVest adalah proyek inovatif yang dirancang untuk meningkatkan pengalaman dan keakuratan dalam simulasi latihan tempur, khususnya permainan airsoft gun. Sistem ini mengintegrasikan teknologi ESP32, sensor piezoelectric, dan protokol komunikasi ESP-NOW untuk menciptakan rompi pintar yang mampu mendeteksi dan melaporkan titik benturan peluru secara real-time.",
                           style: GoogleFonts.akshar(
-                            fontSize: 26,
+                            fontSize: MediaQuery.of(context).size.width > 600
+                                ? 26
+                                : 18,
                             color: const Color.fromARGB(175, 255, 255, 255),
                           ),
                           textAlign: TextAlign.justify,
@@ -76,7 +79,9 @@ class InformationView extends StatelessWidget {
                         children: [
                           // Gambar 1
                           Container(
-                            height: 200,
+                            height: MediaQuery.of(context).size.width > 600
+                                ? 250
+                                : 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               image: const DecorationImage(
@@ -89,7 +94,9 @@ class InformationView extends StatelessWidget {
                           const SizedBox(height: 20),
                           // Gambar 2
                           Container(
-                            height: 200,
+                            height: MediaQuery.of(context).size.width > 600
+                                ? 250
+                                : 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               image: const DecorationImage(
@@ -108,127 +115,179 @@ class InformationView extends StatelessWidget {
 
               // Fitur utama
               const SizedBox(height: 50),
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Judul
-                    FadeInDown(
-                      key: UniqueKey(),
-                      duration: const Duration(milliseconds: 1000),
-                      delay: const Duration(milliseconds: 300),
-                      child: _cardTitle(
-                        "Fitur Utama",
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    // Bullet points
-                    FadeInUp(
-                      key: UniqueKey(),
-                      duration: const Duration(milliseconds: 1000),
-                      delay: const Duration(milliseconds: 300),
-                      child: _build_Feature(
-                        "Deteksi Peluru",
-                        [
-                          "Menggunakan sensor piezoelectric untuk mendeteksi peluru yang mengenai rompi.",
-                          "Memberikan umpan balik real-time kepada pengguna.",
-                        ],
-                      ),
-                    ),
-                    FadeInUp(
-                      key: UniqueKey(),
-                      duration: const Duration(milliseconds: 1000),
-                      delay: const Duration(milliseconds: 600),
-                      child: _build_Feature(
-                        "Komunikasi ESP-NOW",
-                        [
-                          "Menggunakan protokol komunikasi ESP-NOW untuk mengirim data secara efisien.",
-                          "Memungkinkan komunikasi antara beberapa perangkat tanpa perlu koneksi internet.",
-                        ],
-                      ),
-                    ),
-                    FadeInUp(
-                      key: UniqueKey(),
-                      duration: const Duration(milliseconds: 1000),
-                      delay: const Duration(milliseconds: 900),
-                      child: _build_Feature(
-                        "Desain Ergonomis",
-                        [
-                          "Dirancang untuk kenyamanan dan mobilitas pengguna.",
-                          "Cocok untuk berbagai jenis latihan tempur dan permainan airsoft gun.",
-                        ],
-                      ),
-                    ),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: FadeInDown(
+                  key: UniqueKey(),
+                  duration: const Duration(milliseconds: 1000),
+                  delay: const Duration(milliseconds: 300),
+                  child: _cardTitle(
+                    "Ftur Utama",
+                    context,
+                  ),
                 ),
+              ),
+              const SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Judul
+                  // Bullet points
+                  FadeInUp(
+                    key: UniqueKey(),
+                    duration: const Duration(milliseconds: 1000),
+                    delay: const Duration(milliseconds: 300),
+                    child: _build_Feature(
+                      "Deteksi Peluru",
+                      [
+                        "Menggunakan sensor piezoelectric untuk mendeteksi peluru yang mengenai rompi.",
+                        "Memberikan umpan balik real-time kepada pengguna.",
+                      ],
+                    ),
+                  ),
+                  FadeInUp(
+                    key: UniqueKey(),
+                    duration: const Duration(milliseconds: 1000),
+                    delay: const Duration(milliseconds: 600),
+                    child: _build_Feature(
+                      "Komunikasi ESP-NOW",
+                      [
+                        "Menggunakan protokol komunikasi ESP-NOW untuk mengirim data secara efisien.",
+                        "Memungkinkan komunikasi antara beberapa perangkat tanpa perlu koneksi internet.",
+                      ],
+                    ),
+                  ),
+                  FadeInUp(
+                    key: UniqueKey(),
+                    duration: const Duration(milliseconds: 1000),
+                    delay: const Duration(milliseconds: 900),
+                    child: _build_Feature(
+                      "Desain Ergonomis",
+                      [
+                        "Dirancang untuk kenyamanan dan mobilitas pengguna.",
+                        "Cocok untuk berbagai jenis latihan tempur dan permainan airsoft gun.",
+                      ],
+                    ),
+                  ),
+                ],
               ),
 
               // Komponen utama
               const SizedBox(height: 50),
-              Container(
-                child: Column(
-                  children: [
-                    FadeInDown(
-                      key: UniqueKey(),
-                      duration: const Duration(milliseconds: 1000),
-                      delay: const Duration(milliseconds: 300),
-                      child: _cardTitle("Komponen Utama"),
-                    ),
-                    const SizedBox(height: 20),
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _build_Komponen("Mikro ESP32 ",
-                                "assets/images/Information/mikro.png"),
-                            const SizedBox(width: 30),
-                            _build_Komponen("Sensor Piezoelectrik",
-                                "assets/images/Information/piezo.png"),
-                            const SizedBox(width: 30),
-                            _build_Komponen("Modul Wifi(ESP-NOW)",
-                                "assets/images/Information/wifi.png"),
-                          ],
-                        ),
-                        const SizedBox(height: 30),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _build_Komponen("Tampilan Website",
-                                "assets/images/Information/web.png"),
-                            const SizedBox(width: 30),
-                            _build_Komponen("Komponen 5",
-                                "assets/images/Information/api.png"),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: FadeInDown(
+                  key: UniqueKey(),
+                  duration: const Duration(milliseconds: 1000),
+                  delay: const Duration(milliseconds: 300),
+                  child: _cardTitle(
+                    "Ftur Utama",
+                    context,
+                  ),
                 ),
+              ),
+              const SizedBox(height: 20),
+
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isDesktop = constraints.maxWidth > 1000;
+
+                  if (isDesktop) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _build_Komponen(
+                                  "Mikro ESP32",
+                                  "assets/images/Information/mikro.png",
+                                  context),
+                              const SizedBox(width: 20),
+                              _build_Komponen(
+                                  "Sensor Piezoelectrik",
+                                  "assets/images/Information/piezo.png",
+                                  context),
+                              const SizedBox(width: 20),
+                              _build_Komponen(
+                                  "Modul Wifi(ESP-NOW)",
+                                  "assets/images/Information/wifi.png",
+                                  context),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _build_Komponen("Tampilan Website",
+                                  "assets/images/Information/web.png", context),
+                              const SizedBox(width: 20),
+                              _build_Komponen("Komponen 5",
+                                  "assets/images/Information/api.png", context),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    // Untuk mobile & tablet
+                    int crossAxisCount = constraints.maxWidth > 600 ? 3 : 2;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: GridView.count(
+                        crossAxisCount: crossAxisCount,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        children: [
+                          _build_Komponen("Mikro ESP32",
+                              "assets/images/Information/mikro.png", context),
+                          _build_Komponen("Sensor Piezoelectrik",
+                              "assets/images/Information/piezo.png", context),
+                          _build_Komponen("Modul Wifi(ESP-NOW)",
+                              "assets/images/Information/wifi.png", context),
+                          _build_Komponen("Tampilan Website",
+                              "assets/images/Information/web.png", context),
+                          _build_Komponen("Komponen 5",
+                              "assets/images/Information/api.png", context),
+                        ],
+                      ),
+                    );
+                  }
+                },
               ),
 
               // Tujuan proyek
               const SizedBox(height: 20),
-              Container(
-                child: Column(
-                  children: [
-                    FadeInDown(
-                      key: UniqueKey(),
-                      duration: const Duration(milliseconds: 1000),
-                      delay: const Duration(milliseconds: 300),
-                      child: _cardTitle("Tujuan Proyek"),
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      child: _build_Tujuan([
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: FadeInDown(
+                  key: UniqueKey(),
+                  duration: const Duration(milliseconds: 1000),
+                  delay: const Duration(milliseconds: 300),
+                  child: _cardTitle(
+                    "Ftur Utama",
+                    context,
+                  ),
+                ),
+              ),
+              Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    child: _build_Tujuan(
+                      [
                         "Meningkatkan realisme simulasi pertempuran untuk pelatihan atau rekreasi.",
                         "Memberikan data evaluasi tembakan yang obyektif kepada pemain atau instruktur.",
                         "Mencegah kecurangan dengan sistem hit detection otomatis.",
-                      ]),
-                    )
-                  ],
-                ),
+                      ],
+                      context,
+                    ),
+                  )
+                ],
               ),
             ],
           ),
@@ -238,7 +297,7 @@ class InformationView extends StatelessWidget {
   }
 }
 
-Widget _cardTitle(String title) {
+Widget _cardTitle(String title, BuildContext context) {
   return Center(
     child: Padding(
       padding: const EdgeInsets.only(bottom: 25.0),
@@ -252,7 +311,7 @@ Widget _cardTitle(String title) {
           title,
           style: GoogleFonts.koHo(
             fontWeight: FontWeight.bold,
-            fontSize: 50,
+            fontSize: MediaQuery.of(context).size.width > 600 ? 40 : 26,
             color: const Color.fromARGB(255, 214, 255, 63),
           ),
         ),
@@ -265,7 +324,8 @@ Widget _build_Feature(String title, List<String> subPoints) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
     child: Container(
-      height: 200,
+      // Hapus height: 200 dan ganti dengan minHeight
+      constraints: const BoxConstraints(minHeight: 200),
       width: double.infinity,
       decoration: BoxDecoration(
         color: const Color.fromARGB(30, 16, 13, 13),
@@ -299,7 +359,7 @@ Widget _build_Feature(String title, List<String> subPoints) {
   );
 }
 
-Widget _build_Komponen(String name, String imagePath) {
+Widget _build_Komponen(String name, String imagePath, BuildContext context) {
   return Container(
     padding: const EdgeInsets.all(12),
     width: 200,
@@ -312,8 +372,8 @@ Widget _build_Komponen(String name, String imagePath) {
     child: Column(
       children: [
         Container(
-          width: 120,
-          height: 120,
+          width: MediaQuery.of(context).size.width > 600 ? 120 : 100,
+          height: MediaQuery.of(context).size.width > 600 ? 120 : 100,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
@@ -326,7 +386,7 @@ Widget _build_Komponen(String name, String imagePath) {
         Text(
           name,
           style: GoogleFonts.acme(
-            fontSize: 16,
+            fontSize: MediaQuery.of(context).size.width > 600 ? 16 : 14,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -337,29 +397,32 @@ Widget _build_Komponen(String name, String imagePath) {
   );
 }
 
-Widget _build_Tujuan(List<String> text) {
-  return Container(
-    width: Get.width * 0.8,
-    height: Get.height * 0.3,
-    padding: const EdgeInsets.all(40),
-    decoration: BoxDecoration(
-      color: const Color.fromARGB(111, 16, 13, 13),
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: text
-          .map((point) => Padding(
-                padding: const EdgeInsets.only(left: 16.0, top: 4.0),
-                child: Text(
-                  "➤ $point",
-                  style: GoogleFonts.akshar(
-                    fontSize: 26,
-                    color: const Color.fromARGB(150, 255, 255, 255),
+Widget _build_Tujuan(List<String> text, BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(20),
+    child: Container(
+      constraints: const BoxConstraints(minHeight: 200),
+      padding: const EdgeInsets.all(40),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(111, 16, 13, 13),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: text
+            .map((point) => Padding(
+                  padding: const EdgeInsets.only(left: 16.0, top: 4.0),
+                  child: Text(
+                    "➤ $point",
+                    style: GoogleFonts.akshar(
+                      fontSize:
+                          MediaQuery.of(context).size.width > 600 ? 26 : 18,
+                      color: const Color.fromARGB(150, 255, 255, 255),
+                    ),
                   ),
-                ),
-              ))
-          .toList(),
+                ))
+            .toList(),
+      ),
     ),
   );
 }
