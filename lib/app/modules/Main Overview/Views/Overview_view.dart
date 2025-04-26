@@ -35,65 +35,89 @@ class OverviewView extends GetView<OverviewController> {
             children: [
               // Teks utama
               Container(
-                padding: EdgeInsets.only(
-                    bottom: 50), // Spasi agar tidak terlalu mepet
+                padding: const EdgeInsets.only(bottom: 50),
                 child: Text(
                   "Welcome to Smart Vest\nMonitoring System",
                   style: GoogleFonts.tiltWarp(
-                    fontSize: MediaQuery.of(context).size.width > 600
-                        ? 70
-                        : 40, // Responsif ukuran font
+                    fontSize: MediaQuery.of(context).size.width > 600 ? 70 : 40,
                     color: const Color.fromARGB(255, 64, 90, 119),
                   ),
                 ),
               ),
 
-              // Bagian bawah: teks preview dan tombol
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "System Monitoring Preview ►",
-                    style: GoogleFonts.poppins(
-                      fontSize: MediaQuery.of(context).size.width > 400
-                          ? 22
-                          : 14, // Responsif ukuran font
-                      color: const Color.fromARGB(179, 0, 0, 0),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  // Tombol Get Started
-                  Flexible(
-                    // Menggunakan Flexible agar tombol menyesuaikan ruang
-                    child: TextButton(
-                      onPressed: () {
-                        Get.toNamed('/monitoring');
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 80, 126, 171),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width > 400
-                              ? 20
-                              : 12, // Responsif padding
-                          vertical: MediaQuery.of(context).size.width > 400
-                              ? 12
-                              : 8, // Responsif padding
-                        ),
-                      ),
-                      child: const Text(
-                        "Get Started",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              // Responsif: row di desktop, column di mobile
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isMobile = constraints.maxWidth <= 500;
+
+                  return isMobile
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "System Monitoring Preview ►",
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            TextButton(
+                              onPressed: () {
+                                Get.toNamed('/monitoring');
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 27, 42, 1),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                              ),
+                              child: Text(
+                                "Get Started",
+                                style: GoogleFonts.tiltWarp(
+                                  fontSize: 14,
+                                  color:
+                                      const Color.fromARGB(255, 255, 214, 10),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "System Monitoring Preview ►",
+                              style: GoogleFonts.poppins(
+                                fontSize: 22,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            TextButton(
+                              onPressed: () {
+                                Get.toNamed('/monitoring');
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 27, 42, 1),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 12),
+                              ),
+                              child: Text(
+                                "Get Started",
+                                style: GoogleFonts.tiltWarp(
+                                  fontSize: 20,
+                                  color:
+                                      const Color.fromARGB(255, 255, 214, 10),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                },
               ),
             ],
           ),

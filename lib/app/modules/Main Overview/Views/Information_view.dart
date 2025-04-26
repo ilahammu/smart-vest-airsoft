@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 
@@ -181,7 +180,7 @@ class InformationView extends StatelessWidget {
                   duration: const Duration(milliseconds: 1000),
                   delay: const Duration(milliseconds: 300),
                   child: _cardTitle(
-                    "Ftur Utama",
+                    "Komponen utama",
                     context,
                   ),
                 ),
@@ -268,7 +267,7 @@ class InformationView extends StatelessWidget {
                   duration: const Duration(milliseconds: 1000),
                   delay: const Duration(milliseconds: 300),
                   child: _cardTitle(
-                    "Ftur Utama",
+                    "Tujuan proyek",
                     context,
                   ),
                 ),
