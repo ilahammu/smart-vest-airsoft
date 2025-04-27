@@ -5,14 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomTable extends StatelessWidget {
   final List<Map<String, String>> data;
   final List<String> columns;
-  final Color headingColor;
-  final Color dataRowColor;
+  final Color? headingColor;
+  final Color? dataRowColor;
 
   CustomTable({
     required this.data,
     required this.columns,
-    this.headingColor = const Color.fromARGB(255, 30, 30, 30),
-    this.dataRowColor = const Color.fromARGB(80, 50, 50, 50),
+    required this.headingColor,
+    required this.dataRowColor,
   });
 
   @override

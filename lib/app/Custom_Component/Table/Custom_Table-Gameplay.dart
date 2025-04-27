@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/TableGameplay.dart';
 import '../../modules/Function System/Gameplay/Controllers/GameStart_Controller.dart';
+import '../../Custom_Component/Table/Custom_Tabel.dart'; // Pastikan ini diimpor
 
 class CustomDataTable extends StatelessWidget {
   final List<DataTableGameplay> dataList;
@@ -36,39 +37,38 @@ class CustomDataTable extends StatelessWidget {
         ? teamAPlayers.length
         : teamBPlayers.length;
 
-    return Column(
-      children: [
-        // 🔥 Notifikasi jika salah satu tim kalah
-        if (teamADead || teamBDead)
-          Container(
-            padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              teamADead
-                  ? "🔥 TEAM RED HAS BEEN DEFEATED!"
-                  : "🔥 TEAM BLUE HAS BEEN DEFEATED!",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          // 🔥 Notifikasi jika salah satu tim kalah
+          if (teamADead || teamBDead)
+            Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                teamADead
+                    ? "🔥 TEAM RED HAS BEEN DEFEATED!"
+                    : "🔥 TEAM BLUE HAS BEEN DEFEATED!",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
 
-        // 🔥 Tabel Data Pemain
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
+          // 🔥 Tabel Data Pemain
+          Expanded(
             child: Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Container(
                 padding: const EdgeInsets.all(10),
-                width: Get.width * 1,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black),
                   color: const Color.fromARGB(255, 111, 106, 106),
@@ -76,9 +76,9 @@ class CustomDataTable extends StatelessWidget {
                 ),
                 child: DataTable2(
                   border: TableBorder.all(color: Colors.black, width: 3),
-                  columnSpacing: 0, // 🔥 Beri sedikit ruang antar kolom
-                  horizontalMargin: 0,
-                  minWidth: 700,
+                  columnSpacing: 0, // 🔥 Atur jarak antar kolom
+                  horizontalMargin: 0, // 🔥 Atur margin horizontal
+                  minWidth: 0, // 🔥 Pastikan tabel menyesuaikan lebar layar
                   dataRowHeight: 60, // 🔥 Pastikan tinggi cukup untuk teks
                   columns: [
                     DataColumn(label: _buildHeaderCell("RED TEAM", Colors.red)),
@@ -125,8 +125,51 @@ class CustomDataTable extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ],
+
+          // 🔥 Tabel Dummy di bawah tabel utama
+          const SizedBox(
+              height: 20), // Jarak antara tabel utama dan tabel dummy
+          CustomTable(
+            data: [
+              {
+                'Nama': 'Ilham',
+                'Team': 'Team A',
+                'Bagian': 'Bahu Kiri',
+                'TimeStamp': '12:12:43',
+              },
+              {
+                'Nama': 'Raka',
+                'Team': 'Team B',
+                'Bagian': 'Punggung Kanan',
+                'TimeStamp': '12:15:44',
+              },
+              {
+                'Nama': 'Fahri',
+                'Team': 'Team A',
+                'Bagian': 'Pinggang Kiri',
+                'TimeStamp': '12:16:12',
+              },
+              {
+                'Nama': 'Faris',
+                'Team': 'Team B',
+                'Bagian': 'Jantung',
+                'TimeStamp': '12:21:07',
+              },
+              {
+                'Nama': 'Raka',
+                'Team': 'Team A',
+                'Bagian': 'Jantung',
+                'TimeStamp': '12:23:14',
+              },
+            ],
+            columns: ['Nama', 'Team', 'Bagian', 'TimeStamp'],
+            headingColor: const Color.fromARGB(
+                255, 52, 51, 51), // Provide a color for the heading
+            dataRowColor: const Color.fromARGB(
+                255, 147, 146, 146), // Provide a color for the data rows
+          ),
+        ],
+      ),
     );
   }
 
