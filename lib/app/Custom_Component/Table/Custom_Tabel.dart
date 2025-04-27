@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class CustomTable extends StatelessWidget {
+  final List<Map<String, String>> data;
+  final List<String> columns;
+  final Color headingColor;
+  final Color dataRowColor;
+
+  CustomTable({
+    required this.data,
+    required this.columns,
+    this.headingColor = const Color.fromARGB(255, 30, 30, 30),
+    this.dataRowColor = const Color.fromARGB(80, 50, 50, 50),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(80, 255, 255, 255), // Semi transparan putih
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: const EdgeInsets.all(8),
+      child: DataTable(
+        columnSpacing: Get.width * 0.2,
+        horizontalMargin: Get.width * 0.05,
+        headingRowColor: MaterialStateProperty.all(headingColor),
+        headingTextStyle: TextStyle(
+          color: Colors.amberAccent,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+        dataRowColor: MaterialStateProperty.all(dataRowColor),
+        dataTextStyle: TextStyle(
+          fontSize: 18,
+        ),
+        columns: columns
+            .map((column) => DataColumn(
+                  label: Text(
+                    column,
+                    style: GoogleFonts.jaldi(color: Colors.white),
+                  ),
+                ))
+            .toList(),
+        rows: data
+            .map(
+              (row) => DataRow(
+                cells: row.values
+                    .map(
+                      (value) => DataCell(
+                        Text(
+                          value,
+                          style: GoogleFonts.jaldi(color: Colors.white),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+}

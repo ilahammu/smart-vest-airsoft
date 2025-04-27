@@ -35,7 +35,7 @@ class _CustomListTileState extends State<CustomListTile> {
                 ? const Color.fromARGB(255, 139, 126, 161)
                 : Colors.transparent,
         child: Card(
-          color: Colors.transparent,
+          color: const Color.fromARGB(0, 255, 255, 255),
           elevation: _isHovering ? 0 : 0,
           child: ListTile(
             onTap: () {
@@ -46,7 +46,7 @@ class _CustomListTileState extends State<CustomListTile> {
               widget.iconLeading!,
               color: widget.isSelected ?? false
                   ? const Color.fromARGB(255, 213, 255, 63)
-                  : Colors.black,
+                  : const Color.fromARGB(140, 170, 170, 170),
               size: 20, // Ukuran tetap tanpa isDrawerExpanded
             ),
             title: Text(
@@ -54,7 +54,7 @@ class _CustomListTileState extends State<CustomListTile> {
               style: GoogleFonts.orbitron(
                 color: widget.isSelected ?? false
                     ? const Color.fromARGB(255, 213, 255, 63)
-                    : const Color.fromARGB(255, 0, 0, 0),
+                    : const Color.fromARGB(255, 255, 255, 255),
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),

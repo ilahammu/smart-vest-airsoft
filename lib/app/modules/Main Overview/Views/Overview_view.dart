@@ -48,9 +48,9 @@ class OverviewView extends GetView<OverviewController> {
               // Responsif: row di desktop, column di mobile
               LayoutBuilder(
                 builder: (context, constraints) {
-                  final isMobile = constraints.maxWidth <= 500;
+                  final redminote11 = constraints.maxWidth <= 500;
 
-                  return isMobile
+                  return redminote11
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

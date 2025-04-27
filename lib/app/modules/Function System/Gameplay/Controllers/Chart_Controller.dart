@@ -12,14 +12,14 @@ class ChartController extends GetxController {
   void onInit() {
     super.onInit();
     chartData.addAll([
-      {'label': 'Bahu Kiri', 'blue': 4.0},
-      {'label': 'Bahu Kanan', 'blue': 6.0},
-      {'label': 'Punggung Kiri', 'blue': 10.0},
-      {'label': 'Punggung Kanan', 'blue': 12.0},
-      {'label': 'Pinggang Kiri ', 'blue': 15.0},
-      {'label': 'Pinggang Kanan', 'blue': 18.0},
-      {'label': 'Jantung', 'blue': 14.0},
-      {'label': 'Pusar', 'blue': 14.0},
+      {'label': 'Bahu Kiri', 'blue': 4},
+      {'label': 'Bahu Kanan', 'blue': 6},
+      {'label': 'Punggung\nKiri', 'blue': 8},
+      {'label': 'Punggung\nKanan', 'blue': 12},
+      {'label': 'Pinggang\nKiri ', 'blue': 15},
+      {'label': 'Pinggang\nKanan', 'blue': 18},
+      {'label': 'Jantung', 'blue': 14},
+      {'label': 'Pusar', 'blue': 14},
     ]);
   }
 }
