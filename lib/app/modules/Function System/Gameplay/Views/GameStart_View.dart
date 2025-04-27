@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Controllers/GameStart_Controller.dart';
 import '../../../../Custom_Component/Table/Custom_Table-Gameplay.dart';
 
@@ -64,12 +65,31 @@ class GamestartView extends GetView<GamestartController> {
 }
 
 Widget _tombolMulai(double tebal, VoidCallback? onPressed) {
-  return ElevatedButton(
-    onPressed: onPressed,
-    child: Text(tebal.toString()),
-    style: ElevatedButton.styleFrom(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      textStyle: const TextStyle(fontSize: 20),
+  return Container(
+    decoration: BoxDecoration(
+      color: tebal == 1.0
+          ? const Color.fromARGB(255, 28, 249, 3) // Full opacity
+          : const Color.fromARGB(127, 99, 101, 102)
+              .withOpacity(0.4), // Faded background when not ready
+      borderRadius: BorderRadius.circular(5),
+    ),
+    child: ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        backgroundColor: Colors.transparent,
+        textStyle: const TextStyle(
+            fontSize:
+                24), // Transparent background to use container's background
+        elevation: 0, // Remove shadow for clean appearance
+      ),
+      child: Text(
+        'Start Game',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     ),
   );
 }
