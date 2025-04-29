@@ -21,27 +21,25 @@ class AuthController extends GetxController {
 
   // **Cek Status Login**
   void checkLoginStatus() {
-    if (kDebugMode) {
-      if (!isLoggedIn.value) {
-        isLoggedIn.value = true;
-        Future.microtask(() {
-          if (Get.currentRoute != '/home') {
-            Get.offAllNamed('/home');
-          }
-        });
-      }
-      return;
-    }
-
-    // String? token = box.read('token');
-    // print("Token: $token");
-    // if (token != null && token.isNotEmpty) {
-    //   isLoggedIn.value = true;
-    //   Future.delayed(Duration.zero, () => Get.offAllNamed('/home'));
-    // } else {
-    //   isLoggedIn.value = false;
-    //   Future.delayed(Duration.zero, () => Get.offAllNamed('/login'));
+    // if (kDebugMode) {
+    //   if (!isLoggedIn.value) {
+    //     isLoggedIn.value = true;
+    //     Future.microtask(() {
+    //       if (Get.currentRoute != '/home') {
+    //         Get.offAllNamed('/home');
+    //       }
+    //     });
+    //   }
+    //   return;
     // }
+
+    String? token = box.read('token');
+    print("Token: $token");
+    if (token != null && token.isNotEmpty) {
+      isLoggedIn.value = true;
+    } else {
+      isLoggedIn.value = false;
+    }
   }
 
   // **Login**

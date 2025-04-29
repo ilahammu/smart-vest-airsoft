@@ -12,12 +12,12 @@ void main() async {
 
   // Get.put(AuthController());
 
-  // Auto login
-  final AuthController authC = Get.put(AuthController());
-  if (kDebugMode) {
-    print("🚀 DEV MODE ACTIVE — auto login bypass enabled");
-    authC.isLoggedIn.value = true; // ✅ fake login
-  }
+  // // Auto login
+  // final AuthController authC = Get.put(AuthController());
+  // if (kDebugMode) {
+  //   print("🚀 DEV MODE ACTIVE — auto login bypass enabled");
+  //   authC.isLoggedIn.value = true; // ✅ fake login
+  // }
 
   runApp(MyApp());
 }
@@ -28,9 +28,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initial = kDebugMode
-        ? Routes.home
-        : (authC.isLoggedIn.value ? Routes.home : Routes.login);
+    final initial = Routes.login;
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,

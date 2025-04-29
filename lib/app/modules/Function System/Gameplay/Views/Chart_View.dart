@@ -96,6 +96,9 @@ class ChartView extends GetView<ChartController> {
                             'Bagian',
                             'Timestamp',
                           ],
+                          headingColor:
+                              Colors.blue, // Example color for heading
+                          dataRowColor: Colors.grey, // Example color for rows
                         ),
                         const SizedBox(height: 15),
                         // Navigation Buttons
