@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:vest_keren/app/Custom_Component/List/Custom_Expantion.dart';
 import 'package:vest_keren/app/Custom_Component/List/Custom_ListTile.dart';
 import 'package:vest_keren/app/modules/Function%20System/Drawer%20Monitoring/Monitoring_Controller.dart';
 
@@ -13,50 +15,74 @@ class MainDrawer extends GetView<MonitoringController> {
     return Material(
       child: Container(
         width: drawerWidth,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromRGBO(13, 27, 42, 1),
-              Color.fromRGBO(50, 27, 58, 1),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+        color: const Color.fromARGB(255, 28, 28, 28),
         child: Obx(
           () => Column(
             children: [
               const SizedBox(height: 150),
               CustomListTile(
-                title: ' Sistem Monitoring',
+                title: ' Overview',
                 iconLeading: Icons.monitor_heart,
                 isSelected: controller.selectedIndex.value == 0,
                 onClick: () {
                   controller.changeIndex(0);
                 },
               ),
+              CustomExpansionTile(
+                  title: 'Analytics',
+                  leading: Icon(
+                    MdiIcons.googleAnalytics,
+                    color: Colors.black,
+                    size: 15,
+                  ),
+                  children: <Widget>[
+                    CustomListTile(
+                      title: ' Monitoring System',
+                      iconLeading: Icons.monitor_heart,
+                      isSelected: controller.selectedIndex.value == 1,
+                      onClick: () {
+                        controller.changeIndex(1);
+                      },
+                    ),
+                    CustomListTile(
+                      title: ' Gameplay',
+                      iconLeading: Icons.monitor_heart,
+                      isSelected: controller.selectedIndex.value == 2,
+                      onClick: () {
+                        controller.changeIndex(2);
+                      },
+                    ),
+                    CustomListTile(
+                      title: ' Add Player',
+                      iconLeading: Icons.monitor_heart,
+                      isSelected: controller.selectedIndex.value == 3,
+                      onClick: () {
+                        controller.changeIndex(3);
+                      },
+                    ),
+                    CustomListTile(
+                      title: 'Team Information',
+                      iconLeading: Icons.games,
+                      isSelected: controller.selectedIndex.value == 4,
+                      onClick: () {
+                        controller.changeIndex(4);
+                      },
+                    ),
+                  ]),
               CustomListTile(
-                title: 'Game Start',
-                iconLeading: Icons.games,
-                isSelected: controller.selectedIndex.value == 1,
-                onClick: () {
-                  controller.changeIndex(1);
-                },
-              ),
-              CustomListTile(
-                title: 'Add Player',
+                title: 'Information',
                 iconLeading: Icons.people_sharp,
-                isSelected: controller.selectedIndex.value == 2,
+                isSelected: controller.selectedIndex.value == 5,
                 onClick: () {
-                  controller.changeIndex(2);
+                  controller.changeIndex(5);
                 },
               ),
               CustomListTile(
-                title: 'Team Information',
+                title: 'About',
                 iconLeading: Icons.info,
-                isSelected: controller.selectedIndex.value == 3,
+                isSelected: controller.selectedIndex.value == 6,
                 onClick: () {
-                  controller.changeIndex(3);
+                  controller.changeIndex(6);
                 },
               ),
               Spacer(),

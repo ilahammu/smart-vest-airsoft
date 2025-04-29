@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -63,7 +62,7 @@ class AuthController extends GetxController {
         print("Token setelah login: $token"); // Debugging
 
         // Arahkan ke Home setelah login sukses
-        Future.delayed(Duration.zero, () => Get.offAllNamed('/home'));
+        Future.delayed(Duration.zero, () => Get.offAllNamed('/monitoring'));
       } else {
         Get.snackbar("Error", "Login gagal!");
       }

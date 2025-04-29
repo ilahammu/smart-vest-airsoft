@@ -22,9 +22,9 @@ class OverviewView extends GetView<OverviewController> {
             begin: Alignment.bottomRight,
             end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(255, 3, 0, 23),
-              Color.fromARGB(255, 32, 31, 39),
-              Color.fromARGB(255, 25, 24, 39),
+              Color.fromARGB(255, 28, 28, 28),
+              Color.fromARGB(255, 29, 31, 30),
+              Color.fromARGB(255, 32, 33, 34),
             ],
           ),
         ),
@@ -48,75 +48,7 @@ class OverviewView extends GetView<OverviewController> {
               // Responsif: row di desktop, column di mobile
               LayoutBuilder(
                 builder: (context, constraints) {
-                  final redminote11 = constraints.maxWidth <= 500;
-
-                  return redminote11
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "System Monitoring Preview ►",
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            TextButton(
-                              onPressed: () {
-                                Get.toNamed('/monitoring');
-                              },
-                              style: TextButton.styleFrom(
-                                backgroundColor:
-                                    const Color.fromARGB(255, 27, 42, 1),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8),
-                              ),
-                              child: Text(
-                                "Get Started",
-                                style: GoogleFonts.tiltWarp(
-                                  fontSize: 14,
-                                  color:
-                                      const Color.fromARGB(255, 255, 214, 10),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "System Monitoring Preview ►",
-                              style: GoogleFonts.poppins(
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            TextButton(
-                              onPressed: () {
-                                Get.toNamed('/monitoring');
-                              },
-                              style: TextButton.styleFrom(
-                                backgroundColor:
-                                    const Color.fromARGB(255, 27, 42, 1),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 12),
-                              ),
-                              child: Text(
-                                "Get Started",
-                                style: GoogleFonts.tiltWarp(
-                                  fontSize: 20,
-                                  color:
-                                      const Color.fromARGB(255, 255, 214, 10),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
+                  return const SizedBox(); // LayoutBuilder tetap ada, tetapi tidak menampilkan apa pun
                 },
               ),
             ],

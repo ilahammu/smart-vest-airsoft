@@ -15,12 +15,12 @@ class TeaminfoView extends GetView<TeaminfoController> {
         width: Get.width,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.center,
+            begin: Alignment.bottomRight,
+            end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(255, 3, 0, 23),
-              Color.fromARGB(255, 21, 20, 33),
-              Color.fromARGB(255, 25, 24, 39),
+              Color.fromARGB(255, 28, 28, 28),
+              Color.fromARGB(255, 29, 31, 30),
+              Color.fromARGB(255, 32, 33, 34),
             ],
           ),
         ),

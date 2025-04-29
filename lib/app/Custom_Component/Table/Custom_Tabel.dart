@@ -19,7 +19,7 @@ class CustomTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color.fromARGB(80, 255, 255, 255), // Semi transparan putih
+        color: const Color.fromARGB(255, 107, 142, 35), // Semi transparan putih
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.all(8),

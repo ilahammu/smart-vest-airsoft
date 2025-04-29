@@ -4,6 +4,9 @@ import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/GameStar
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/TambahOrang_View.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/TeamInfo_View.dart';
 import 'package:vest_keren/app/modules/Function%20System/Drawer%20Monitoring/Drawer.dart';
+import 'package:vest_keren/app/modules/Main%20Overview/Views/About_Views.dart';
+import 'package:vest_keren/app/modules/Main%20Overview/Views/Information_view.dart';
+import 'package:vest_keren/app/modules/Main%20Overview/Views/Overview_view.dart';
 
 import '../Gameplay/Views/Chart_View.dart';
 import 'Monitoring_Controller.dart';
@@ -30,13 +33,19 @@ class MonitoringView extends GetView<MonitoringController> {
                     child: Obx(() {
                       switch (controller.selectedIndex.value) {
                         case 0:
-                          return ChartView();
+                          return OverviewView();
                         case 1:
-                          return GamestartView();
+                          return ChartView();
                         case 2:
-                          return TambahorangView();
+                          return GamestartView();
                         case 3:
+                          return TambahorangView();
+                        case 4:
                           return TeaminfoView();
+                        case 5:
+                          return InformationView();
+                        case 6:
+                          return AboutView();
                         default:
                           return Center(
                             child: Text(

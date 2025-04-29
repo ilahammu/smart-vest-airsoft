@@ -18,9 +18,9 @@ class InformationView extends StatelessWidget {
               begin: Alignment.bottomRight,
               end: Alignment.bottomCenter,
               colors: [
-                Color.fromARGB(255, 3, 0, 23),
-                Color.fromARGB(255, 32, 31, 39),
-                Color.fromARGB(255, 25, 24, 39),
+                Color.fromARGB(255, 28, 28, 28),
+                Color.fromARGB(255, 29, 31, 30),
+                Color.fromARGB(255, 32, 33, 34),
               ],
             ),
           ),

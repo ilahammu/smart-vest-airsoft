@@ -59,11 +59,11 @@ class AboutView extends StatelessWidget {
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.bottomRight,
-                    end: Alignment.topRight,
+                    end: Alignment.bottomCenter,
                     colors: [
-                      Color.fromARGB(255, 3, 0, 23),
-                      Color.fromARGB(255, 21, 20, 33),
-                      Color.fromARGB(255, 25, 24, 39),
+                      Color.fromARGB(255, 28, 28, 28),
+                      Color.fromARGB(255, 29, 31, 30),
+                      Color.fromARGB(255, 32, 33, 34),
                     ],
                   ),
                 ),

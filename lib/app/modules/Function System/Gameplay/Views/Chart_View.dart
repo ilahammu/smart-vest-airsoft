@@ -28,12 +28,12 @@ class ChartView extends GetView<ChartController> {
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.center,
+            begin: Alignment.bottomRight,
+            end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(255, 3, 0, 23),
-              Color.fromARGB(255, 21, 20, 33),
-              Color.fromARGB(255, 25, 24, 39),
+              Color.fromARGB(255, 28, 28, 28),
+              Color.fromARGB(255, 29, 31, 30),
+              Color.fromARGB(255, 32, 33, 34),
             ],
           ),
         ),
@@ -96,9 +96,10 @@ class ChartView extends GetView<ChartController> {
                             'Bagian',
                             'Timestamp',
                           ],
-                          headingColor:
-                              Colors.blue, // Example color for heading
-                          dataRowColor: Colors.grey, // Example color for rows
+                          headingColor: const Color.fromARGB(
+                              255, 75, 83, 32), // Example color for heading
+                          dataRowColor: const Color.fromARGB(
+                              255, 47, 79, 79), // Example color for rows
                         ),
                         const SizedBox(height: 15),
                         // Navigation Buttons
@@ -166,7 +167,7 @@ class ChartView extends GetView<ChartController> {
           height: Get.height * 0.75,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: const Color.fromARGB(169, 15, 15, 14),
+            color: const Color.fromARGB(255, 47, 79, 79),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
@@ -238,7 +239,7 @@ class ChartView extends GetView<ChartController> {
           height: 200,
           child: BarChart(
             BarChartData(
-              maxY: 20,
+              maxY: 50,
               minY: 0,
               groupsSpace: 12, // Adjust the space between bars
               barGroups: List.generate(controller.chartData.length, (index) {
@@ -248,7 +249,7 @@ class ChartView extends GetView<ChartController> {
                   barRods: [
                     BarChartRodData(
                       toY: (data['blue'] as num).toDouble(),
-                      color: Colors.cyanAccent,
+                      color: const Color.fromARGB(255, 58, 58, 58),
                       width: 30, // Keep the bar width at 30
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -259,7 +260,7 @@ class ChartView extends GetView<ChartController> {
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    interval: 5,
+                    interval: 10,
                     getTitlesWidget: (value, meta) => Text(
                       value.toInt().toString(),
                       style: const TextStyle(color: Colors.white, fontSize: 12),
@@ -300,7 +301,7 @@ class ChartView extends GetView<ChartController> {
                 show: true,
                 drawVerticalLine: false,
                 getDrawingHorizontalLine: (value) => FlLine(
-                  color: Colors.white12,
+                  color: const Color.fromARGB(255, 0, 0, 0),
                   strokeWidth: 5,
                 ),
               ),
