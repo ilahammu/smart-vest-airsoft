@@ -1,37 +1,36 @@
 import 'package:get/get.dart';
-import 'package:vest_keren/app/modules/Function%20System/Gameplay/Bindings/Chart_Binding.dart';
-
-// HomeView
-import '../modules/Main Overview/Bindings/Home_binding.dart';
-import '../modules/Main Overview/Views/HomePage.dart';
-// Overview
-import '../modules/Main Overview/Bindings/Overview_binding.dart';
-import '../modules/Main Overview/Views/Overview_view.dart';
-// About
-import '../modules/Main Overview/Views/About_Views.dart';
-// Information
-import '../modules/Main Overview/Views/Information_view.dart';
-// Sistem Monitoring
-import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/Chart_View.dart';
-
-// Gamestart
-import '../modules/Function System/Gameplay/Views/GameStart_View.dart';
-import '../modules/Function System/Gameplay/Bindings/GameStart_Binding.dart';
-// Team Info
-import 'package:vest_keren/app/modules/Function%20System/Gameplay/Bindings/TeamInfo_Binding.dart';
-import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/TeamInfo_View.dart';
-// Tambah Orang
-import '../modules/Function System/Gameplay/Bindings/TambahOrang_Binding.dart';
-import '../modules/Function System/Gameplay/Views/TambahOrang_View.dart';
-// Monitoring
-import 'package:vest_keren/app/modules/Function%20System/Drawer%20Monitoring/Monitoring_Binding.dart';
-import 'package:vest_keren/app/modules/Function%20System/Drawer%20Monitoring/Monitoring_View.dart';
 
 // Autentikasi
 import '../modules/Login/Bindings/Auth_Bindings.dart';
 import 'package:vest_keren/app/modules/Login/Views/Login_Page_View.dart';
 import 'package:vest_keren/app/modules/Login/Views/Profile_Page_View.dart';
 import 'package:vest_keren/app/modules/Login/Views/Register_Page_View.dart';
+
+// HomeView
+import '../modules/Main Overview/Bindings/Home_binding.dart';
+import '../modules/Main Overview/Views/HomePage.dart';
+// Overview
+import '../modules/Main Overview/Views/Overview_view.dart';
+// About
+import '../modules/Main Overview/Views/About_Views.dart';
+// Information
+import '../modules/Main Overview/Views/Information_view.dart';
+
+// Sistem Monitoring
+import '../modules/Function System/Gameplay/Bindings/Chart_Binding.dart';
+import '../modules/Function System/Gameplay/Views/Chart_View.dart';
+// Gamestart
+import '../modules/Function System/Gameplay/Bindings/GameStart_Binding.dart';
+import '../modules/Function System/Gameplay/Views/GameStart_View.dart';
+// Team Info
+import '../modules/Function System/Gameplay/Bindings/TeamInfo_Binding.dart';
+import '../modules/Function System/Gameplay/Views/TeamInfo_View.dart';
+// Tambah Orang
+import '../modules/Function System/Gameplay/Views/TambahOrang_View.dart';
+import '../modules/Function System/Gameplay/Bindings/TambahOrang_Binding.dart';
+// Monitoring
+import '../modules/Function System/Drawer Monitoring/Monitoring_Binding.dart';
+import '../modules/Function System/Drawer Monitoring/Monitoring_View.dart';
 
 part 'app_routes.dart';
 
@@ -67,7 +66,6 @@ class AppPages {
     GetPage(
       name: _Paths.overview,
       page: () => OverviewView(),
-      binding: OverviewBinding(),
     ),
     GetPage(
       name: _Paths.information,

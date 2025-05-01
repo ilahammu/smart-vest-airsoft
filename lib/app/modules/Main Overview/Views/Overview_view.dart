@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vest_keren/app/modules/Main%20Overview/AppBar_Shared.dart';
 
-import '../Controllers/Overview_controller.dart';
-
-class OverviewView extends GetView<OverviewController> {
+class OverviewView extends StatelessWidget {
   const OverviewView({Key? key}) : super(key: key);
 
   @override
