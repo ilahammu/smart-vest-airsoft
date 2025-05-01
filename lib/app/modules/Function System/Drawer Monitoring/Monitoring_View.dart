@@ -17,47 +17,53 @@ class MonitoringView extends GetView<MonitoringController> {
 
   @override
   Widget build(BuildContext context) {
+    const double drawerWidth = 200;
+
     return Scaffold(
-      body: Column(
+      // ─────────── PERSISTENT APPBAR ───────────
+      appBar: AppBar(
+        title: Text(
+          'Smart Vest Monitoring',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF20232A),
+        elevation: 2,
+      ),
+
+      // ─────────── BODY: SIDEBAR + KONTEN ───────────
+      body: Row(
         children: [
+          // Sidebar (fixed width)
+          SizedBox(
+            width: drawerWidth,
+            child: MainDrawer(),
+          ),
+
+          // Konten (dynamic)
           Expanded(
-            child: Row(
-              children: <Widget>[
-                MainDrawer(),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    width: Get.width,
-                    height: Get.height,
-                    color: const Color(0xFFD9D9D9),
-                    child: Obx(() {
-                      switch (controller.selectedIndex.value) {
-                        case 0:
-                          return OverviewView();
-                        case 1:
-                          return ChartView();
-                        case 2:
-                          return GamestartView();
-                        case 3:
-                          return TambahorangView();
-                        case 4:
-                          return TeaminfoView();
-                        case 5:
-                          return InformationView();
-                        case 6:
-                          return AboutView();
-                        default:
-                          return Center(
-                            child: Text(
-                              'Invalid selection',
-                              style: TextStyle(fontSize: 24),
-                            ),
-                          );
-                      }
-                    }),
-                  ),
-                ),
-              ],
+            child: Container(
+              color: const Color(0xFFD9D9D9),
+              child: Obx(() {
+                switch (controller.selectedIndex.value) {
+                  case 0:
+                    return OverviewView();
+                  case 1:
+                    return ChartView();
+                  case 2:
+                    return GamestartView();
+                  case 3:
+                    return TambahorangView();
+                  case 4:
+                    return TeaminfoView();
+                  case 5:
+                    return InformationView();
+                  case 6:
+                    return AboutView();
+                  default:
+                    return Center(child: Text('Invalid selection'));
+                }
+              }),
             ),
           ),
         ],

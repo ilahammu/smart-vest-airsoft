@@ -20,14 +20,6 @@ class MainDrawer extends GetView<MonitoringController> {
           () => Column(
             children: [
               const SizedBox(height: 150),
-              CustomListTile(
-                title: ' Overview',
-                iconLeading: Icons.monitor_heart,
-                isSelected: controller.selectedIndex.value == 0,
-                onClick: () {
-                  controller.changeIndex(0);
-                },
-              ),
               CustomExpansionTile(
                   title: 'Analytics',
                   leading: Icon(

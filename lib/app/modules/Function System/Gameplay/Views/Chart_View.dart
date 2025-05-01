@@ -18,11 +18,6 @@ class ChartView extends GetView<ChartController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(235, 0, 0, 0),
-        title: Text('Chart View', style: styleName),
-        centerTitle: true,
-      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,

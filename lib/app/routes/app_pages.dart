@@ -8,7 +8,6 @@ import 'package:vest_keren/app/modules/Login/Views/Register_Page_View.dart';
 
 // HomeView
 import '../modules/Main Overview/Bindings/Home_binding.dart';
-import '../modules/Main Overview/Views/HomePage.dart';
 // Overview
 import '../modules/Main Overview/Views/Overview_view.dart';
 // About
@@ -60,7 +59,8 @@ class AppPages {
     // Tampilan Utama
     GetPage(
       name: _Paths.home,
-      page: () => HomePage(),
+      page: () =>
+          OverviewView(), // Replace with the appropriate widget for the home page
       binding: HomeBinding(),
     ),
     GetPage(
