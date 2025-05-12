@@ -24,7 +24,8 @@ class MonitoringView extends GetView<MonitoringController> {
       appBar: AppBar(
         title: Text(
           'Smart Vest Monitoring',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
         ),
         centerTitle: true,
         backgroundColor: const Color(0xFF20232A),

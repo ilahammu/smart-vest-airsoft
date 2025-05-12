@@ -38,7 +38,7 @@ class MainDrawer extends GetView<MonitoringController> {
                     ),
                     CustomListTile(
                       title: ' Gameplay',
-                      iconLeading: Icons.monitor_heart,
+                      iconLeading: Icons.gamepad_outlined,
                       isSelected: controller.selectedIndex.value == 2,
                       onClick: () {
                         controller.changeIndex(2);
@@ -46,7 +46,7 @@ class MainDrawer extends GetView<MonitoringController> {
                     ),
                     CustomListTile(
                       title: ' Add Player',
-                      iconLeading: Icons.monitor_heart,
+                      iconLeading: Icons.person_add_alt_1,
                       isSelected: controller.selectedIndex.value == 3,
                       onClick: () {
                         controller.changeIndex(3);
@@ -54,7 +54,7 @@ class MainDrawer extends GetView<MonitoringController> {
                     ),
                     CustomListTile(
                       title: 'Team Information',
-                      iconLeading: Icons.games,
+                      iconLeading: Icons.people_sharp,
                       isSelected: controller.selectedIndex.value == 4,
                       onClick: () {
                         controller.changeIndex(4);
@@ -63,7 +63,7 @@ class MainDrawer extends GetView<MonitoringController> {
                   ]),
               CustomListTile(
                 title: 'Information',
-                iconLeading: Icons.people_sharp,
+                iconLeading: Icons.info,
                 isSelected: controller.selectedIndex.value == 5,
                 onClick: () {
                   controller.changeIndex(5);
@@ -71,7 +71,7 @@ class MainDrawer extends GetView<MonitoringController> {
               ),
               CustomListTile(
                 title: 'About',
-                iconLeading: Icons.info,
+                iconLeading: Icons.integration_instructions_outlined,
                 isSelected: controller.selectedIndex.value == 6,
                 onClick: () {
                   controller.changeIndex(6);

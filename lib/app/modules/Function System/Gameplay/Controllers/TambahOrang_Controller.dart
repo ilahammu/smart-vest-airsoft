@@ -20,10 +20,11 @@ class TambahorangController extends GetxController {
     fetchMacAddresses();
   }
 
+  // Fetch MAC addresses that are not used
   void fetchMacAddresses() async {
     try {
       final response = await http.get(Uri.parse(
-          'http://localhost:3001/api/register/esp32')); // Ganti IP jika pakai device
+          'http://localhost:3001/api/add/esp32')); // Ganti IP jika pakai device
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
@@ -33,11 +34,9 @@ class TambahorangController extends GetxController {
             jsonResponse.containsKey('esp32s')) {
           List<dynamic> data = jsonResponse['esp32s'];
 
-          players.value = data.asMap().entries.map((entry) {
-            int index = entry.key + 1; // Start from 1
-            String formattedIndex =
-                index.toString().padLeft(3, '0'); // Pad with leading zeros
-            return 'ID-$formattedIndex'; // Tampilkan hanya ID
+          // Update players list with MAC addresses
+          players.value = data.map((item) {
+            return item['macAddress'] as String; // Cast to String
           }).toList();
         } else {
           Get.snackbar('Error', 'Invalid data format from server');
@@ -50,38 +49,41 @@ class TambahorangController extends GetxController {
     }
   }
 
+  // Add a new player and refresh the MAC address list
   Future<void> addPlayer(String name, String esp32Id, selectedTeam) async {
     isLoading.value = true;
 
     try {
-      int? esp32IdNumber =
-          int.tryParse(esp32Id.replaceAll(RegExp(r'[^0-9]'), ''));
-
-      if (esp32IdNumber == null) {
-        Get.snackbar('Error', 'Invalid ESP32 ID format');
-        return;
-      }
-
       final requestBody = {
         "name": name,
-        "esp32Id": esp32IdNumber,
-        "selectedTeam": selectedTeam.value
-            .replaceAll(" ", ""), // Hapus spasi agar cocok dengan ENUM
+        "esp32Id": esp32Id,
+        "selectedTeam": selectedTeam.value.replaceAll(" ", ""), // Hapus spasi
       };
 
       print("Request Body: $requestBody");
 
-      final response = await GetConnect().post(
-        'http://localhost:3001/api/register/register-player',
-        requestBody,
+      final response = await http.post(
+        Uri.parse('http://localhost:3001/api/add/player'),
+        body: json.encode(requestBody),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       );
 
       print("Response: ${response.body}");
 
-      if (response.status.hasError) {
-        Get.snackbar('Error', 'Failed to add player: ${response.body}');
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+        if (jsonResponse['success'] == true) {
+          Get.snackbar('Success', 'Player added successfully!');
+          fetchMacAddresses(); // Refresh daftar MAC address
+        } else {
+          Get.snackbar(
+              'Error', jsonResponse['message'] ?? 'Failed to add player');
+        }
       } else {
-        Get.snackbar('Success', 'Player added successfully!');
+        Get.snackbar('Error', 'Failed to add player: ${response.body}');
       }
     } catch (e) {
       Get.snackbar('Error', 'An unexpected error occurred: $e');
