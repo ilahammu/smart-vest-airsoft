@@ -99,7 +99,7 @@ class GamestartController extends GetxController {
   void updatePlayerStatus(String macAddress, bool isReady) async {
     try {
       final response = await _http.post(
-        'http://localhost:3001/api/update/update-status',
+        'http://localhost:3001/api/update/status',
         {'mac_address': macAddress, 'status_ready': isReady ? 1 : 0},
       );
 

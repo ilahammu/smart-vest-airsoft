@@ -51,9 +51,9 @@ class CustomDropdownESP extends StatelessWidget {
                   dropdownColor: Color.fromARGB(255, 21, 218, 175),
                   borderRadius: BorderRadius.circular(10),
                   isDense: true,
-                  value: selectedValue.value?.isNotEmpty == true
+                  value: items.contains(selectedValue.value)
                       ? selectedValue.value
-                      : null,
+                      : null, // Pastikan nilai ada di dalam daftar
                   icon: const Icon(Icons.arrow_drop_down),
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(10),

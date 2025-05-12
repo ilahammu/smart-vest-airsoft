@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../Custom_Component/Table/Custom_Tabel-Orang.dart';
+import '../../../../Custom_Component/Table/Custom_Tabel-info-Team.dart';
 import '../Controllers/TeamInfo_Controller.dart';
 
 class TeaminfoView extends GetView<TeaminfoController> {
@@ -24,22 +24,18 @@ class TeaminfoView extends GetView<TeaminfoController> {
             ],
           ),
         ),
-        child: SingleChildScrollView(
-          // ✅ Fix Overflow
-          physics: BouncingScrollPhysics(), // ✅ Scroll lebih halus
-          child: Center(
-            child: Obx(() {
-              if (controller.listDataTable.isEmpty) {
-                return CircularProgressIndicator();
-              } else {
-                return CustomDatatabelperson(
-                  listcolumn: controller.listColumn,
-                  listdata: controller.listDataTable.toList(),
-                  columnMap: controller.columnMap,
-                );
-              }
-            }),
-          ),
+        child: Center(
+          child: Obx(() {
+            if (controller.listDataTable.isEmpty) {
+              return CircularProgressIndicator();
+            } else {
+              return CustomDatatabelperson(
+                listcolumn: controller.listColumn,
+                listdata: controller.listDataTable.toList(),
+                columnMap: controller.columnMap,
+              );
+            }
+          }),
         ),
       ),
     );

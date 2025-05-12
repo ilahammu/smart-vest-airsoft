@@ -34,10 +34,13 @@ class TambahorangController extends GetxController {
             jsonResponse.containsKey('esp32s')) {
           List<dynamic> data = jsonResponse['esp32s'];
 
-          // Update players list with MAC addresses
-          players.value = data.map((item) {
-            return item['macAddress'] as String; // Cast to String
-          }).toList();
+          // Hapus duplikasi sebelum memperbarui daftar
+          final uniquePlayers =
+              data.map((item) => item['id'].toString()).toSet().toList();
+
+          print("Unique Players: $uniquePlayers"); // Debugging log
+
+          players.value = uniquePlayers;
         } else {
           Get.snackbar('Error', 'Invalid data format from server');
         }
@@ -54,10 +57,20 @@ class TambahorangController extends GetxController {
     isLoading.value = true;
 
     try {
+      // Ekstrak angka dari esp32Id (contoh: "ID-001" -> 1)
+      int? esp32IdNumber =
+          int.tryParse(esp32Id.replaceAll(RegExp(r'[^0-9]'), ''));
+
+      if (esp32IdNumber == null) {
+        Get.snackbar('Error', 'Invalid ESP32 ID format');
+        return;
+      }
+
       final requestBody = {
         "name": name,
-        "esp32Id": esp32Id,
-        "selectedTeam": selectedTeam.value.replaceAll(" ", ""), // Hapus spasi
+        "esp32Id": esp32IdNumber, // Kirim angka ke backend
+        "selectedTeam": selectedTeam.value
+            .replaceAll(" ", ""), // Hapus spasi agar cocok dengan ENUM
       };
 
       print("Request Body: $requestBody");
@@ -78,6 +91,11 @@ class TambahorangController extends GetxController {
         if (jsonResponse['success'] == true) {
           Get.snackbar('Success', 'Player added successfully!');
           fetchMacAddresses(); // Refresh daftar MAC address
+
+          // Pastikan nilai yang dipilih ada di daftar
+          if (!players.contains(IdChoice.value)) {
+            IdChoice.value = null; // Reset jika nilai tidak ada
+          }
         } else {
           Get.snackbar(
               'Error', jsonResponse['message'] ?? 'Failed to add player');
@@ -89,6 +107,23 @@ class TambahorangController extends GetxController {
       Get.snackbar('Error', 'An unexpected error occurred: $e');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> deletePlayer(int playerId) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('http://localhost:3001/api/delete/player/$playerId'),
+      );
+
+      if (response.statusCode == 200) {
+        Get.snackbar('Success', 'Player deleted successfully!');
+        fetchMacAddresses(); // Refresh daftar MAC address
+      } else {
+        Get.snackbar('Error', 'Failed to delete player: ${response.body}');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'An unexpected error occurred: $e');
     }
   }
 }
