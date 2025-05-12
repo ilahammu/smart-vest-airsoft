@@ -32,6 +32,25 @@ class TeaminfoController extends GetxController {
 
 //======================================================================================
 
+  Future<void> deletePlayer(int playerId) async {
+    try {
+      print("Deleting player with PlayerID: $playerId"); // Log nilai PlayerID
+
+      final response = await _http.delete(
+        'http://localhost:3001/api/delete/player/$playerId',
+      );
+
+      if (response.statusCode == 200) {
+        Get.snackbar('Success', 'Player deleted successfully!');
+        fetchDataTable(); // Refresh daftar pemain setelah penghapusan
+      } else {
+        Get.snackbar('Error', 'Failed to delete player: ${response.body}');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'An unexpected error occurred: $e');
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();

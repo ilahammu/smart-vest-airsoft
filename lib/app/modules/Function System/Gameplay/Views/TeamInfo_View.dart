@@ -30,10 +30,13 @@ class TeaminfoView extends GetView<TeaminfoController> {
               return CircularProgressIndicator();
             } else {
               return CustomDatatabelperson(
-                listcolumn: controller.listColumn,
-                listdata: controller.listDataTable.toList(),
-                columnMap: controller.columnMap,
-              );
+                  listcolumn: controller.listColumn,
+                  listdata: controller.listDataTable.toList(),
+                  columnMap: controller.columnMap,
+                  onDelete: (String id) async {
+                    final int playerId = int.tryParse(id) ?? 0;
+                    await controller.deletePlayer(playerId);
+                  });
             }
           }),
         ),

@@ -8,12 +8,14 @@ class CustomDatatabelperson extends StatelessWidget {
   final List<String> listcolumn;
   final List<DataTablePerson> listdata;
   final Map<String, String> columnMap;
+  final Function(String) onDelete; // Callback untuk delete
 
   const CustomDatatabelperson({
     super.key,
     required this.listcolumn,
     required this.listdata,
     required this.columnMap,
+    required this.onDelete, // Menerima callback onDelete
   });
 
   @override
@@ -26,18 +28,16 @@ class CustomDatatabelperson extends StatelessWidget {
       builder: (context, constraints) {
         // Jika lebar layar lebih kecil dari 600px, gunakan Column untuk responsivitas
         if (constraints.maxWidth < 600) {
-          return SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Tabel untuk Team A
-                _buildTeamSection('Team A', teamAData),
-                SizedBox(height: 20), // Space between teams
-                // Tabel untuk Team B
-                _buildTeamSection('Team B', teamBData),
-              ],
-            ),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Tabel untuk Team A
+              _buildTeamSection('Team A', teamAData),
+              SizedBox(height: 20), // Space between teams
+              // Tabel untuk Team B
+              _buildTeamSection('Team B', teamBData),
+            ],
           );
         } else {
           // Jika lebar layar lebih besar, gunakan Row untuk menampilkan tabel berdampingan
@@ -85,7 +85,7 @@ class CustomDatatabelperson extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(25),
           width: Get.width * 0.4, // Set width to 40% of screen width
-          height: Get.height * 0.85, // Set height to 35% of screen height
+          height: Get.height * 0.85, // Set height to 85% of screen height
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black38),
             gradient: LinearGradient(
@@ -105,30 +105,50 @@ class CustomDatatabelperson extends StatelessWidget {
             ),
             showBottomBorder: false,
             dividerThickness: 0,
-            columns: listcolumn
-                .map(
-                  (header) => DataColumn(
-                    label: Center(
-                      child: Text(
-                        header,
-                        style: GoogleFonts.kumbhSans(
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
+            columns: [
+              DataColumn(
+                label: Center(
+                  child: Text(
+                    'Nama Pemain',
+                    style: GoogleFonts.kumbhSans(
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
                   ),
-                )
-                .toList(),
+                ),
+              ),
+            ],
             rows: data.map((data) {
               return DataRow(
-                cells: listcolumn.map((header) {
-                  final dbColumn = columnMap[header] ?? header;
-                  return DataCell(
-                    Text((data.toJson()[dbColumn] ?? 'Kosong').toString()),
-                  );
-                }).toList(),
+                cells: [
+                  DataCell(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            data.name,
+                            style: GoogleFonts.kumbhSans(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete,
+                              color: const Color.fromARGB(255, 0, 0, 0)),
+                          onPressed: () {
+                            print(
+                                "Deleting player with PlayerID: ${data.playerId}");
+                            onDelete(data.playerId
+                                .toString()); // Panggil fungsi onDelete dengan id
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               );
             }).toList(),
           ),
