@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/GameStart_View.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/TambahOrang_View.dart';
 import 'package:vest_keren/app/modules/Function%20System/Gameplay/Views/TeamInfo_View.dart';
@@ -24,11 +25,13 @@ class MonitoringView extends GetView<MonitoringController> {
       appBar: AppBar(
         title: Text(
           'Smart Vest Monitoring',
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+          style: GoogleFonts.tiltWarp(
+              fontWeight: FontWeight.normal,
+              fontSize: 30,
+              color: const Color.fromARGB(255, 0, 0, 0)),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF20232A),
+        backgroundColor: const Color.fromARGB(255, 153, 153, 153),
         elevation: 2,
       ),
 
@@ -44,7 +47,7 @@ class MonitoringView extends GetView<MonitoringController> {
           // Konten (dynamic)
           Expanded(
             child: Container(
-              color: const Color(0xFFD9D9D9),
+              color: const Color.fromARGB(255, 254, 254, 254),
               child: Obx(() {
                 switch (controller.selectedIndex.value) {
                   case 0:

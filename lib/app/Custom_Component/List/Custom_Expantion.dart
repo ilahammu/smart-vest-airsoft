@@ -25,7 +25,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
       builder: (context, constraints) {
         return Card(
           color: const Color.fromARGB(
-              255, 28, 28, 28), // Set the background color to white
+              255, 173, 173, 173), // Set the background color to white
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -46,14 +46,14 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
               ),
               trailing: const Icon(
                 Icons.arrow_drop_down,
-                color: Color.fromARGB(255, 194, 178, 128),
+                color: Color.fromARGB(255, 0, 0, 0),
               ),
               tileColor: const Color.fromARGB(
-                  255, 28, 28, 28), // Set the tile color to white
+                  255, 173, 173, 173), // Set the tile color to white
               title: Text(
                 widget.title!,
                 style: GoogleFonts.orbitron(
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: Color.fromARGB(255, 0, 0, 0),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),

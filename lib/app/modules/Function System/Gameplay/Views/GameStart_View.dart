@@ -31,7 +31,7 @@ class GamestartView extends GetView<GamestartController> {
                       : "Game Not Started",
                   style: GoogleFonts.tiltWarp(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 )),

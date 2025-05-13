@@ -3,7 +3,7 @@ class DataTableGameplay {
   final String name;
   final int health;
   final String selectedTeam;
-  final String macAddress;
+  final String PlayerID;
   final bool statusReady;
   final bool statusWeapon; // Tambahkan atribut statusWeapon
 
@@ -12,7 +12,7 @@ class DataTableGameplay {
     required this.name,
     required this.health,
     required this.selectedTeam,
-    required this.macAddress,
+    required this.PlayerID,
     required this.statusReady,
     required this.statusWeapon, // Tambahkan atribut statusWeapon
   });
@@ -23,7 +23,7 @@ class DataTableGameplay {
       name: json['name'] ?? 'Unknown',
       health: json['health'] ?? 100,
       selectedTeam: json['selectedTeam'] ?? 'Unknown',
-      macAddress: json['macAddress'] ?? 'Unknown',
+      PlayerID: json['PlayerID'] ?? 'Unknown',
       statusReady: json['statusReady'] ?? false,
       statusWeapon:
           json['statusWeapon'] ?? false, // Tambahkan atribut statusWeapon

@@ -51,12 +51,10 @@ class CustomDataTable extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                teamADead
-                    ? "🔥 TEAM RED HAS BEEN DEFEATED!"
-                    : "🔥 TEAM BLUE HAS BEEN DEFEATED!",
+                teamADead ? "🔥 BLUE TEAM WINS!" : "🔥 RED TEAM WINS!",
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -71,7 +69,7 @@ class CustomDataTable extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black),
-                  color: const Color.fromARGB(255, 111, 106, 106),
+                  color: const Color.fromARGB(255, 58, 56, 56),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: DataTable2(
@@ -128,7 +126,7 @@ class CustomDataTable extends StatelessWidget {
 
           // 🔥 Tabel Dummy di bawah tabel utama
           const SizedBox(
-              height: 20), // Jarak antara tabel utama dan tabel dummy
+              height: 10), // Jarak antara tabel utama dan tabel dummy
           CustomTable(
             data: [
               {
@@ -214,7 +212,11 @@ class CustomDataTable extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(player.health.toString(), style: _dataStyle()),
+          // Tampilkan health hanya jika lebih dari 0, jika 0 tampilkan background abu-abu
+          if (player.health > 0)
+            Text(player.health.toString(), style: _dataStyle())
+          else
+            const SizedBox.shrink(), // Menghilangkan angka 0
 
           const SizedBox(height: 5),
 
@@ -229,29 +231,18 @@ class CustomDataTable extends StatelessWidget {
               ),
             ),
 
-          // 🔥 Jika pemain kehabisan darah, tampilkan DEFEAT dan tombol Reset
+          // 🔥 Jika pemain kehabisan darah, tampilkan DEFEAT dan background abu-abu
           if (player.health <= 0)
-            Column(
-              children: [
-                Container(
-                  color: Colors.grey,
-                  padding: const EdgeInsets.all(4),
-                  child: const Text(
-                    "DEFEAT",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5.0),
+              child: const Text(
+                "DEFEAT",
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Color.fromARGB(255, 255, 0, 0),
+                  fontWeight: FontWeight.bold,
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    controller.resetHealth(player.name);
-                  },
-                  child: const Text("Reset"),
-                ),
-              ],
+              ),
             ),
         ],
       ),

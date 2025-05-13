@@ -15,7 +15,7 @@ class MainDrawer extends GetView<MonitoringController> {
     return Material(
       child: Container(
         width: drawerWidth,
-        color: const Color.fromARGB(255, 28, 28, 28),
+        color: const Color.fromARGB(255, 198, 197, 197),
         child: Obx(
           () => Column(
             children: [
