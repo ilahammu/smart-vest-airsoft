@@ -5,7 +5,9 @@ import '../../../../data/Table-Hitpoint-Gameplay.dart';
 import '../../../../data/TableGameplay.dart';
 
 class GamestartController extends GetxController {
-  Timer? timer;
+  Timer? playerTimer;
+  Timer? hitpointTimer;
+  Timer? hptimer;
   final GetConnect _http = GetConnect();
 
   final Map<String, String> tabelpermainan = {
@@ -54,8 +56,8 @@ class GamestartController extends GetxController {
       gameStarted.value = true;
 
       fetchDataTable();
-
-      startHealthUpdate();
+      fetchDataTableHitpoint();
+      startHealthUpdate(); // TIMER hanya mulai setelah game dimulai!
     } else {
       Get.snackbar("Error",
           "Both teams must have at least one player and all players must be ready!");
@@ -99,6 +101,44 @@ class GamestartController extends GetxController {
       print("Exception occurred while fetching data: $e");
     }
   }
+
+  // Tabel Hitpoint
+  void fetchDataTableHitpoint() async {
+    try {
+      final response = await _http.get('http://localhost:3001/api/hitpoint');
+
+      if (response.statusCode == 200) {
+        final data = response.body['hitpoints'] as List<dynamic>;
+
+        print(
+            'Hitpoint data received from API: ${response.body}'); // Log data hitpoint
+
+        listDataTableHit.value = data.map((item) {
+          try {
+            final hitpoint = DataTableHitpoint.fromJson(item);
+            print(
+                "Parsed hitpoint: $hitpoint"); // Log setiap hitpoint yang berhasil di-parse
+            return hitpoint;
+          } catch (e) {
+            print("Error parsing hitpoint data: $e");
+            return DataTableHitpoint(
+              name: "Unknown",
+              team: "Unknown",
+              hitpoint: int.tryParse("Unknown") ?? 0,
+              timestamp: DateTime.now(),
+            );
+          }
+        }).toList();
+        ;
+
+        listDataTableHit.refresh();
+      } else {
+        print('Error fetching hitpoint data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Exception occurred while fetching hitpoint data: $e");
+    }
+  }
 // ==============================================================================================
 
 // Logika tombol Ready Pemain
@@ -136,13 +176,49 @@ class GamestartController extends GetxController {
       print("Exception occurred while updating weapon status: $e");
     }
   }
+
+  Future<void> fetchGameStatus() async {
+    try {
+      final response =
+          await _http.get('http://localhost:3001/api/gameplay/status');
+      if (response.statusCode == 200) {
+        final status = response.body['gameStatus'];
+        gameStarted.value =
+            (status == 1); // true jika started, false jika tidak
+        print('Game status updated: $status');
+        print('Game status fetch response: ${response.body}');
+      } else {
+        print('Error fetching game status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Exception occurred while fetching game status: $e");
+    }
+  }
+
+  Future<void> resetGame() async {
+    final response =
+        await _http.post('http://localhost:3001/api/gameplay/reset', {});
+    print('Reset response: ${response.body}');
+    if (response.statusCode == 200) {
+      print('Game reset successfully');
+      fetchDataTable();
+      fetchDataTableHitpoint();
+      await fetchGameStatus();
+      stopHitpointAutoRefresh();
+      gameStarted.value = false;
+    } else {
+      print('Failed to reset game: ${response.statusCode}');
+    }
+  }
+
   // ==============================================================================================
 
   // Logika Pengurangan HP pemain
   // ==============================================================================================
   void startHealthUpdate() {
-    timer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
-      fetchDataTable(); // Refresh data to reflect updated health
+    hptimer = Timer.periodic(Duration(seconds: 20), (Timer t) async {
+      fetchDataTable();
+      fetchDataTableHitpoint();
     });
   }
 
@@ -163,54 +239,63 @@ class GamestartController extends GetxController {
     }
   }
 
-  Future<void> updateHealth(String macAddress, int damage) async {
-    try {
-      final player =
-          listDataTableGame.firstWhere((p) => p.PlayerID == macAddress);
-      final newHealth = (player.health - damage)
-          .clamp(0, 100); // Ensure health doesn't go below 0
+  // Future<void> updateHealth(String macAddress, int damage) async {
+  //   try {
+  //     final player =
+  //         listDataTableGame.firstWhere((p) => p.PlayerID == macAddress);
+  //     final newHealth = (player.health - damage)
+  //         .clamp(0, 100); // Ensure health doesn't go below 0
 
-      final response = await _http.post(
-        'http://localhost:3001/api/update/update-health',
-        {'mac_address': macAddress, 'health': newHealth},
-      );
+  //     final response = await _http.post(
+  //       'http://localhost:3001/api/update/update-health',
+  //       {'mac_address': macAddress, 'health': newHealth},
+  //     );
 
-      if (response.statusCode == 200) {
-        print('Health updated successfully for $macAddress');
-        fetchDataTable(); // Refresh data to reflect updated health
-      } else {
-        print('Error updating health: ${response.statusCode}');
-      }
-    } catch (e) {
-      print("Exception occurred while updating health: $e");
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       print('Health updated successfully for $macAddress');
+  //       fetchDataTable(); // Refresh data to reflect updated health
+  //     } else {
+  //       print('Error updating health: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     print("Exception occurred while updating health: $e");
+  //   }
+  // }
 
-  void startAutoRefresh() {
-    // Timer untuk memuat ulang data setiap 5 detik
-    timer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
-      fetchDataTable(); // Panggil fungsi untuk memuat ulang data
-      print("Data refreshed at ${DateTime.now()}"); // Log waktu refresh
+  void startPlayerAutoRefresh() {
+    playerTimer = Timer.periodic(const Duration(seconds: 20), (Timer t) {
+      fetchDataTable();
     });
   }
 
-  void stopAutoRefresh() {
-    // Hentikan timer jika tidak diperlukan
-    timer?.cancel();
-    timer = null;
+  void stopPlayerAutoRefresh() {
+    playerTimer?.cancel();
+    playerTimer = null;
+  }
+
+  void startHitpointAutoRefresh() {
+    hitpointTimer = Timer.periodic(const Duration(seconds: 20), (Timer t) {
+      fetchDataTableHitpoint();
+    });
+  }
+
+  void stopHitpointAutoRefresh() {
+    hitpointTimer?.cancel();
+    hitpointTimer = null;
   }
 
   @override
   void onInit() {
     super.onInit();
     fetchDataTable();
-    startAutoRefresh(); // Mulai timer saat controller diinisialisasi
+    fetchDataTableHitpoint();
+    startPlayerAutoRefresh();
   }
 
   @override
   void onClose() {
-    print("TeaminfoController is being closed...");
-    stopAutoRefresh(); // Hentikan timer saat controller ditutup
+    stopPlayerAutoRefresh();
+    stopHitpointAutoRefresh();
     super.onClose();
   }
 }

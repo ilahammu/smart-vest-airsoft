@@ -1,11 +1,11 @@
 class DataTableGameplay {
   final int no;
   final String name;
-  final int health;
+  int health;
   final String selectedTeam;
   final String PlayerID;
-  final bool statusReady;
-  final bool statusWeapon; // Tambahkan atribut statusWeapon
+  bool statusReady;
+  bool statusWeapon; // Tambahkan atribut statusWeapon
 
   DataTableGameplay({
     required this.no,

@@ -36,13 +36,16 @@ class CustomDataTableGameplay extends StatelessWidget {
         ? teamAPlayers.length
         : teamBPlayers.length;
 
+    // Status game selesai
+    bool gameFinished = teamAPlayers.any((p) => p.health <= 0) ||
+        teamBPlayers.any((p) => p.health <= 0);
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
           // 🔥 Notifikasi jika salah satu tim kalah
-          if (teamAPlayers.any((p) => p.health <= 0) ||
-              teamBPlayers.any((p) => p.health <= 0))
+          if (gameFinished)
             Container(
               padding: const EdgeInsets.all(10),
               margin: const EdgeInsets.symmetric(vertical: 10),
@@ -217,6 +220,27 @@ class CustomDataTableGameplay extends StatelessWidget {
               ),
             ),
           ),
+
+          // 🔥 Button Reset
+          if (gameFinished)
+            ElevatedButton(
+              onPressed: () async {
+                await controller.resetGame(); // Panggil fungsi reset game
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              ),
+              child: const Text(
+                "Reset Game",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -306,4 +330,6 @@ class CustomDataTableGameplay extends StatelessWidget {
       fontSize: 20,
     );
   }
+
+  // Fungsi Reset Game
 }
