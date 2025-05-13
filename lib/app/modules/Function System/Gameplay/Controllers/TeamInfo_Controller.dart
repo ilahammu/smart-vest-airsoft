@@ -51,9 +51,31 @@ class TeaminfoController extends GetxController {
     }
   }
 
+  void startAutoRefresh() {
+    // Timer untuk memuat ulang data setiap 5 detik
+    timer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
+      fetchDataTable(); // Panggil fungsi untuk memuat ulang data
+      print("Data refreshed at ${DateTime.now()}"); // Log waktu refresh
+    });
+  }
+
+  void stopAutoRefresh() {
+    // Hentikan timer jika tidak diperlukan
+    timer?.cancel();
+    timer = null;
+  }
+
   @override
   void onInit() {
     super.onInit();
     fetchDataTable();
+    startAutoRefresh(); // Mulai timer saat controller diinisialisasi
+  }
+
+  @override
+  void onClose() {
+    print("TeaminfoController is being closed...");
+    stopAutoRefresh(); // Hentikan timer saat controller ditutup
+    super.onClose();
   }
 }

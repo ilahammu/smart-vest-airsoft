@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class TambahorangController extends GetxController {
+  Timer? timer;
   final isLoading = false.obs;
 
   final Rx<String?> IdChoice = Rx<String?>(null);
@@ -13,12 +16,6 @@ class TambahorangController extends GetxController {
     "Team A",
     "Team B",
   ];
-
-  @override
-  void onInit() {
-    super.onInit();
-    fetchMacAddresses();
-  }
 
   // Fetch MAC addresses that are not used
   void fetchMacAddresses() async {
@@ -126,4 +123,29 @@ class TambahorangController extends GetxController {
       Get.snackbar('Error', 'An unexpected error occurred: $e');
     }
   }
+
+  // void startAutoRefresh() {
+  //   // Timer untuk memuat ulang data setiap 5 detik
+  //   timer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
+  //     fetchMacAddresses(); // Panggil fungsi untuk memuat ulang data
+  //     print("Data refreshed at ${DateTime.now()}"); // Log waktu refresh
+  //   });
+  // }
+
+  // void stopAutoRefresh() {
+  //   timer?.cancel();
+  //   timer = null;
+  // }
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchMacAddresses();
+  }
+
+  // @override
+  // void onClose() {
+  //   stopAutoRefresh();
+  //   super.onClose();
+  // }
 }

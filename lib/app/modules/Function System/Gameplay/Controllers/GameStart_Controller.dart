@@ -12,6 +12,13 @@ class GamestartController extends GetxController {
     'Nama Anggota': 'name',
     'HP': 'health',
   };
+
+  final Map<String, String> tabelpermainan = {
+    'Nama': 'no',
+    'Nama Anggota': 'name',
+    'HP': 'health',
+  };
+
   final RxList<DataTableGameplay> listDataTable = <DataTableGameplay>[].obs;
   var isStartEnabled = false.obs; // 🔥 State untuk tombol Start
   var gameStarted = false.obs; // 🔥 State untuk game status
@@ -38,11 +45,11 @@ class GamestartController extends GetxController {
                 selectedTeam: "Unknown",
                 macAddress: "Unknown",
                 statusReady: false,
-                statusWeapon: false); // Tambahkan atribut statusWeapon
+                statusWeapon: false);
           }
         }).toList();
 
-        checkGameStatus(); // 🔥 Cek apakah game bisa dimulai
+        checkGameStatus();
         listDataTable.refresh();
       } else {
         print('Error fetching data: ${response.statusCode}');
@@ -52,14 +59,12 @@ class GamestartController extends GetxController {
     }
   }
 
-  // 🔥 Cek apakah kedua tim memiliki minimal satu pemain dan semua pemain siap
   void checkGameStatus() {
     final teamA =
         listDataTable.where((p) => p.selectedTeam == "TeamA").toList();
     final teamB =
         listDataTable.where((p) => p.selectedTeam == "TeamB").toList();
 
-    // Check if all players in both teams are ready
     final allReady =
         teamA.every((p) => p.statusReady) && teamB.every((p) => p.statusReady);
 
@@ -67,25 +72,20 @@ class GamestartController extends GetxController {
     print("Start Button Enabled: ${isStartEnabled.value}");
   }
 
-  // 🔥 Fungsi untuk memulai game
   void startGame() async {
     if (isStartEnabled.value) {
       Get.snackbar("Success", "Game Started!");
       print("Game Started!");
 
-      // Perbarui status weapon untuk semua pemain
       for (var player in listDataTable) {
         await updateWeaponStatus(player.macAddress, true);
         await logHealth(player.name, player.health);
       }
 
-      // Update game status
       gameStarted.value = true;
 
-      // Refresh data to reflect the updated statusWeapon
       fetchDataTable();
 
-      // Start updating health points
       startHealthUpdate();
     } else {
       Get.snackbar("Error",
@@ -95,7 +95,6 @@ class GamestartController extends GetxController {
     }
   }
 
-  // 🔥 Update player status
   void updatePlayerStatus(String macAddress, bool isReady) async {
     try {
       final response = await _http.post(
@@ -113,7 +112,6 @@ class GamestartController extends GetxController {
     }
   }
 
-  // 🔥 Update weapon status
   Future<void> updateWeaponStatus(String macAddress, bool statusWeapon) async {
     try {
       final response = await _http.post(
@@ -131,7 +129,6 @@ class GamestartController extends GetxController {
     }
   }
 
-  // 🔥 Log health to the backend
   Future<void> logHealth(String name, int health) async {
     try {
       final response = await _http.post(
@@ -149,14 +146,12 @@ class GamestartController extends GetxController {
     }
   }
 
-  // 🔥 Start updating health points
   void startHealthUpdate() {
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
       fetchDataTable(); // Refresh data to reflect updated health
     });
   }
 
-  // 🔥 Update health points
   Future<void> updateHealth(String macAddress, int damage) async {
     try {
       final player =
@@ -180,7 +175,6 @@ class GamestartController extends GetxController {
     }
   }
 
-  // 🔥 Reset health to 100
   Future<void> resetHealth(String playerName) async {
     try {
       final response = await _http.post(
@@ -200,7 +194,6 @@ class GamestartController extends GetxController {
     }
   }
 
-  // 🔥 Reset health of all players to 100
   Future<void> resetAllHealth() async {
     try {
       for (var player in listDataTable) {

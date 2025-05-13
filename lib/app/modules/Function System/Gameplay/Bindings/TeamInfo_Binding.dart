@@ -6,6 +6,7 @@ class TeaminfoBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<TeaminfoController>(
       () => TeaminfoController(),
+      fenix: true,
     );
   }
 }
