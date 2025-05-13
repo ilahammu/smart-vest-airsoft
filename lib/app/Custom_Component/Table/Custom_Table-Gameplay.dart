@@ -1,19 +1,23 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../data/TableGameplay.dart';
-import '../../modules/Function System/Gameplay/Controllers/GameStart_Controller.dart';
-import '../../Custom_Component/Table/Custom_Tabel.dart'; // Pastikan ini diimpor
 
-class CustomDataTable extends StatelessWidget {
+import 'package:data_table_2/data_table_2.dart';
+import '../../data/Table-Hitpoint-Gameplay.dart';
+import '../../data/TableGameplay.dart';
+
+import '../../modules/Function System/Gameplay/Controllers/GameStart_Controller.dart'; // Pastikan ini diimpor
+
+class CustomDataTableGameplay extends StatelessWidget {
   final List<DataTableGameplay> dataList;
+  final List<DataTableHitpoint> hitpointList;
   final bool gameStarted;
 
-  const CustomDataTable({
+  const CustomDataTableGameplay({
     Key? key,
     required this.dataList,
     required this.gameStarted,
+    required this.hitpointList,
   }) : super(key: key);
 
   @override
@@ -26,12 +30,6 @@ class CustomDataTable extends StatelessWidget {
     final teamBPlayers =
         dataList.where((p) => p.selectedTeam == "TeamB").toList();
 
-    // 🔥 Cek apakah salah satu tim sudah kalah
-    final teamADead =
-        teamAPlayers.isNotEmpty && teamAPlayers.every((p) => p.health <= 0);
-    final teamBDead =
-        teamBPlayers.isNotEmpty && teamBPlayers.every((p) => p.health <= 0);
-
     // 🔥 Tentukan jumlah maksimum baris untuk menjaga keseimbangan tampilan
     final maxRows = teamAPlayers.length > teamBPlayers.length
         ? teamAPlayers.length
@@ -42,7 +40,8 @@ class CustomDataTable extends StatelessWidget {
       child: Column(
         children: [
           // 🔥 Notifikasi jika salah satu tim kalah
-          if (teamADead || teamBDead)
+          if (teamAPlayers.any((p) => p.health <= 0) ||
+              teamBPlayers.any((p) => p.health <= 0))
             Container(
               padding: const EdgeInsets.all(10),
               margin: const EdgeInsets.symmetric(vertical: 10),
@@ -51,7 +50,9 @@ class CustomDataTable extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                teamADead ? "🔥 BLUE TEAM WINS!" : "🔥 RED TEAM WINS!",
+                teamAPlayers.any((p) => p.health <= 0)
+                    ? "🔥 BLUE TEAM WINS!"
+                    : "🔥 RED TEAM WINS!",
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 25,
@@ -60,111 +61,115 @@ class CustomDataTable extends StatelessWidget {
               ),
             ),
 
-          // 🔥 Tabel Data Pemain
+          // 🔥 Tabel Data Pemain (Akan ditampilkan jika game dimulai)
           Expanded(
-            child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  color: const Color.fromARGB(255, 58, 56, 56),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: DataTable2(
-                  border: TableBorder.all(color: Colors.black, width: 3),
-                  columnSpacing: 0, // 🔥 Atur jarak antar kolom
-                  horizontalMargin: 0, // 🔥 Atur margin horizontal
-                  minWidth: 0, // 🔥 Pastikan tabel menyesuaikan lebar layar
-                  dataRowHeight: 60, // 🔥 Pastikan tinggi cukup untuk teks
-                  columns: [
-                    DataColumn(label: _buildHeaderCell("RED TEAM", Colors.red)),
-                    DataColumn(
-                        label: _buildHeaderCell("Nama", Colors.redAccent)),
-                    DataColumn(
-                        label:
-                            _buildHeaderCell("Health Point", Colors.redAccent)),
-                    DataColumn(
-                        label: _buildHeaderCell("BLUE TEAM", Colors.blue)),
-                    DataColumn(
-                        label: _buildHeaderCell("Nama", Colors.blueAccent)),
-                    DataColumn(
-                        label: _buildHeaderCell(
-                            "Health Point", Colors.blueAccent)),
-                  ],
-                  rows: [
-                    for (int i = 0; i < maxRows; i++)
-                      DataRow(cells: [
-                        // 🔥 Kolom Team Red
-                        DataCell(_buildDataCell(i < teamAPlayers.length
-                            ? (i + 1).toString()
-                            : "-")),
-                        DataCell(_buildDataCell(i < teamAPlayers.length
-                            ? teamAPlayers[i].name
-                            : "-")),
-                        DataCell(i < teamAPlayers.length
-                            ? _buildHealthCell(teamAPlayers[i], controller)
-                            : _buildDataCell("-")),
+            child: Offstage(
+              offstage:
+                  !gameStarted, // Tabel hanya muncul jika game sudah dimulai
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    color: const Color.fromARGB(255, 58, 56, 56),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: DataTable2(
+                    border: TableBorder.all(color: Colors.black, width: 3),
+                    columnSpacing: 0, // 🔥 Atur jarak antar kolom
+                    horizontalMargin: 0, // 🔥 Atur margin horizontal
+                    minWidth: 0, // 🔥 Pastikan tabel menyesuaikan lebar layar
+                    dataRowHeight: 60, // 🔥 Pastikan tinggi cukup untuk teks
+                    columns: [
+                      DataColumn(
+                          label: _buildHeaderCell("RED TEAM", Colors.red)),
+                      DataColumn(
+                          label: _buildHeaderCell("Nama", Colors.redAccent)),
+                      DataColumn(
+                          label: _buildHeaderCell(
+                              "Health Point", Colors.redAccent)),
+                      DataColumn(
+                          label: _buildHeaderCell("BLUE TEAM", Colors.blue)),
+                      DataColumn(
+                          label: _buildHeaderCell("Nama", Colors.blueAccent)),
+                      DataColumn(
+                          label: _buildHeaderCell(
+                              "Health Point", Colors.blueAccent)),
+                    ],
+                    rows: [
+                      for (int i = 0; i < maxRows; i++)
+                        DataRow(cells: [
+                          // 🔥 Kolom Team Red
+                          DataCell(_buildDataCell(i < teamAPlayers.length
+                              ? (i + 1).toString()
+                              : "-")),
+                          DataCell(_buildDataCell(i < teamAPlayers.length
+                              ? teamAPlayers[i].name
+                              : "-")),
+                          DataCell(i < teamAPlayers.length
+                              ? _buildHealthCell(teamAPlayers[i], controller)
+                              : _buildDataCell("-")),
 
-                        // 🔥 Kolom Team Blue
-                        DataCell(_buildDataCell(i < teamBPlayers.length
-                            ? (i + 1).toString()
-                            : "-")),
-                        DataCell(_buildDataCell(i < teamBPlayers.length
-                            ? teamBPlayers[i].name
-                            : "-")),
-                        DataCell(i < teamBPlayers.length
-                            ? _buildHealthCell(teamBPlayers[i], controller)
-                            : _buildDataCell("-")),
-                      ]),
-                  ],
+                          // 🔥 Kolom Team Blue
+                          DataCell(_buildDataCell(i < teamBPlayers.length
+                              ? (i + 1).toString()
+                              : "-")),
+                          DataCell(_buildDataCell(i < teamBPlayers.length
+                              ? teamBPlayers[i].name
+                              : "-")),
+                          DataCell(i < teamBPlayers.length
+                              ? _buildHealthCell(teamBPlayers[i], controller)
+                              : _buildDataCell("-")),
+                        ]),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
 
-          // 🔥 Tabel Dummy di bawah tabel utama
-          const SizedBox(
-              height: 10), // Jarak antara tabel utama dan tabel dummy
-          CustomTable(
-            data: [
-              {
-                'Nama': 'Ilham',
-                'Team': 'Team A',
-                'Bagian': 'Bahu Kiri',
-                'TimeStamp': '12:12:43',
-              },
-              {
-                'Nama': 'Raka',
-                'Team': 'Team B',
-                'Bagian': 'Punggung Kanan',
-                'TimeStamp': '12:15:44',
-              },
-              {
-                'Nama': 'Fahri',
-                'Team': 'Team A',
-                'Bagian': 'Pinggang Kiri',
-                'TimeStamp': '12:16:12',
-              },
-              {
-                'Nama': 'Faris',
-                'Team': 'Team B',
-                'Bagian': 'Jantung',
-                'TimeStamp': '12:21:07',
-              },
-              {
-                'Nama': 'Raka',
-                'Team': 'Team A',
-                'Bagian': 'Jantung',
-                'TimeStamp': '12:23:14',
-              },
-            ],
-            columns: ['Nama', 'Team', 'Bagian', 'TimeStamp'],
-            headingColor: const Color.fromARGB(
-                255, 52, 51, 51), // Provide a color for the heading
-            dataRowColor: const Color.fromARGB(
-                255, 147, 146, 146), // Provide a color for the data rows
+          // 🔥 Tabel untuk History Log (Dapatkan data dari hitpointLog)
+          Expanded(
+            child: Offstage(
+              offstage: !gameStarted, // Tabel hanya muncul jika game dimulai
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    color: const Color.fromARGB(255, 58, 56, 56),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: DataTable2(
+                    border: TableBorder.all(color: Colors.black, width: 3),
+                    columnSpacing: 0,
+                    horizontalMargin: 0,
+                    minWidth: 0,
+                    dataRowHeight: 60,
+                    columns: [
+                      DataColumn(label: _buildHeaderCell("Nama", Colors.green)),
+                      DataColumn(label: _buildHeaderCell("Team", Colors.green)),
+                      DataColumn(
+                          label: _buildHeaderCell("Bagian", Colors.green)),
+                      DataColumn(
+                          label: _buildHeaderCell("TimeStamp", Colors.green)),
+                    ],
+                    rows: hitpointList.map((log) {
+                      return DataRow(cells: [
+                        DataCell(Text(log.name)),
+                        DataCell(Text(log.team.toString())),
+                        DataCell(Text(log.hitpoint.toString())),
+                        DataCell(Text(log.timestamp.toString())),
+                      ]);
+                    }).toList(),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -228,20 +233,6 @@ class CustomDataTable extends StatelessWidget {
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: player.statusReady ? Colors.green : Colors.white,
-              ),
-            ),
-
-          // 🔥 Jika pemain kehabisan darah, tampilkan DEFEAT dan background abu-abu
-          if (player.health <= 0)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5.0),
-              child: const Text(
-                "DEFEAT",
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Color.fromARGB(255, 255, 0, 0),
-                  fontWeight: FontWeight.bold,
-                ),
               ),
             ),
         ],

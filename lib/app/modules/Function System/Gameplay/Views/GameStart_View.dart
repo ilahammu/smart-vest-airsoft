@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vest_keren/app/modules/Function%20System/Gameplay/Controllers/GameStart_Controller.dart';
+
 import '../../../../Custom_Component/Table/Custom_Table-Gameplay.dart';
+import '../Controllers/GameStart_Controller.dart';
 
 class GamestartView extends GetView<GamestartController> {
   final GamestartController controller = Get.put(GamestartController());
@@ -37,13 +38,13 @@ class GamestartView extends GetView<GamestartController> {
                 )),
             Expanded(
               child: Obx(() {
-                if (controller.listDataTable.isEmpty) {
+                if (controller.listDataTableGame.isEmpty) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                return CustomDataTable(
-                  dataList: controller.listDataTable,
-                  gameStarted: controller.gameStarted.value,
-                );
+                return CustomDataTableGameplay(
+                    dataList: controller.listDataTableGame,
+                    gameStarted: controller.gameStarted.value,
+                    hitpointList: controller.listDataTableHit);
               }),
             ),
             Padding(

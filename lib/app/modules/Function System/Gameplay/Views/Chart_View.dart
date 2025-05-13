@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:vest_keren/app/Custom_Component/Table/Custom_Tabel.dart';
 import '../Controllers/chart_controller.dart';
 
 class ChartView extends GetView<ChartController> {
@@ -58,44 +57,7 @@ class ChartView extends GetView<ChartController> {
                         ),
                         const SizedBox(height: 50),
                         // CustomTable
-                        CustomTable(
-                          data: [
-                            {
-                              'No': '1',
-                              'Bagian': 'Bahu Kiri',
-                              'Timestamp': '2023-10-01 12:05:00'
-                            },
-                            {
-                              'No': '2',
-                              'Bagian': 'Punggung Kanan',
-                              'Timestamp': '2023-10-01 12:06:00'
-                            },
-                            {
-                              'No': '3',
-                              'Bagian': 'Pinggang Kiri',
-                              'Timestamp': '2023-10-01 12:07:00'
-                            },
-                            {
-                              'No': '4',
-                              'Bagian': 'Jantung',
-                              'Timestamp': '2023-10-01 12:08:00'
-                            },
-                            {
-                              'No': '5',
-                              'Bagian': 'Pusar',
-                              'Timestamp': '2023-10-01 12:09:00'
-                            },
-                          ],
-                          columns: [
-                            'No',
-                            'Bagian',
-                            'Timestamp',
-                          ],
-                          headingColor: const Color.fromARGB(
-                              255, 75, 83, 32), // Example color for heading
-                          dataRowColor: const Color.fromARGB(
-                              255, 47, 79, 79), // Example color for rows
-                        ),
+
                         const SizedBox(height: 15),
                         // Navigation Buttons
                         Row(

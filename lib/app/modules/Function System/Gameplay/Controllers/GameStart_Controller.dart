@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
+
+import '../../../../data/Table-Hitpoint-Gameplay.dart';
 import '../../../../data/TableGameplay.dart';
 
 class GamestartController extends GetxController {
@@ -12,7 +14,8 @@ class GamestartController extends GetxController {
     'HP': 'health',
   };
 
-  final RxList<DataTableGameplay> listDataTable = <DataTableGameplay>[].obs;
+  final RxList<DataTableGameplay> listDataTableGame = <DataTableGameplay>[].obs;
+  final RxList<DataTableHitpoint> listDataTableHit = <DataTableHitpoint>[].obs;
   var isStartEnabled = false.obs; // 🔥 State untuk tombol Start
   var gameStarted = false.obs; // 🔥 State untuk game status
 
@@ -27,9 +30,9 @@ class GamestartController extends GetxController {
 
   void checkGameStatus() {
     final teamA =
-        listDataTable.where((p) => p.selectedTeam == "TeamA").toList();
+        listDataTableGame.where((p) => p.selectedTeam == "TeamA").toList();
     final teamB =
-        listDataTable.where((p) => p.selectedTeam == "TeamB").toList();
+        listDataTableGame.where((p) => p.selectedTeam == "TeamB").toList();
 
     final allReady =
         teamA.every((p) => p.statusReady) && teamB.every((p) => p.statusReady);
@@ -43,7 +46,7 @@ class GamestartController extends GetxController {
       Get.snackbar("Success", "Game Started!");
       print("Game Started!");
 
-      for (var player in listDataTable) {
+      for (var player in listDataTableGame) {
         await updateWeaponStatus(player.PlayerID, true);
         await logHealth(player.name, player.health);
       }
@@ -71,7 +74,7 @@ class GamestartController extends GetxController {
         final data = response.body['players'] as List<dynamic>;
         print('Data received from API: $data');
 
-        listDataTable.value = data.map((item) {
+        listDataTableGame.value = data.map((item) {
           try {
             return DataTableGameplay.fromJson(item);
           } catch (e) {
@@ -88,7 +91,7 @@ class GamestartController extends GetxController {
         }).toList();
 
         checkGameStatus();
-        listDataTable.refresh();
+        listDataTableGame.refresh();
       } else {
         print('Error fetching data: ${response.statusCode}');
       }
@@ -162,7 +165,8 @@ class GamestartController extends GetxController {
 
   Future<void> updateHealth(String macAddress, int damage) async {
     try {
-      final player = listDataTable.firstWhere((p) => p.PlayerID == macAddress);
+      final player =
+          listDataTableGame.firstWhere((p) => p.PlayerID == macAddress);
       final newHealth = (player.health - damage)
           .clamp(0, 100); // Ensure health doesn't go below 0
 
