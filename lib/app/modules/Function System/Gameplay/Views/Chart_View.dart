@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../Controllers/chart_controller.dart';
+import '../../../../Custom_Component/Dropdown/Custom_DropdownPersonel.dart';
+import '../Controllers/Chart_Controller.dart';
 
 class ChartView extends GetView<ChartController> {
   final ChartController controller = Get.put(ChartController());
-
   final styleName = GoogleFonts.tiltWarp(
     color: Colors.white,
     fontSize: 20,
@@ -33,18 +33,44 @@ class ChartView extends GetView<ChartController> {
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            bool redminote11 = constraints.maxWidth < 600;
+            bool isMobile = constraints.maxWidth < 600;
 
             Widget content = Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center, // Align to top
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Info Box
-                  _buildInfoBox('Gerald', 'Team A', '001'),
-                  const SizedBox(
-                      width: 20), // Add space between card and other widgets
-
+                  // Dropdown & Info Box
+                  SizedBox(
+                    width: isMobile ? constraints.maxWidth : 300,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Dropdown pemain
+                        Obx(() => CustomDropdownPersonel(
+                              selectedValue: controller.selectedPlayer,
+                              hintText: "Pilih Pemain",
+                              items: controller.playerList,
+                              onChanged: (player) {
+                                controller.selectedPlayer.value = player;
+                                controller.fetchHitpointLog(player?['name']);
+                              },
+                            )),
+                        const SizedBox(height: 10),
+                        // Info Box
+                        Obx(() {
+                          final player = controller.selectedPlayer.value;
+                          if (player == null) return const SizedBox();
+                          return _buildInfoBox(
+                            player['name'],
+                            player['selectedTeam'] ?? '-',
+                            player['id']?.toString() ?? '-',
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 20),
                   // Chart and Table Section
                   Expanded(
                     child: Column(
@@ -52,14 +78,20 @@ class ChartView extends GetView<ChartController> {
                       children: [
                         // BarChart Section
                         Container(
-                          height: 250, // Height of the BarChart
+                          height: 250,
                           child: _buildBarChart(context),
                         ),
-                        const SizedBox(height: 50),
-                        // CustomTable
-
+                        const SizedBox(height: 30),
+                        // Tabel riwayat hitpoint
+                        Expanded(
+                          child: Obx(() => SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child:
+                                    _buildHitpointTable(controller.hitpointLog),
+                              )),
+                        ),
                         const SizedBox(height: 15),
-                        // Navigation Buttons
+                        // Navigation Buttons (opsional)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -75,8 +107,7 @@ class ChartView extends GetView<ChartController> {
               ),
             );
 
-            // If on mobile, make it scrollable
-            if (redminote11) {
+            if (isMobile) {
               return SingleChildScrollView(child: content);
             } else {
               return content;
@@ -87,7 +118,6 @@ class ChartView extends GetView<ChartController> {
     );
   }
 
-  // Info Box Widget
   // Info Box Widget
   Widget _buildInfoBox(
     String name,
@@ -106,11 +136,11 @@ class ChartView extends GetView<ChartController> {
           ),
           child: Center(
             child: Row(
-              children: const [
-                Icon(Icons.arrow_drop_down,
+              children: [
+                const Icon(Icons.arrow_drop_down,
                     color: Color.fromARGB(255, 213, 255, 63), size: 40),
-                Text("Gerald",
-                    style: TextStyle(
+                Text(name,
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold)),
@@ -120,8 +150,7 @@ class ChartView extends GetView<ChartController> {
         ),
         const SizedBox(height: 20),
         Container(
-          width: Get.width * 0.15,
-          height: Get.height * 0.75,
+          width: 200,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 47, 79, 79),
@@ -135,53 +164,38 @@ class ChartView extends GetView<ChartController> {
                 radius: 50,
               ),
               const SizedBox(height: 10),
-              // Name Text with contrast and clear styling
-              Text(
-                'Name:',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                name,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
+              Text('Name:',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold)),
+              Text(name,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600)),
               const SizedBox(height: 10),
-              // Team Text with contrast and clear styling
-              Text(
-                'Team:',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                team,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
+              Text('Team:',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold)),
+              Text(team,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600)),
               const SizedBox(height: 10),
-              // ID Text with contrast and clear styling
-              Text(
-                'ID:',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                id,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
+              Text('ID:',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold)),
+              Text(id,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600)),
             ],
           ),
         ),
@@ -191,14 +205,13 @@ class ChartView extends GetView<ChartController> {
 
   // BarChart Widget
   Widget _buildBarChart(BuildContext context) {
-    final ChartController controller = Get.find();
     return Obx(() => SizedBox(
           height: 200,
           child: BarChart(
             BarChartData(
               maxY: 50,
               minY: 0,
-              groupsSpace: 12, // Adjust the space between bars
+              groupsSpace: 12,
               barGroups: List.generate(controller.chartData.length, (index) {
                 final data = controller.chartData[index];
                 return BarChartGroupData(
@@ -207,7 +220,7 @@ class ChartView extends GetView<ChartController> {
                     BarChartRodData(
                       toY: (data['blue'] as num).toDouble(),
                       color: const Color.fromARGB(255, 58, 58, 58),
-                      width: 30, // Keep the bar width at 30
+                      width: 30,
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ],
@@ -230,17 +243,14 @@ class ChartView extends GetView<ChartController> {
                     getTitlesWidget: (value, meta) {
                       if (value.toInt() < controller.chartData.length) {
                         return Padding(
-                          padding: const EdgeInsets.only(
-                            top: 6, // Adjust top padding
-                          ),
+                          padding: const EdgeInsets.only(top: 6),
                           child: Text(
                             controller.chartData[value.toInt()]['label']
                                     ?.toString() ??
                                 '',
                             style: GoogleFonts.jaldi(
-                                color: Colors.white,
-                                fontSize: 19), // Keep font size at 19
-                            overflow: TextOverflow.visible, // Handle overflow
+                                color: Colors.white, fontSize: 19),
+                            overflow: TextOverflow.visible,
                           ),
                         );
                       }
@@ -265,6 +275,29 @@ class ChartView extends GetView<ChartController> {
             ),
           ),
         ));
+  }
+
+  // Tabel riwayat hitpoint
+  Widget _buildHitpointTable(List<Map<String, dynamic>> log) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DataTable(
+        columns: const [
+          DataColumn(label: Text('No')),
+          DataColumn(label: Text('Bagian Mana')),
+          DataColumn(label: Text('Timestamp')),
+        ],
+        rows: log.asMap().entries.map((entry) {
+          final i = entry.key;
+          final item = entry.value;
+          return DataRow(cells: [
+            DataCell(Text('${i + 1}')),
+            DataCell(Text(item['hitpoint']?.toString() ?? '-')),
+            DataCell(Text(item['timestamp']?.toString() ?? '-')),
+          ]);
+        }).toList(),
+      ),
+    );
   }
 
   // Button Widget
