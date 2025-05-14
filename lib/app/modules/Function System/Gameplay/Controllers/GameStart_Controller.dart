@@ -43,29 +43,6 @@ class GamestartController extends GetxController {
     print("Start Button Enabled: ${isStartEnabled.value}");
   }
 
-  void startGame() async {
-    if (isStartEnabled.value) {
-      Get.snackbar("Success", "Game Started!");
-      print("Game Started!");
-
-      for (var player in listDataTableGame) {
-        await updateWeaponStatus(player.PlayerID, true);
-        await logHealth(player.name, player.health);
-      }
-
-      gameStarted.value = true;
-
-      fetchDataTable();
-      fetchDataTableHitpoint();
-      startHealthUpdate(); // TIMER hanya mulai setelah game dimulai!
-    } else {
-      Get.snackbar("Error",
-          "Both teams must have at least one player and all players must be ready!");
-      print(
-          "Game cannot start, teams are incomplete or not all players are ready!");
-    }
-  }
-
   // Tabel Pemain
   void fetchDataTable() async {
     try {
@@ -195,6 +172,59 @@ class GamestartController extends GetxController {
     }
   }
 
+  void startGame() async {
+    if (isStartEnabled.value) {
+      // Panggil endpoint backend untuk start game
+      final response = await _http
+          .post('http://localhost:3001/api/gameplay/start-button', {});
+      print('Start game response: ${response.body}');
+      if (response.statusCode == 200) {
+        Get.snackbar("Success", "Game Started!");
+        print("Game Started!");
+
+        // Fetch status game dari backend agar gameStarted.value ikut update
+        await fetchGameStatus();
+
+        // Update status weapon & log health untuk setiap pemain
+        for (var player in listDataTableGame) {
+          await updateWeaponStatus(player.PlayerID, true);
+          await logHealth(player.name, player.health);
+        }
+
+        // Fetch ulang data pemain & hitpoint
+        fetchDataTable();
+        fetchDataTableHitpoint();
+
+        // Mulai auto-refresh hitpoint
+        startHealthUpdate();
+      } else {
+        Get.snackbar("Error", "Failed to start game!");
+        print('Failed to start game: ${response.statusCode}');
+      }
+    } else {
+      Get.snackbar("Error",
+          "Both teams must have at least one player and all players must be ready!");
+      print(
+          "Game cannot start, teams are incomplete or not all players are ready!");
+    }
+  }
+
+  Future<void> endGame() async {
+    final response =
+        await _http.post('http://localhost:3001/api/gameplay/end-game', {});
+    print('End game response: ${response.body}');
+    if (response.statusCode == 200) {
+      await fetchGameStatus(); // Agar status game di FE ikut update ke 2
+      fetchDataTable();
+      fetchDataTableHitpoint();
+      gameStarted.value = false;
+      Get.snackbar("Game Ended", "Permainan telah selesai!");
+    } else {
+      print('Failed to end game: ${response.statusCode}');
+      Get.snackbar("Error", "Failed to end game!");
+    }
+  }
+
   Future<void> resetGame() async {
     final response =
         await _http.post('http://localhost:3001/api/gameplay/reset', {});
@@ -216,7 +246,7 @@ class GamestartController extends GetxController {
   // Logika Pengurangan HP pemain
   // ==============================================================================================
   void startHealthUpdate() {
-    hptimer = Timer.periodic(Duration(seconds: 20), (Timer t) async {
+    hptimer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
       fetchDataTable();
       fetchDataTableHitpoint();
     });
@@ -263,7 +293,7 @@ class GamestartController extends GetxController {
   // }
 
   void startPlayerAutoRefresh() {
-    playerTimer = Timer.periodic(const Duration(seconds: 20), (Timer t) {
+    playerTimer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
       fetchDataTable();
     });
   }
@@ -274,7 +304,7 @@ class GamestartController extends GetxController {
   }
 
   void startHitpointAutoRefresh() {
-    hitpointTimer = Timer.periodic(const Duration(seconds: 20), (Timer t) {
+    hitpointTimer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
       fetchDataTableHitpoint();
     });
   }

@@ -84,14 +84,13 @@ class CustomDataTableGameplay extends StatelessWidget {
                   minWidth: 0,
                   dataRowHeight: 60,
                   columns: [
-                    DataColumn(label: _buildHeaderCell("RED TEAM", Colors.red)),
+                    DataColumn(label: _buildHeaderCell("TEAM A", Colors.red)),
                     DataColumn(
                         label: _buildHeaderCell("NAMA", Colors.redAccent)),
                     DataColumn(
                         label:
                             _buildHeaderCell("HEALTH POINT", Colors.redAccent)),
-                    DataColumn(
-                        label: _buildHeaderCell("BLUE TEAM", Colors.blue)),
+                    DataColumn(label: _buildHeaderCell("TEAM B", Colors.blue)),
                     DataColumn(
                         label: _buildHeaderCell("NAMA", Colors.blueAccent)),
                     DataColumn(
@@ -257,7 +256,7 @@ class CustomDataTableGameplay extends StatelessWidget {
         style: GoogleFonts.questrial(
           color: Colors.white,
           fontWeight: FontWeight.bold,
-          fontSize: 20,
+          fontSize: 25,
         ),
       ),
     );
@@ -274,7 +273,7 @@ class CustomDataTableGameplay extends StatelessWidget {
           style: GoogleFonts.questrial(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 25,
           ),
           overflow: TextOverflow.ellipsis, // Mencegah Overflow
           softWrap: false,

@@ -14,6 +14,30 @@ class ChartView extends GetView<ChartController> {
     fontWeight: FontWeight.bold,
   );
 
+  // Mapping bagian
+  String getBagianName(int bagian) {
+    switch (bagian) {
+      case 1:
+        return "Bahu Kiri";
+      case 2:
+        return "Bahu Kanan";
+      case 3:
+        return "Punggung Kiri";
+      case 4:
+        return "Punggung Kanan";
+      case 5:
+        return "Pinggang Kiri";
+      case 6:
+        return "Pinggang Kanan";
+      case 7:
+        return "Pusar";
+      case 8:
+        return "Jantung";
+      default:
+        return "-";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,16 +71,16 @@ class ChartView extends GetView<ChartController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Dropdown pemain
-                        Obx(() => CustomDropdownPersonel(
-                              selectedValue: controller.selectedPlayer,
-                              hintText: "Pilih Pemain",
-                              items: controller.playerList,
-                              onChanged: (player) {
-                                controller.selectedPlayer.value = player;
-                                controller.fetchHitpointLog(player?['name']);
-                              },
-                            )),
-                        const SizedBox(height: 10),
+                        CustomDropdownPersonel(
+                          selectedValue: controller.selectedPlayer,
+                          hintText: "Pilih Pemain",
+                          items: controller.playerList,
+                          onChanged: (player) {
+                            controller.selectedPlayer.value = player;
+                            controller.fetchHitpointLog(player?['name']);
+                          },
+                        ),
+                        const SizedBox(height: 20),
                         // Info Box
                         Obx(() {
                           final player = controller.selectedPlayer.value;
@@ -70,7 +94,6 @@ class ChartView extends GetView<ChartController> {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 20),
                   // Chart and Table Section
                   Expanded(
                     child: Column(
@@ -79,25 +102,39 @@ class ChartView extends GetView<ChartController> {
                         // BarChart Section
                         Container(
                           height: 250,
+                          width: double.infinity,
                           child: _buildBarChart(context),
                         ),
                         const SizedBox(height: 30),
                         // Tabel riwayat hitpoint
-                        Expanded(
-                          child: Obx(() => SingleChildScrollView(
-                                scrollDirection: Axis.vertical,
-                                child:
-                                    _buildHitpointTable(controller.hitpointLog),
-                              )),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Obx(() {
+                            return Container(
+                              child:
+                                  _buildHitpointTable(controller.hitpointLog),
+                            );
+                          }),
                         ),
                         const SizedBox(height: 15),
-                        // Navigation Buttons (opsional)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _buildButton('⇚ Previous', () {}),
+                            Obx(() => _buildButton(
+                                  '⇚ Previous',
+                                  controller.currentPage.value > 0
+                                      ? () => controller.currentPage.value--
+                                      : null,
+                                )),
                             const SizedBox(width: 20),
-                            _buildButton('Next ⇛', () {}),
+                            Obx(() => _buildButton(
+                                  'Next ⇛',
+                                  ((controller.currentPage.value + 1) *
+                                              ChartController.pageSize <
+                                          controller.hitpointLog.length)
+                                      ? () => controller.currentPage.value++
+                                      : null,
+                                )),
                           ],
                         ),
                       ],
@@ -127,40 +164,20 @@ class ChartView extends GetView<ChartController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 10),
         Container(
-          width: 150,
-          height: 50,
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(236, 20, 19, 19),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Center(
-            child: Row(
-              children: [
-                const Icon(Icons.arrow_drop_down,
-                    color: Color.fromARGB(255, 213, 255, 63), size: 40),
-                Text(name,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-        Container(
-          width: 200,
+          width: 260,
+          height: 600,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 47, 79, 79),
+            color: const Color.fromARGB(255, 73, 79, 79),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const CircleAvatar(
-                backgroundColor: Color.fromARGB(255, 86, 209, 51),
+                backgroundColor: Color.fromARGB(255, 135, 141, 133),
                 radius: 50,
               ),
               const SizedBox(height: 10),
@@ -205,103 +222,154 @@ class ChartView extends GetView<ChartController> {
 
   // BarChart Widget
   Widget _buildBarChart(BuildContext context) {
-    return Obx(() => SizedBox(
-          height: 200,
-          child: BarChart(
-            BarChartData(
-              maxY: 50,
-              minY: 0,
-              groupsSpace: 12,
-              barGroups: List.generate(controller.chartData.length, (index) {
-                final data = controller.chartData[index];
-                return BarChartGroupData(
-                  x: index,
-                  barRods: [
-                    BarChartRodData(
-                      toY: (data['blue'] as num).toDouble(),
-                      color: const Color.fromARGB(255, 58, 58, 58),
-                      width: 30,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ],
-                );
-              }),
-              titlesData: FlTitlesData(
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    interval: 10,
-                    getTitlesWidget: (value, meta) => Text(
-                      value.toInt().toString(),
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
+    return Obx(() {
+      // Selalu tampilkan 8 bar, walau chartData kosong
+      List<Map<String, dynamic>> data = controller.chartData.isNotEmpty
+          ? controller.chartData
+          : List.generate(
+              8,
+              (i) => {
+                    'label': getBagianName(i + 1),
+                    'blue': 0,
+                  });
+      return SizedBox(
+        height: 200,
+        child: BarChart(
+          BarChartData(
+            maxY: 50,
+            minY: 0,
+            groupsSpace: 12,
+            barGroups: List.generate(data.length, (index) {
+              final d = data[index];
+              return BarChartGroupData(
+                x: index,
+                barRods: [
+                  BarChartRodData(
+                    toY: (d['blue'] as num).toDouble(),
+                    color: const Color.fromARGB(255, 58, 58, 58),
+                    width: 30,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ],
+              );
+            }),
+            titlesData: FlTitlesData(
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  interval: 10,
+                  getTitlesWidget: (value, meta) => Text(
+                    value.toInt().toString(),
+                    style: GoogleFonts.tiltNeon(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    getTitlesWidget: (value, meta) {
-                      if (value.toInt() < controller.chartData.length) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 6),
-                          child: Text(
-                            controller.chartData[value.toInt()]['label']
-                                    ?.toString() ??
-                                '',
-                            style: GoogleFonts.jaldi(
-                                color: Colors.white, fontSize: 19),
-                            overflow: TextOverflow.visible,
-                          ),
-                        );
-                      }
-                      return const SizedBox();
-                    },
-                  ),
-                ),
-                rightTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                topTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
               ),
-              borderData: FlBorderData(show: false),
-              gridData: FlGridData(
-                show: true,
-                drawVerticalLine: false,
-                getDrawingHorizontalLine: (value) => FlLine(
-                  color: const Color.fromARGB(255, 0, 0, 0),
-                  strokeWidth: 5,
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) {
+                    if (value.toInt() < data.length) {
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                            top: 4, bottom: 4, left: 10, right: 10),
+                        child: Text(
+                          data[value.toInt()]['label']?.toString() ?? '',
+                          style: GoogleFonts.tiltNeon(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.visible,
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
+              ),
+              rightTitles:
+                  AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            ),
+            borderData: FlBorderData(show: false),
+            gridData: FlGridData(
+              show: true,
+              drawVerticalLine: false,
+              getDrawingHorizontalLine: (value) => FlLine(
+                color: const Color.fromARGB(255, 0, 0, 0),
+                strokeWidth: 5,
               ),
             ),
           ),
-        ));
+        ),
+      );
+    });
   }
 
   // Tabel riwayat hitpoint
   Widget _buildHitpointTable(List<Map<String, dynamic>> log) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        columns: const [
-          DataColumn(label: Text('No')),
-          DataColumn(label: Text('Bagian Mana')),
-          DataColumn(label: Text('Timestamp')),
+    final headerStyle = GoogleFonts.heptaSlab(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 16,
+    );
+    final cellStyle = GoogleFonts.tiltNeon(
+      color: Colors.white,
+      fontSize: 15,
+    );
+
+    final int page = controller.currentPage.value;
+    final int pageSize = ChartController.pageSize;
+    final int start = page * pageSize;
+    final int end =
+        (start + pageSize) > log.length ? log.length : (start + pageSize);
+    final List<Map<String, dynamic>> pageData = log.sublist(start, end);
+
+    if (log.isEmpty) {
+      return DataTable(
+        columns: [
+          DataColumn(label: Text('No', style: headerStyle)),
+          DataColumn(label: Text('Bagian Mana', style: headerStyle)),
+          DataColumn(label: Text('Timestamp', style: headerStyle)),
         ],
-        rows: log.asMap().entries.map((entry) {
-          final i = entry.key;
-          final item = entry.value;
-          return DataRow(cells: [
-            DataCell(Text('${i + 1}')),
-            DataCell(Text(item['hitpoint']?.toString() ?? '-')),
-            DataCell(Text(item['timestamp']?.toString() ?? '-')),
-          ]);
-        }).toList(),
-      ),
+        rows: [],
+        dataRowColor: MaterialStatePropertyAll(Color(0xFF232323)),
+        headingRowColor: MaterialStatePropertyAll(Color(0xFF2E2E2E)),
+        dividerThickness: 0.5,
+      );
+    }
+    return DataTable(
+      columns: [
+        DataColumn(label: Text('No', style: headerStyle)),
+        DataColumn(label: Text('Bagian Mana', style: headerStyle)),
+        DataColumn(label: Text('Timestamp', style: headerStyle)),
+      ],
+      rows: pageData.asMap().entries.map((entry) {
+        final i = entry.key;
+        final item = entry.value;
+        return DataRow(
+          cells: [
+            DataCell(Text('${start + i + 1}', style: cellStyle)),
+            DataCell(Text(
+                getBagianName(int.tryParse(item['hitpoint'].toString()) ?? 0),
+                style: cellStyle)),
+            DataCell(
+                Text(item['timestamp']?.toString() ?? '-', style: cellStyle)),
+          ],
+        );
+      }).toList(),
+      dataRowColor: MaterialStatePropertyAll(Color(0xFF232323)),
+      headingRowColor: MaterialStatePropertyAll(Color(0xFF2E2E2E)),
+      dividerThickness: 0.5,
     );
   }
 
   // Button Widget
-  Widget _buildButton(String title, VoidCallback onPressed) {
+  Widget _buildButton(String title, VoidCallback? onPressed) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
