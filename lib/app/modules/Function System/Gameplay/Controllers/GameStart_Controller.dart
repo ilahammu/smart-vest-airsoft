@@ -151,6 +151,22 @@ class GamestartController extends GetxController {
     }
   }
 
+  Future<void> fetchCheckGameStatus() async {
+    try {
+      final response = await _http.get(
+          'https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/check-status');
+      if (response.statusCode == 200) {
+        final status = response.body['game_status'];
+        print('Check Game Status: $status');
+        gameStarted.value = (status == 1);
+      } else {
+        print('Error fetching check game status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Exception occurred while fetching check game status: $e");
+    }
+  }
+
   Future<void> fetchGameStatus() async {
     try {
       final response = await _http
@@ -241,24 +257,6 @@ class GamestartController extends GetxController {
       gameStarted.value = false;
     } else {
       print('Failed to reset game: ${response.statusCode}');
-    }
-  }
-
-  Future<void> fetchCheckGameStatus() async {
-    try {
-      final response = await _http.get(
-          'https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/check-status');
-      if (response.statusCode == 200) {
-        final status = response.body['game_status'];
-        // Misal: update state atau print log
-        print('Check Game Status: $status');
-        // Jika ingin update gameStarted FE:
-        gameStarted.value = (status == 1);
-      } else {
-        print('Error fetching check game status: ${response.statusCode}');
-      }
-    } catch (e) {
-      print("Exception occurred while fetching check game status: $e");
     }
   }
 
