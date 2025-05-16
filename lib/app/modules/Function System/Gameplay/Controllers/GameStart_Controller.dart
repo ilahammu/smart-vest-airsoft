@@ -59,13 +59,15 @@ class GamestartController extends GetxController {
           } catch (e) {
             print("Error parsing player data: $e");
             return DataTableGameplay(
-                no: 0,
-                name: "Unknown",
-                health: 100,
-                selectedTeam: "Unknown",
-                PlayerID: "Unknown",
-                statusReady: false,
-                statusWeapon: false);
+              no: 0,
+              name: "Unknown",
+              health: 100,
+              selectedTeam: "Unknown",
+              mac_address: "Unknown",
+              statusReady: false,
+              statusWeapon: false,
+              hitpoint: 0,
+            );
           }
         }).toList();
 
@@ -124,7 +126,7 @@ class GamestartController extends GetxController {
   void updatePlayerStatus(String macAddress, bool isReady) async {
     try {
       final response = await _http.post(
-        'https://l7xgct6c-3001.asse.devtunnels.ms/api/update/status',
+        'https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/status-by-mac',
         {'mac_address': macAddress, 'status_ready': isReady ? 1 : 0},
       );
 
@@ -141,7 +143,7 @@ class GamestartController extends GetxController {
   Future<void> updateWeaponStatus(String macAddress, bool statusWeapon) async {
     try {
       final response = await _http.post(
-        'https://l7xgct6c-3001.asse.devtunnels.ms/api/game_session_route/update-session-native', // Endpoint untuk memperbarui status weapon
+        'https://l7xgct6c-3001.asse.devtunnels.ms/api/game-sessions/updateSessionNative', // Endpoint untuk memperbarui status weapon
         {'mac_address': macAddress, 'status_weapon': statusWeapon ? 1 : 0},
       );
 
@@ -160,9 +162,15 @@ class GamestartController extends GetxController {
       final response = await _http
           .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/status');
       if (response.statusCode == 200) {
-        final status = response.body['gameStatus'];
-        gameStarted.value =
-            (status == 1); // true jika started, false jika tidak
+        final status = response.body['game_status'];
+        gameStarted.value = (status == 1);
+
+        // Tampilkan kemenangan hanya jika status == 2
+        if (status == 2) {
+          // Tampilkan dialog atau UI "Game Ended" atau "Team Win"
+          Get.snackbar("Game Ended", "Permainan telah selesai!");
+          // Atau update state lain sesuai kebutuhan
+        }
         print('Game status updated: $status');
         print('Game status fetch response: ${response.body}');
       } else {
@@ -189,8 +197,8 @@ class GamestartController extends GetxController {
 
         // Update status weapon & log health untuk setiap pemain
         for (var player in listDataTableGame) {
-          await updateWeaponStatus(player.PlayerID, true);
-          await logHealth(player.name, player.health);
+          await updateWeaponStatus(player.mac_address, true);
+          await logHealth(player.mac_address, player.health, player.hitpoint);
         }
 
         // Fetch ulang data pemain & hitpoint
@@ -243,6 +251,24 @@ class GamestartController extends GetxController {
     }
   }
 
+  Future<void> fetchCheckGameStatus() async {
+    try {
+      final response = await _http.get(
+          'https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/check-status');
+      if (response.statusCode == 200) {
+        final status = response.body['game_status'];
+        // Misal: update state atau print log
+        print('Check Game Status: $status');
+        // Jika ingin update gameStarted FE:
+        gameStarted.value = (status == 1);
+      } else {
+        print('Error fetching check game status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Exception occurred while fetching check game status: $e");
+    }
+  }
+
   // ==============================================================================================
 
   // Logika Pengurangan HP pemain
@@ -251,18 +277,22 @@ class GamestartController extends GetxController {
     hptimer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
       fetchDataTable();
       fetchDataTableHitpoint();
+      await fetchCheckGameStatus();
     });
   }
 
-  Future<void> logHealth(String name, int health) async {
+  Future<void> logHealth(String macAddress, int health, int hitpoint) async {
     try {
       final response = await _http.post(
-        'https://l7xgct6c-3001.asse.devtunnels.ms/api/hitpoint/health',
-        {'name': name, 'health': health},
+        'https://l7xgct6c-3001.asse.devtunnels.ms/api/hitpoint/healthUpdate',
+        {
+          'mac_address': macAddress,
+          'health': health,
+          'hitpoint': hitpoint,
+        },
       );
-
       if (response.statusCode == 200) {
-        print('Health logged successfully for $name');
+        print('Health logged successfully for $macAddress');
       } else {
         print('Error logging health: ${response.statusCode}');
       }
@@ -270,29 +300,6 @@ class GamestartController extends GetxController {
       print("Exception occurred while logging health: $e");
     }
   }
-
-  // Future<void> updateHealth(String macAddress, int damage) async {
-  //   try {
-  //     final player =
-  //         listDataTableGame.firstWhere((p) => p.PlayerID == macAddress);
-  //     final newHealth = (player.health - damage)
-  //         .clamp(0, 100); // Ensure health doesn't go below 0
-
-  //     final response = await _http.post(
-  //       'https://l7xgct6c-3001.asse.devtunnels.ms/api/update/update-health',
-  //       {'mac_address': macAddress, 'health': newHealth},
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       print('Health updated successfully for $macAddress');
-  //       fetchDataTable(); // Refresh data to reflect updated health
-  //     } else {
-  //       print('Error updating health: ${response.statusCode}');
-  //     }
-  //   } catch (e) {
-  //     print("Exception occurred while updating health: $e");
-  //   }
-  // }
 
   void startPlayerAutoRefresh() {
     playerTimer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
@@ -322,6 +329,7 @@ class GamestartController extends GetxController {
     fetchDataTable();
     fetchDataTableHitpoint();
     startPlayerAutoRefresh();
+    fetchCheckGameStatus();
   }
 
   @override

@@ -22,17 +22,17 @@ class ChartView extends GetView<ChartController> {
       case 2:
         return "Bahu Kanan";
       case 3:
-        return "Punggung Kiri";
+        return "Rusuk Kiri";
       case 4:
-        return "Punggung Kanan";
+        return "Rusuk Kanan";
       case 5:
-        return "Pinggang Kiri";
-      case 6:
-        return "Pinggang Kanan";
-      case 7:
-        return "Pusar";
-      case 8:
         return "Jantung";
+      case 6:
+        return "Pingganng Kiri";
+      case 7:
+        return "Pinggang Kanan";
+      case 8:
+        return "Pusar";
       default:
         return "-";
     }

@@ -30,12 +30,12 @@ class ChartController extends GetxController {
   static const List<String> bagianLabels = [
     "Bahu Kiri",
     "Bahu Kanan",
-    "Punggung Kiri",
-    "Punggung Kanan",
+    "Rusuk Kiri",
+    "Rusuk Kanan",
+    "Jantung",
     "Pinggang Kiri",
     "Pinggang Kanan",
     "Pusar",
-    "Jantung",
   ];
 
   // BarChart: selalu 8 bar, label tetap, nilai sesuai hitpointLog

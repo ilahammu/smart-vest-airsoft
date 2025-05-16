@@ -36,9 +36,12 @@ class CustomDataTableGameplay extends StatelessWidget {
         ? teamAPlayers.length
         : teamBPlayers.length;
 
-    // Status game selesai
-    bool gameFinished = teamAPlayers.any((p) => p.health <= 0) ||
-        teamBPlayers.any((p) => p.health <= 0);
+    // Status game selesai: jika SEMUA anggota tim A mati atau SEMUA anggota tim B mati
+    bool teamADead =
+        teamAPlayers.isNotEmpty && teamAPlayers.every((p) => p.health <= 0);
+    bool teamBDead =
+        teamBPlayers.isNotEmpty && teamBPlayers.every((p) => p.health <= 0);
+    bool gameFinished = teamADead || teamBDead;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -54,9 +57,7 @@ class CustomDataTableGameplay extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                teamAPlayers.any((p) => p.health <= 0)
-                    ? "TEAM B WIN!"
-                    : "TEAM A WIN!",
+                teamADead ? "TEAM B WIN!" : "TEAM A WIN!",
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 25,
@@ -166,7 +167,7 @@ class CustomDataTableGameplay extends StatelessWidget {
                         DataCell(
                           Center(
                             child: Text(
-                              log.name,
+                              log.name ?? '',
                               style: GoogleFonts.questrial(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -178,7 +179,7 @@ class CustomDataTableGameplay extends StatelessWidget {
                         DataCell(
                           Center(
                             child: Text(
-                              log.team,
+                              log.team ?? '',
                               style: GoogleFonts.questrial(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -190,7 +191,7 @@ class CustomDataTableGameplay extends StatelessWidget {
                         DataCell(
                           Center(
                             child: Text(
-                              log.hitpointDescription.toString(),
+                              log.hitpointDescription?.toString() ?? '',
                               style: GoogleFonts.questrial(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -202,8 +203,10 @@ class CustomDataTableGameplay extends StatelessWidget {
                         DataCell(
                           Center(
                             child: Text(
-                              DateFormat('HH:mm:ss').format(
-                                  log.timestamp.add(Duration(hours: 7))),
+                              log.timestamp != null
+                                  ? DateFormat('HH:mm:ss').format(
+                                      log.timestamp.add(Duration(hours: 7)))
+                                  : '',
                               style: GoogleFonts.questrial(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -329,6 +332,4 @@ class CustomDataTableGameplay extends StatelessWidget {
       fontSize: 20,
     );
   }
-
-  // Fungsi Reset Game
 }

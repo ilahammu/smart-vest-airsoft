@@ -30,17 +30,17 @@ class DataTableHitpoint {
       case 2:
         return "Bahu Kanan";
       case 3:
-        return "Punggung Kiri";
-      case 4:
-        return "Punggung Kanan";
-      case 5:
         return "Pinggang Kiri";
-      case 6:
+      case 4:
         return "Pinggang Kanan";
-      case 7:
-        return "Pusar";
-      case 8:
+      case 5:
         return "Jantung";
+      case 6:
+        return "Pinggang kiri";
+      case 7:
+        return "Pinggang Kanan";
+      case 8:
+        return "Pusar";
       default:
         return "Unknown";
     }
