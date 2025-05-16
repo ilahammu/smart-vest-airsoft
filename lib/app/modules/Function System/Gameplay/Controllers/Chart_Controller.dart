@@ -8,8 +8,8 @@ class ChartController extends GetxController {
   static const int pageSize = 5;
 
   Future<void> fetchPlayers() async {
-    final response =
-        await GetConnect().get('http://localhost:3001/api/gameplay/players');
+    final response = await GetConnect()
+        .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/add/player');
     if (response.statusCode == 200) {
       playerList.value =
           List<Map<String, dynamic>>.from(response.body['players']);
@@ -17,8 +17,8 @@ class ChartController extends GetxController {
   }
 
   Future<void> fetchHitpointLog(String name) async {
-    final response =
-        await GetConnect().get('http://localhost:3001/api/hitpoint/log/$name');
+    final response = await GetConnect()
+        .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/hitpoint/log/$name');
     if (response.statusCode == 200) {
       hitpointLog.value = List<Map<String, dynamic>>.from(response.body['log']);
     } else {

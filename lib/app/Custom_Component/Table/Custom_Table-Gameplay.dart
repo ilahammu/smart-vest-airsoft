@@ -55,8 +55,8 @@ class CustomDataTableGameplay extends StatelessWidget {
               ),
               child: Text(
                 teamAPlayers.any((p) => p.health <= 0)
-                    ? "BLUE TEAM VICTORY!"
-                    : "RED TEAM VICTORY!",
+                    ? "TEAM B WIN!"
+                    : "TEAM A WIN!",
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 25,

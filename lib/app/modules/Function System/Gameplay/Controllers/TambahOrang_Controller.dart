@@ -21,7 +21,7 @@ class TambahorangController extends GetxController {
   void fetchMacAddresses() async {
     try {
       final response = await http.get(Uri.parse(
-          'http://localhost:3001/api/add/esp32')); // Ganti IP jika pakai device
+          'https://l7xgct6c-3001.asse.devtunnels.ms/api/add/esp32')); // Ganti IP jika pakai device
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
@@ -73,7 +73,7 @@ class TambahorangController extends GetxController {
       print("Request Body: $requestBody");
 
       final response = await http.post(
-        Uri.parse('http://localhost:3001/api/add/player'),
+        Uri.parse('https://l7xgct6c-3001.asse.devtunnels.ms/api/add/player'),
         body: json.encode(requestBody),
         headers: {
           'Content-Type': 'application/json',
@@ -107,22 +107,22 @@ class TambahorangController extends GetxController {
     }
   }
 
-  Future<void> deletePlayer(int playerId) async {
-    try {
-      final response = await http.delete(
-        Uri.parse('http://localhost:3001/api/delete/player/$playerId'),
-      );
+  // Future<void> deletePlayer(int playerId) async {
+  //   try {
+  //     final response = await http.delete(
+  //       Uri.parse('https://l7xgct6c-3001.asse.devtunnels.ms/api/delete/player/$playerId'),
+  //     );
 
-      if (response.statusCode == 200) {
-        Get.snackbar('Success', 'Player deleted successfully!');
-        fetchMacAddresses(); // Refresh daftar MAC address
-      } else {
-        Get.snackbar('Error', 'Failed to delete player: ${response.body}');
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'An unexpected error occurred: $e');
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       Get.snackbar('Success', 'Player deleted successfully!');
+  //       fetchMacAddresses(); // Refresh daftar MAC address
+  //     } else {
+  //       Get.snackbar('Error', 'Failed to delete player: ${response.body}');
+  //     }
+  //   } catch (e) {
+  //     Get.snackbar('Error', 'An unexpected error occurred: $e');
+  //   }
+  // }
 
   // void startAutoRefresh() {
   //   // Timer untuk memuat ulang data setiap 5 detik

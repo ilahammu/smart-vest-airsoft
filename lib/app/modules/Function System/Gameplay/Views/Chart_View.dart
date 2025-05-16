@@ -88,7 +88,7 @@ class ChartView extends GetView<ChartController> {
                           return _buildInfoBox(
                             player['name'],
                             player['selectedTeam'] ?? '-',
-                            player['id']?.toString() ?? '-',
+                            player['displayId']?.toString() ?? '-',
                           );
                         }),
                       ],

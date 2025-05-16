@@ -46,8 +46,8 @@ class GamestartController extends GetxController {
   // Tabel Pemain
   void fetchDataTable() async {
     try {
-      final response =
-          await _http.get('http://localhost:3001/api/gameplay/players');
+      final response = await _http
+          .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/players');
 
       if (response.statusCode == 200) {
         final data = response.body['players'] as List<dynamic>;
@@ -82,7 +82,8 @@ class GamestartController extends GetxController {
   // Tabel Hitpoint
   void fetchDataTableHitpoint() async {
     try {
-      final response = await _http.get('http://localhost:3001/api/hitpoint');
+      final response = await _http
+          .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/hitpoint');
 
       if (response.statusCode == 200) {
         final data = response.body['hitpoints'] as List<dynamic>;
@@ -123,7 +124,7 @@ class GamestartController extends GetxController {
   void updatePlayerStatus(String macAddress, bool isReady) async {
     try {
       final response = await _http.post(
-        'http://localhost:3001/api/update/status',
+        'https://l7xgct6c-3001.asse.devtunnels.ms/api/update/status',
         {'mac_address': macAddress, 'status_ready': isReady ? 1 : 0},
       );
 
@@ -140,7 +141,7 @@ class GamestartController extends GetxController {
   Future<void> updateWeaponStatus(String macAddress, bool statusWeapon) async {
     try {
       final response = await _http.post(
-        'http://localhost:3001/api/game_session_route/update-session-native', // Endpoint untuk memperbarui status weapon
+        'https://l7xgct6c-3001.asse.devtunnels.ms/api/game_session_route/update-session-native', // Endpoint untuk memperbarui status weapon
         {'mac_address': macAddress, 'status_weapon': statusWeapon ? 1 : 0},
       );
 
@@ -156,8 +157,8 @@ class GamestartController extends GetxController {
 
   Future<void> fetchGameStatus() async {
     try {
-      final response =
-          await _http.get('http://localhost:3001/api/gameplay/status');
+      final response = await _http
+          .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/status');
       if (response.statusCode == 200) {
         final status = response.body['gameStatus'];
         gameStarted.value =
@@ -175,8 +176,9 @@ class GamestartController extends GetxController {
   void startGame() async {
     if (isStartEnabled.value) {
       // Panggil endpoint backend untuk start game
-      final response = await _http
-          .post('http://localhost:3001/api/gameplay/start-button', {});
+      final response = await _http.post(
+          'https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/start-button',
+          {});
       print('Start game response: ${response.body}');
       if (response.statusCode == 200) {
         Get.snackbar("Success", "Game Started!");
@@ -210,8 +212,8 @@ class GamestartController extends GetxController {
   }
 
   Future<void> endGame() async {
-    final response =
-        await _http.post('http://localhost:3001/api/gameplay/end-game', {});
+    final response = await _http
+        .post('https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/end', {});
     print('End game response: ${response.body}');
     if (response.statusCode == 200) {
       await fetchGameStatus(); // Agar status game di FE ikut update ke 2
@@ -226,8 +228,8 @@ class GamestartController extends GetxController {
   }
 
   Future<void> resetGame() async {
-    final response =
-        await _http.post('http://localhost:3001/api/gameplay/reset', {});
+    final response = await _http.post(
+        'https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/reset', {});
     print('Reset response: ${response.body}');
     if (response.statusCode == 200) {
       print('Game reset successfully');
@@ -255,7 +257,7 @@ class GamestartController extends GetxController {
   Future<void> logHealth(String name, int health) async {
     try {
       final response = await _http.post(
-        'http://localhost:3001/api/hitpoint/health',
+        'https://l7xgct6c-3001.asse.devtunnels.ms/api/hitpoint/health',
         {'name': name, 'health': health},
       );
 
@@ -277,7 +279,7 @@ class GamestartController extends GetxController {
   //         .clamp(0, 100); // Ensure health doesn't go below 0
 
   //     final response = await _http.post(
-  //       'http://localhost:3001/api/update/update-health',
+  //       'https://l7xgct6c-3001.asse.devtunnels.ms/api/update/update-health',
   //       {'mac_address': macAddress, 'health': newHealth},
   //     );
 
