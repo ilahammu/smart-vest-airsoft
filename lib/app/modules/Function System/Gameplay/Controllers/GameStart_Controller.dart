@@ -53,23 +53,17 @@ class GamestartController extends GetxController {
         final data = response.body['players'] as List<dynamic>;
         print('Data received from API: $data');
 
-        listDataTableGame.value = data.map((item) {
-          try {
-            return DataTableGameplay.fromJson(item);
-          } catch (e) {
-            print("Error parsing player data: $e");
-            return DataTableGameplay(
-              no: 0,
-              name: "Unknown",
-              health: 100,
-              selectedTeam: "Unknown",
-              mac_address: "Unknown",
-              statusReady: false,
-              statusWeapon: false,
-              hitpoint: 0,
-            );
-          }
-        }).toList();
+        listDataTableGame.value = data
+            .map((item) {
+              try {
+                return DataTableGameplay.fromJson(item);
+              } catch (e) {
+                print("Error parsing player data: $e");
+                return null;
+              }
+            })
+            .whereType<DataTableGameplay>()
+            .toList();
 
         checkGameStatus();
         listDataTableGame.refresh();
@@ -198,7 +192,6 @@ class GamestartController extends GetxController {
         // Update status weapon & log health untuk setiap pemain
         for (var player in listDataTableGame) {
           await updateWeaponStatus(player.mac_address, true);
-          await logHealth(player.mac_address, player.health, player.hitpoint);
         }
 
         // Fetch ulang data pemain & hitpoint

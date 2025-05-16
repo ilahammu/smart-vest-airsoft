@@ -20,15 +20,18 @@ class DataTableGameplay {
   });
 
   factory DataTableGameplay.fromJson(Map<String, dynamic> json) {
+    if (json['name'] == null || json['selectedTeam'] == null) {
+      throw Exception('Invalid player data');
+    }
     return DataTableGameplay(
       no: json['no'] ?? 0,
-      name: json['name'] ?? 'Unknown',
+      name: json['name'],
       health: json['health'] ?? 100,
-      selectedTeam: json['selectedTeam'] ?? 'Unknown',
-      mac_address: json['mac_address'] ?? 'Unknown',
+      selectedTeam: json['selectedTeam'],
+      mac_address: json['mac_address'] ?? '',
       statusReady: json['statusReady'] ?? false,
       statusWeapon: json['statusWeapon'] ?? false,
-      hitpoint: json['hitpoint'] ?? 0, // Tambahkan ini
+      hitpoint: json['hitpoint'] ?? 0,
     );
   }
 }
