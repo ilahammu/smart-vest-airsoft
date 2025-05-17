@@ -10,7 +10,7 @@ class TambahorangController extends GetxController {
 
   final Rx<String?> IdChoice = Rx<String?>(null);
 
-  final RxList<String> players = <String>[].obs;
+  final RxList<Map<String, String>> players = <Map<String, String>>[].obs;
 
   final List<String> teamsDropdown = [
     "Team A",
@@ -19,24 +19,26 @@ class TambahorangController extends GetxController {
 
   // Fetch MAC addresses that are not used
   void fetchMacAddresses() async {
+    isLoading.value = true; // Tandai sedang loading
     try {
-      final response = await http.get(Uri.parse(
-          'https://l7xgct6c-3001.asse.devtunnels.ms/api/add/esp32')); // Ganti IP jika pakai device
+      final response = await http.get(
+          Uri.parse('https://l7xgct6c-3001.asse.devtunnels.ms/api/add/esp32'));
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
 
-        // Pastikan format respons sesuai dan ada key `esp32s`
         if (jsonResponse['success'] == true &&
             jsonResponse.containsKey('esp32s')) {
           List<dynamic> data = jsonResponse['esp32s'];
 
-          // Hapus duplikasi sebelum memperbarui daftar
-          final uniquePlayers =
-              data.map((item) => item['id'].toString()).toSet().toList();
+          final uniquePlayers = data
+              .map<Map<String, String>>((item) => {
+                    'id': item['id'].toString(),
+                    'mac_address': item['mac_address'] as String,
+                  })
+              .toList();
 
-          print("Unique Players: $uniquePlayers"); // Debugging log
-
+          print("Unique Players: $uniquePlayers"); // Debug log
           players.value = uniquePlayers;
         } else {
           Get.snackbar('Error', 'Invalid data format from server');
@@ -46,28 +48,26 @@ class TambahorangController extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to load MAC addresses: $e');
+    } finally {
+      isLoading.value = false; // Tandai selesai loading
     }
   }
 
   // Add a new player and refresh the MAC address list
-  Future<void> addPlayer(String name, String esp32Id, selectedTeam) async {
+  Future<void> addPlayer(
+      String name, String selectedId, String selectedTeam) async {
     isLoading.value = true;
 
     try {
-      // Ekstrak angka dari esp32Id (contoh: "ID-001" -> 1)
-      int? esp32IdNumber =
-          int.tryParse(esp32Id.replaceAll(RegExp(r'[^0-9]'), ''));
-
-      if (esp32IdNumber == null) {
-        Get.snackbar('Error', 'Invalid ESP32 ID format');
-        return;
-      }
+      // Cari mac_address berdasarkan ID yang dipilih
+      final macAddress = players.firstWhere(
+        (player) => player['id'] == selectedId,
+      )['mac_address'];
 
       final requestBody = {
         "name": name,
-        "esp32Id": esp32IdNumber, // Kirim angka ke backend
-        "selectedTeam": selectedTeam.value
-            .replaceAll(" ", ""), // Hapus spasi agar cocok dengan ENUM
+        "mac_address": macAddress, // Kirim mac_address ke backend
+        "selectedTeam": selectedTeam.replaceAll(" ", ""), // ENUM cocok backend
       };
 
       print("Request Body: $requestBody");
@@ -88,11 +88,7 @@ class TambahorangController extends GetxController {
         if (jsonResponse['success'] == true) {
           Get.snackbar('Success', 'Player added successfully!');
           fetchMacAddresses(); // Refresh daftar MAC address
-
-          // Pastikan nilai yang dipilih ada di daftar
-          if (!players.contains(IdChoice.value)) {
-            IdChoice.value = null; // Reset jika nilai tidak ada
-          }
+          IdChoice.value = null;
         } else {
           Get.snackbar(
               'Error', jsonResponse['message'] ?? 'Failed to add player');
@@ -106,23 +102,6 @@ class TambahorangController extends GetxController {
       isLoading.value = false;
     }
   }
-
-  // Future<void> deletePlayer(int playerId) async {
-  //   try {
-  //     final response = await http.delete(
-  //       Uri.parse('https://l7xgct6c-3001.asse.devtunnels.ms/api/delete/player/$playerId'),
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       Get.snackbar('Success', 'Player deleted successfully!');
-  //       fetchMacAddresses(); // Refresh daftar MAC address
-  //     } else {
-  //       Get.snackbar('Error', 'Failed to delete player: ${response.body}');
-  //     }
-  //   } catch (e) {
-  //     Get.snackbar('Error', 'An unexpected error occurred: $e');
-  //   }
-  // }
 
   // void startAutoRefresh() {
   //   // Timer untuk memuat ulang data setiap 5 detik

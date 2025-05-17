@@ -107,14 +107,26 @@ class TambahorangView extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        CustomDropdownESP(
-                          selectedValue: selectedEsp32Id,
-                          onChanged: (newValue) {
-                            selectedEsp32Id.value = newValue!;
-                          },
-                          items: controller.players,
-                          hintText: 'Pilih ESP32 ID',
-                        ),
+                        Obx(() {
+                          if (controller.players.isEmpty) {}
+
+                          return CustomDropdownESP(
+                            selectedValue: selectedEsp32Id,
+                            onChanged: (newValue) {
+                              if (newValue == null || newValue.isEmpty) {
+                                Get.snackbar(
+                                    'Error', 'Pilih ESP32 ID yang valid!');
+                                return;
+                              }
+                              selectedEsp32Id.value = newValue;
+                              print('Selected ESP32 ID: $newValue');
+                            },
+                            items: controller.players
+                                .map((e) => e['id'] as String)
+                                .toList(),
+                            hintText: 'Pilih ESP32 ID',
+                          );
+                        }),
                         const SizedBox(height: 16),
                         CustomDropdown(
                           selectedValue: selectedTeam,
@@ -138,17 +150,25 @@ class TambahorangView extends StatelessWidget {
                                             'Error', 'Nama tidak boleh kosong');
                                         return;
                                       }
+                                      if (selectedEsp32Id.value.isEmpty) {
+                                        Get.snackbar('Error',
+                                            'Pilih ESP32 ID terlebih dahulu');
+                                        return;
+                                      }
+                                      if (selectedTeam.value.isEmpty) {
+                                        Get.snackbar('Error',
+                                            'Pilih Team terlebih dahulu');
+                                        return;
+                                      }
                                       await controller.addPlayer(
                                         name,
-                                        selectedEsp32Id.value,
-                                        selectedTeam,
+                                        selectedEsp32Id
+                                            .value, // Kirim ID yang dipilih
+                                        selectedTeam
+                                            .value, // Kirim tim yang dipilih
                                       );
                                     },
-                              child: controller.isLoading.value
-                                  ? const CircularProgressIndicator(
-                                      color: Colors.white,
-                                    )
-                                  : const Text('Tambah'),
+                              child: Text("tambah"),
                             ),
                           );
                         }),
