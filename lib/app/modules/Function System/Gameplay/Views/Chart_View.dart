@@ -28,7 +28,7 @@ class ChartView extends GetView<ChartController> {
       case 5:
         return "Jantung";
       case 6:
-        return "Pingganng Kiri";
+        return "Pinggang Kiri";
       case 7:
         return "Pinggang Kanan";
       case 8:
@@ -358,7 +358,23 @@ class ChartView extends GetView<ChartController> {
                 getBagianName(int.tryParse(item['hitpoint'].toString()) ?? 0),
                 style: cellStyle)),
             DataCell(
-                Text(item['timestamp']?.toString() ?? '-', style: cellStyle)),
+              Text(
+                (() {
+                  final raw = item['timestamp'];
+                  if (raw == null) return '-';
+                  try {
+                    final dt =
+                        DateTime.parse(raw).add(const Duration(hours: 7));
+                    // Format sesuai kebutuhan, misal: yyyy-MM-dd HH:mm:ss
+                    return "${dt.year}-${dt.month.toString().padLeft(2, '0')}-${dt.day.toString().padLeft(2, '0')}\n"
+                        "${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}:${dt.second.toString().padLeft(2, '0')}";
+                  } catch (e) {
+                    return raw.toString();
+                  }
+                })(),
+                style: cellStyle,
+              ),
+            ),
           ],
         );
       }).toList(),

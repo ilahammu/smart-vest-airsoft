@@ -33,7 +33,7 @@ class DataTableHitpointHistory {
       case 5:
         return "Jantung";
       case 6:
-        return "Pingganng Kiri";
+        return "Pinggang Kiri";
       case 7:
         return "Pinggang Kanan";
       case 8:

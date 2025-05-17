@@ -101,24 +101,22 @@ class CustomDataTableGameplay extends StatelessWidget {
                   rows: [
                     for (int i = 0; i < maxRows; i++)
                       DataRow(cells: [
-                        DataCell(_buildHitpointLog(i < teamAPlayers.length
-                            ? (i + 1).toString()
-                            : "-")),
+                        DataCell(_buildHitpointLog(
+                            i < teamAPlayers.length ? (i + 1).toString() : "")),
                         DataCell(_buildHitpointLog(i < teamAPlayers.length
                             ? teamAPlayers[i].name
-                            : "-")),
+                            : "")),
                         DataCell(i < teamAPlayers.length
                             ? _buildGameplayTable(teamAPlayers[i], controller)
-                            : _buildHitpointLog("-")),
-                        DataCell(_buildHitpointLog(i < teamBPlayers.length
-                            ? (i + 1).toString()
-                            : "-")),
+                            : _buildHitpointLog("")),
+                        DataCell(_buildHitpointLog(
+                            i < teamBPlayers.length ? (i + 1).toString() : "")),
                         DataCell(_buildHitpointLog(i < teamBPlayers.length
                             ? teamBPlayers[i].name
-                            : "-")),
+                            : "")),
                         DataCell(i < teamBPlayers.length
                             ? _buildGameplayTable(teamBPlayers[i], controller)
-                            : _buildHitpointLog("-")),
+                            : _buildHitpointLog("")),
                       ]),
                   ],
                 ),
@@ -167,7 +165,7 @@ class CustomDataTableGameplay extends StatelessWidget {
                         DataCell(
                           Center(
                             child: Text(
-                              log.name ?? '',
+                              log.name,
                               style: GoogleFonts.questrial(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -179,7 +177,7 @@ class CustomDataTableGameplay extends StatelessWidget {
                         DataCell(
                           Center(
                             child: Text(
-                              log.team ?? '',
+                              log.team,
                               style: GoogleFonts.questrial(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -191,7 +189,7 @@ class CustomDataTableGameplay extends StatelessWidget {
                         DataCell(
                           Center(
                             child: Text(
-                              log.hitpointDescription?.toString() ?? '',
+                              log.hitpointDescription.toString(),
                               style: GoogleFonts.questrial(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -203,6 +201,7 @@ class CustomDataTableGameplay extends StatelessWidget {
                         DataCell(
                           Center(
                             child: Text(
+                              // ignore: unnecessary_null_comparison
                               log.timestamp != null
                                   ? DateFormat('HH:mm:ss').format(
                                       log.timestamp.add(Duration(hours: 7)))

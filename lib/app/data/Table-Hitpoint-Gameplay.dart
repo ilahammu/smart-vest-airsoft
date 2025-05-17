@@ -30,9 +30,9 @@ class DataTableHitpoint {
       case 2:
         return "Bahu Kanan";
       case 3:
-        return "Pinggang Kiri";
+        return "Rusuk Kiri";
       case 4:
-        return "Pinggang Kanan";
+        return "Rusuk Kanan";
       case 5:
         return "Jantung";
       case 6:
