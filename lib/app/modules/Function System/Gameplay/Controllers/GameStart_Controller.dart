@@ -265,7 +265,7 @@ class GamestartController extends GetxController {
   // Logika Pengurangan HP pemain
   // ==============================================================================================
   void startHealthUpdate() {
-    hptimer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
+    hptimer = Timer.periodic(Duration(seconds: 1), (Timer t) async {
       fetchDataTable();
       fetchDataTableHitpoint();
       await fetchCheckGameStatus();
@@ -293,7 +293,7 @@ class GamestartController extends GetxController {
   }
 
   void startPlayerAutoRefresh() {
-    playerTimer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
+    playerTimer = Timer.periodic(const Duration(seconds: 3), (Timer t) {
       fetchDataTable();
     });
   }
@@ -304,7 +304,7 @@ class GamestartController extends GetxController {
   }
 
   void startHitpointAutoRefresh() {
-    hitpointTimer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
+    hitpointTimer = Timer.periodic(const Duration(seconds: 3), (Timer t) {
       fetchDataTableHitpoint();
     });
   }

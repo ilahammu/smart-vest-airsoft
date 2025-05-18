@@ -236,9 +236,9 @@ class ChartView extends GetView<ChartController> {
         height: 200,
         child: BarChart(
           BarChartData(
-            maxY: 50,
+            maxY: 20,
             minY: 0,
-            groupsSpace: 12,
+            groupsSpace: 10,
             barGroups: List.generate(data.length, (index) {
               final d = data[index];
               return BarChartGroupData(
@@ -247,7 +247,7 @@ class ChartView extends GetView<ChartController> {
                   BarChartRodData(
                     toY: (d['blue'] as num).toDouble(),
                     color: const Color.fromARGB(255, 58, 58, 58),
-                    width: 30,
+                    width: 25,
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ],

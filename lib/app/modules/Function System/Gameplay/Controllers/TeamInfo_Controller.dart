@@ -33,12 +33,13 @@ class TeaminfoController extends GetxController {
 
 //======================================================================================
 
-  Future<void> deletePlayer(int playerId) async {
+  Future<void> deletePlayer(int mac_address) async {
     try {
-      print("Deleting player with PlayerID: $playerId"); // Log nilai PlayerID
+      print(
+          "Deleting player with mac_address: $mac_address"); // Log nilai mac_address
 
       final response = await _http.delete(
-        'https://l7xgct6c-3001.asse.devtunnels.ms/api/delete/player/$playerId',
+        'https://l7xgct6c-3001.asse.devtunnels.ms/api/delete/player/$mac_address',
       );
 
       if (response.statusCode == 200) {
