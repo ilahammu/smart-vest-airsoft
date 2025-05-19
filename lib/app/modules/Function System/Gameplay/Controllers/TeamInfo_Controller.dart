@@ -26,6 +26,7 @@ class TeaminfoController extends GetxController {
       print('Data received from API: $data'); // Logging data received from API
       listDataTable.value =
           data.map((item) => DataTablePerson.fromJson(item)).toList();
+      print('Mapped DataTablePerson: ${listDataTable.value}');
     } else {
       print('Error: ${response.statusCode}');
     }
@@ -33,13 +34,13 @@ class TeaminfoController extends GetxController {
 
 //======================================================================================
 
-  Future<void> deletePlayer(int mac_address) async {
+  Future<void> deletePlayer(String macAddress) async {
     try {
       print(
-          "Deleting player with mac_address: $mac_address"); // Log nilai mac_address
+          "Deleting player with mac_address: $macAddress"); // Log nilai mac_address
 
       final response = await _http.delete(
-        'https://l7xgct6c-3001.asse.devtunnels.ms/api/delete/player/$mac_address',
+        'https://l7xgct6c-3001.asse.devtunnels.ms/api/delete/player/$macAddress',
       );
 
       if (response.statusCode == 200) {
