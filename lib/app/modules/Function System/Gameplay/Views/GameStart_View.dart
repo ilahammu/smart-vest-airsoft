@@ -26,16 +26,6 @@ class GamestartView extends GetView<GamestartController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Obx(() => Text(
-                  controller.gameStarted.value
-                      ? "Game Started"
-                      : "Game Not Started",
-                  style: GoogleFonts.tiltWarp(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
             Expanded(
               child: Obx(() {
                 if (controller.listDataTableGame.isEmpty) {
@@ -48,15 +38,52 @@ class GamestartView extends GetView<GamestartController> {
               }),
             ),
             Padding(
-              padding: const EdgeInsets.all(20),
-              child: Obx(() => _tombolMulai(
-                    controller.isStartEnabled.value
-                        ? 1.0
-                        : 0.5, // Pass opacity as the first argument
+              padding: const EdgeInsets.all(0),
+              child: Obx(() {
+                if (controller.gameStarted.value) {
+                  // Jika game selesai, tampilkan tombol Reset Game
+                  bool teamADead = controller.listDataTableGame
+                      .where((p) => p.selectedTeam == "TeamA")
+                      .every((p) => p.health <= 0);
+                  bool teamBDead = controller.listDataTableGame
+                      .where((p) => p.selectedTeam == "TeamB")
+                      .every((p) => p.health <= 0);
+
+                  if (teamADead || teamBDead) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await controller.resetGame(); // Fungsi reset game
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                        ),
+                        child: Text(
+                          "Reset Game",
+                          style: GoogleFonts.orbitron(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox(); // Tidak menampilkan tombol apapun
+                  }
+                } else {
+                  // Jika game belum dimulai, tampilkan tombol Start Game
+                  return _tombolMulai(
+                    controller.isStartEnabled.value ? 1.0 : 0.5,
                     controller.isStartEnabled.value
                         ? controller.startGame
-                        : null, // Pass onPressed as the second argument
-                  )),
+                        : null,
+                  );
+                }
+              }),
             ),
           ],
         ),

@@ -26,7 +26,6 @@ class TeaminfoController extends GetxController {
       print('Data received from API: $data'); // Logging data received from API
       listDataTable.value =
           data.map((item) => DataTablePerson.fromJson(item)).toList();
-      print('Mapped DataTablePerson: ${listDataTable.value}');
     } else {
       print('Error: ${response.statusCode}');
     }

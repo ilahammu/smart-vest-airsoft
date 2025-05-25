@@ -221,27 +221,6 @@ class CustomDataTableGameplay extends StatelessWidget {
               ),
             ),
           ),
-
-          // 🔥 Button Reset
-          if (gameFinished)
-            ElevatedButton(
-              onPressed: () async {
-                await controller.resetGame(); // Panggil fungsi reset game
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              ),
-              child: const Text(
-                "Reset Game",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
         ],
       ),
     );
