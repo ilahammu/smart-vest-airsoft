@@ -29,7 +29,7 @@ class MainDrawer extends GetView<MonitoringController> {
                   ),
                   children: <Widget>[
                     CustomListTile(
-                      title: ' Monitoring System',
+                      title: 'Monitoring System',
                       iconLeading: Icons.monitor_heart,
                       isSelected: controller.selectedIndex.value == 1,
                       onClick: () {
@@ -37,7 +37,7 @@ class MainDrawer extends GetView<MonitoringController> {
                       },
                     ),
                     CustomListTile(
-                      title: ' Gameplay',
+                      title: 'Gameplay',
                       iconLeading: Icons.gamepad_outlined,
                       isSelected: controller.selectedIndex.value == 2,
                       onClick: () {
@@ -45,7 +45,7 @@ class MainDrawer extends GetView<MonitoringController> {
                       },
                     ),
                     CustomListTile(
-                      title: ' Add Player',
+                      title: 'Add Player',
                       iconLeading: Icons.person_add_alt_1,
                       isSelected: controller.selectedIndex.value == 3,
                       onClick: () {

@@ -14,11 +14,11 @@ class AboutView extends StatelessWidget {
     {
       'foto': 'assets/images/Anggota/GVA.jpeg',
       'name': 'Giva Andriana Mutiara, S.T., M.T., Ph.D ',
-      'role': 'Backend Engineer'
+      'role': 'Dosen'
     },
     {
       'foto': 'assets/images/Anggota/RQY.jpeg',
-      'name': 'Muhammad Rizqy Alfarisi, S.ST, M.T.',
+      'name': 'Muhammad Rizqy Alfarisi, S.ST, M.T.',
       'role': 'Dosen'
     },
     {
@@ -27,17 +27,17 @@ class AboutView extends StatelessWidget {
       'role': 'PIC Smart Vest'
     },
     {
-      'foto': 'assets/images/Anggota/raka.jpg',
+      'foto': 'assets/images/Anggota/raka2.jpg',
       'name': 'Raka Duta Adhira',
       'role': 'Anggota Smart Vest'
     },
     {
-      'foto': 'assets/images/Anggota/ganteng.jpg',
+      'foto': 'assets/images/Anggota/Ilham2.jpg',
       'name': 'Ilham Muhijri Yosefin',
       'role': 'Anggota Smart Vest'
     },
     {
-      'foto': 'assets/images/Anggota/faris.jpg',
+      'foto': 'assets/images/Anggota/faris2.jpg',
       'name': 'Faris Aziz Fatahillah',
       'role': 'Anggota Smart Vest'
     },

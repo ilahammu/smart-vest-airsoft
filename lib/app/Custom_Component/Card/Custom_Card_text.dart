@@ -27,7 +27,7 @@ class CustomTextCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: const Color.fromARGB(255, 15, 84, 80),
+            color: const Color.fromARGB(255, 78, 84, 84),
             spreadRadius: 5,
             blurRadius: 0,
             offset: Offset(0, 3),

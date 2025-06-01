@@ -55,7 +55,7 @@ class _CustomListTileState extends State<CustomListTile> {
                 color: widget.isSelected ?? false
                     ? const Color.fromARGB(255, 213, 255, 63)
                     : const Color.fromARGB(255, 0, 0, 0),
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
             ),

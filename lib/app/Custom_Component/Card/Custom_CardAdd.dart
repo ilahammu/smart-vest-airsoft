@@ -33,8 +33,8 @@ class CustomCardAdd extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromARGB(255, 31, 88, 87),
-                Color.fromARGB(255, 72, 163, 160),
+                Color.fromARGB(255, 130, 144, 144),
+                Color.fromARGB(255, 80, 87, 87),
               ],
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,

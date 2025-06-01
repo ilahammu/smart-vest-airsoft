@@ -90,8 +90,8 @@ class CustomDatatabelperson extends StatelessWidget {
             border: Border.all(color: Colors.black38),
             gradient: LinearGradient(
               colors: [
-                Color.fromARGB(255, 31, 88, 87),
-                Color.fromARGB(255, 72, 163, 160),
+                Color.fromARGB(255, 130, 144, 144),
+                Color.fromARGB(255, 80, 87, 87),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,

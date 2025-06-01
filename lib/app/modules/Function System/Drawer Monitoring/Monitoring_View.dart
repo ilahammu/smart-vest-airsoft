@@ -9,6 +9,7 @@ import 'package:vest_keren/app/modules/Main%20Overview/Views/About_Views.dart';
 import 'package:vest_keren/app/modules/Main%20Overview/Views/Information_view.dart';
 import 'package:vest_keren/app/modules/Main%20Overview/Views/Overview_view.dart';
 
+import '../../Login/Controllers/Auth_Controller.dart';
 import '../Gameplay/Views/Chart_View.dart';
 import 'Monitoring_Controller.dart';
 
@@ -33,6 +34,20 @@ class MonitoringView extends GetView<MonitoringController> {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 153, 153, 153),
         elevation: 2,
+        actions: [
+          TextButton(
+              child: Text(
+                "LOGOUT",
+                style: GoogleFonts.tiltWarp(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                  color: const Color.fromARGB(255, 59, 58, 58),
+                ),
+              ),
+              onPressed: () {
+                Get.find<AuthController>().logout();
+              }),
+        ],
       ),
 
       // ─────────── BODY: SIDEBAR + KONTEN ───────────
