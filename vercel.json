@@ -1,5 +1,18 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+  "version": 2,
+  "builds": [
+    {
+      "src": "pubspec.yaml",
+      "use": "@vercel/flutter@0.0.4-canary.2",
+      "config": {
+        "flutterVersion": "3.22.2"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
