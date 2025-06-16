@@ -7,7 +7,6 @@
 .pub-cache/
 .pub/
 build/
-lib/generated_plugin_registrant.dart
 
 # Exclude Flutter build artifacts
 .dart_tool/flutter_build/
@@ -49,3 +48,5 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+.vercel
