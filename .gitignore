@@ -6,6 +6,8 @@
 .packages
 .pub-cache/
 .pub/
+.env
+
 build/
 
 # Exclude Flutter build artifacts

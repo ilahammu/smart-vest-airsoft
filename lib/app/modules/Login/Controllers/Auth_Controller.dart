@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthController extends GetxController {
   final box = GetStorage();
@@ -10,30 +11,25 @@ class AuthController extends GetxController {
 
   var devUser = {}.obs;
 
+  late String _baseUrl;
+  late String _loginEndpoint;
+  late String _registerEndpoint;
+  late String _profileEndpoint;
+
   @override
   void onInit() {
     super.onInit();
+    _baseUrl = dotenv.env['BASE_URL']!;
+    _loginEndpoint = dotenv.env['LOGIN']!;
+    _registerEndpoint = dotenv.env['REGISTER']!;
+    _profileEndpoint = dotenv.env['PROFILE']!;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkLoginStatus();
     });
   }
 
-  // **Cek Status Login**
   void checkLoginStatus() {
-    // if (kDebugMode) {
-    //   if (!isLoggedIn.value) {
-    //     isLoggedIn.value = true;
-    //     Future.microtask(() {
-    //       if (Get.currentRoute != '/home') {
-    //         Get.offAllNamed('/home');
-    //       }
-    //     });
-    //   }
-    //   return;
-    // }
-
     String? token = box.read('token');
-    print("Token: $token");
     if (token != null && token.isNotEmpty) {
       isLoggedIn.value = true;
     } else {
@@ -41,10 +37,8 @@ class AuthController extends GetxController {
     }
   }
 
-  // **Login**
   Future<void> login(String email, String password) async {
-    final url =
-        Uri.parse('https://l7xgct6c-3001.asse.devtunnels.ms/api/auth/login');
+    final url = Uri.parse('$_baseUrl$_loginEndpoint');
     try {
       final response = await http.post(
         url,
@@ -55,72 +49,43 @@ class AuthController extends GetxController {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         String token = data['token'];
-
-        // Simpan token ke GetStorage
         box.write('token', token);
         isLoggedIn.value = true;
-
-        print("Token setelah login: $token"); // Debugging
-
-        // Arahkan ke Home setelah login sukses
         Future.delayed(Duration.zero, () => Get.offAllNamed('/monitoring'));
-      } else {
-        Get.snackbar("Error", "Login gagal!");
       }
-    } catch (e) {
-      Get.snackbar("Error", "Server error!");
-    }
+    } catch (e) {}
   }
 
-  // **Register**
   Future<void> register(String email, String password) async {
-    final url =
-        Uri.parse('https://l7xgct6c-3001.asse.devtunnels.ms/api/auth/regis');
+    final url = Uri.parse('$_baseUrl$_registerEndpoint');
     try {
       final response = await http.post(
         url,
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": email, "password": password}),
       );
-
-      if (response.statusCode == 201) {
-        Get.snackbar("Success", "User registered!");
-      } else {
-        Get.snackbar("Error", "Registration failed!");
-      }
-    } catch (e) {
-      Get.snackbar("Error", "Server error!");
-    }
+    } catch (e) {}
   }
 
-  // **Ambil Profil**
   Future<void> getProfile() async {
-    final url =
-        Uri.parse('https://l7xgct6c-3001.asse.devtunnels.ms/api/auth/profile');
+    final url = Uri.parse('$_baseUrl$_profileEndpoint');
     try {
       String? token = box.read('token');
-
       final response = await http.get(
         url,
         headers: {
           "Authorization": "Bearer $token",
         },
       );
-
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         print(data);
-      } else {
-        Get.snackbar("Error", "Unauthorized");
       }
-    } catch (e) {
-      Get.snackbar("Error", "Server error!");
-    }
+    } catch (e) {}
   }
 
-  // **Logout**
   void logout() {
-    box.remove('token'); // Hapus token
+    box.remove('token');
     isLoggedIn.value = false;
     Future.delayed(Duration.zero, () => Get.offAllNamed('/login'));
   }

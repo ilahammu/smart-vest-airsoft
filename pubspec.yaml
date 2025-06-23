@@ -27,6 +27,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   responsive_framework: ^1.5.1
   http: ^1.3.0
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
@@ -37,6 +38,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     # Informasi Section
     - assets/images/Information/militer.jpg
     - assets/images/Information/militer2.jpeg
@@ -50,6 +52,7 @@ flutter:
     - assets/images/Anggota/raka2.jpg
     - assets/images/Anggota/faris2.jpg
     - assets/images/Anggota/Ilham2.jpg
+    - assets/images/Anggota/ririn.png
     - assets/images/Anggota/bowo.jpeg
     - assets/images/Anggota/GVA.jpeg
     - assets/images/Anggota/RQY.jpeg

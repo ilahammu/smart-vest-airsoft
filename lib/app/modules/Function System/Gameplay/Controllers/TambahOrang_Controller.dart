@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class TambahorangController extends GetxController {
   Timer? timer;
@@ -17,12 +16,16 @@ class TambahorangController extends GetxController {
     "Team B",
   ];
 
-  // Fetch MAC addresses that are not used
+  late String _baseUrl;
+  late String _addEspEndpoint;
+  late String _addPlayerEndpoint;
+
   void fetchMacAddresses() async {
-    isLoading.value = true; // Tandai sedang loading
+    isLoading.value = true;
     try {
-      final response = await http.get(
-          Uri.parse('https://l7xgct6c-3001.asse.devtunnels.ms/api/add/esp32'));
+      final response = await GetConnect().get(
+        '$_baseUrl$_addEspEndpoint',
+      );
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
@@ -38,93 +41,75 @@ class TambahorangController extends GetxController {
                   })
               .toList();
 
-          print("Unique Players: $uniquePlayers"); // Debug log
           players.value = uniquePlayers;
-        } else {
-          Get.snackbar('Error', 'Invalid data format from server');
         }
-      } else {
-        Get.snackbar('Error', 'Failed to load MAC addresses: ${response.body}');
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load MAC addresses: $e');
     } finally {
-      isLoading.value = false; // Tandai selesai loading
+      isLoading.value = false;
     }
   }
 
-  // Add a new player and refresh the MAC address list
   Future<void> addPlayer(
       String name, String selectedId, String selectedTeam) async {
     isLoading.value = true;
 
     try {
-      // Cari mac_address berdasarkan ID yang dipilih
       final macAddress = players.firstWhere(
         (player) => player['id'] == selectedId,
       )['mac_address'];
 
       final requestBody = {
         "name": name,
-        "mac_address": macAddress, // Kirim mac_address ke backend
-        "selectedTeam": selectedTeam.replaceAll(" ", ""), // ENUM cocok backend
+        "mac_address": macAddress,
+        "selectedTeam": selectedTeam.replaceAll(" ", ""),
       };
 
-      print("Request Body: $requestBody");
-
-      final response = await http.post(
-        Uri.parse('https://l7xgct6c-3001.asse.devtunnels.ms/api/add/player'),
-        body: json.encode(requestBody),
+      final response = await GetConnect().post(
+        '$_baseUrl$_addPlayerEndpoint',
+        requestBody,
         headers: {
           'Content-Type': 'application/json',
         },
       );
 
-      print("Response: ${response.body}");
-
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
 
         if (jsonResponse['success'] == true) {
-          Get.snackbar('Success', 'Player added successfully!');
-          fetchMacAddresses(); // Refresh daftar MAC address
+          fetchMacAddresses();
           IdChoice.value = null;
-        } else {
-          Get.snackbar(
-              'Error', jsonResponse['message'] ?? 'Failed to add player');
         }
-      } else {
-        Get.snackbar('Error', 'Failed to add player: ${response.body}');
       }
     } catch (e) {
-      Get.snackbar('Error', 'An unexpected error occurred: $e');
     } finally {
       isLoading.value = false;
     }
   }
 
-  // void startAutoRefresh() {
-  //   // Timer untuk memuat ulang data setiap 5 detik
-  //   timer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
-  //     fetchMacAddresses(); // Panggil fungsi untuk memuat ulang data
-  //     print("Data refreshed at ${DateTime.now()}"); // Log waktu refresh
-  //   });
-  // }
+  void startAutoRefresh() {
+    timer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
+      fetchMacAddresses();
+    });
+  }
 
-  // void stopAutoRefresh() {
-  //   timer?.cancel();
-  //   timer = null;
-  // }
+  void stopAutoRefresh() {
+    timer?.cancel();
+    timer = null;
+  }
 
   @override
   void onInit() {
     super.onInit();
+    _baseUrl = dotenv.env['BASE_URL']!;
+    _addEspEndpoint = dotenv.env['ADD_ESP']!;
+    _addPlayerEndpoint = dotenv.env['ADD_PLAYER']!;
     fetchMacAddresses();
   }
 
-  // @override
-  // void onClose() {
-  //   stopAutoRefresh();
-  //   super.onClose();
-  // }
+  @override
+  void onClose() {
+    stopAutoRefresh();
+    super.onClose();
+  }
 }

@@ -41,6 +41,11 @@ class AboutView extends StatelessWidget {
       'name': 'Faris Aziz Fatahillah',
       'role': 'Anggota Smart Vest'
     },
+    {
+      'foto': 'assets/images/Anggota/ririn.png',
+      'name': 'Rinjani Afizah Wulandari',
+      'role': 'Anggota Smart Vest'
+    },
   ];
 
   @override
@@ -110,7 +115,7 @@ class AboutView extends StatelessWidget {
 
 Widget _buildAnggotaCard(Map<String, String> data) {
   return Container(
-    width: 260,
+    width: 230,
     padding: const EdgeInsets.all(26),
     decoration: BoxDecoration(
       color: Colors.brown.shade900.withOpacity(0.25),

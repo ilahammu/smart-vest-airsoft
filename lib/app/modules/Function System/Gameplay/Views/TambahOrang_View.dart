@@ -35,7 +35,6 @@ class TambahorangView extends StatelessWidget {
           child: Stack(
             alignment: Alignment.topCenter,
             children: [
-              // Tali Gantung Kiri & Kanan
               Positioned(
                 top: 0,
                 left: Get.width * 0.30,
@@ -72,8 +71,6 @@ class TambahorangView extends StatelessWidget {
                   color: const Color.fromARGB(255, 0, 0, 0),
                 ),
               ),
-
-              // Blok Add Player
               Center(
                 child: CustomCardAdd(
                   height: Get.height * 0.86,
@@ -114,8 +111,6 @@ class TambahorangView extends StatelessWidget {
                             selectedValue: selectedEsp32Id,
                             onChanged: (newValue) {
                               if (newValue == null || newValue.isEmpty) {
-                                Get.snackbar(
-                                    'Error', 'Pilih ESP32 ID yang valid!');
                                 return;
                               }
                               selectedEsp32Id.value = newValue;
@@ -146,26 +141,18 @@ class TambahorangView extends StatelessWidget {
                                   : () async {
                                       final name = nameController.text.trim();
                                       if (name.isEmpty) {
-                                        Get.snackbar(
-                                            'Error', 'Nama tidak boleh kosong');
                                         return;
                                       }
                                       if (selectedEsp32Id.value.isEmpty) {
-                                        Get.snackbar('Error',
-                                            'Pilih ESP32 ID terlebih dahulu');
                                         return;
                                       }
                                       if (selectedTeam.value.isEmpty) {
-                                        Get.snackbar('Error',
-                                            'Pilih Team terlebih dahulu');
                                         return;
                                       }
                                       await controller.addPlayer(
                                         name,
-                                        selectedEsp32Id
-                                            .value, // Kirim ID yang dipilih
-                                        selectedTeam
-                                            .value, // Kirim tim yang dipilih
+                                        selectedEsp32Id.value,
+                                        selectedTeam.value,
                                       );
                                     },
                               child: Text("tambah"),

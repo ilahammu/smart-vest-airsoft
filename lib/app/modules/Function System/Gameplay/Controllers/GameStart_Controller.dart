@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../../../../data/Table-Hitpoint-Gameplay.dart';
 import '../../../../data/TableGameplay.dart';
@@ -30,6 +31,39 @@ class GamestartController extends GetxController {
     'HP': 'health',
   };
 
+  // Endpoint dari .env
+  late String _baseUrl;
+  late String _gameplayPlayerEndpoint;
+  late String _hitpointEndpoint;
+  late String _gameplayStatusMacEndpoint;
+  late String _gameSessionEndpoint;
+  late String _gameplayCheckStatusEndpoint;
+  late String _gameplayStatusEndpoint;
+  late String _gameplayStartEndpoint;
+  late String _gameplayEndEndpoint;
+  late String _gameplayResetEndpoint;
+  late String _hitpointUpdateEndpoint;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _baseUrl = dotenv.env['BASE_URL']!;
+    _gameplayPlayerEndpoint = dotenv.env['GAMEPLAY_PLAYER']!;
+    _hitpointEndpoint = dotenv.env['HITPOINT']!;
+    _gameplayStatusMacEndpoint = dotenv.env['GAMEPLAY_STATUS_MAC']!;
+    _gameSessionEndpoint = dotenv.env['GAMESESSION']!;
+    _gameplayCheckStatusEndpoint = dotenv.env['GAMEPLAY_CHECK_STATUS']!;
+    _gameplayStatusEndpoint = dotenv.env['GAMEPLAY_STATUS']!;
+    _gameplayStartEndpoint = dotenv.env['GAMEPLAY_START']!;
+    _gameplayEndEndpoint = dotenv.env['GAMEPLAY_END']!;
+    _gameplayResetEndpoint = dotenv.env['GAMEPLAY_RESET']!;
+    _hitpointUpdateEndpoint = dotenv.env['HITPOINT_UPDATE']!;
+    fetchDataTable();
+    fetchDataTableHitpoint();
+    startPlayerAutoRefresh();
+    fetchCheckGameStatus();
+  }
+
   void checkGameStatus() {
     final teamA =
         listDataTableGame.where((p) => p.selectedTeam == "TeamA").toList();
@@ -46,8 +80,7 @@ class GamestartController extends GetxController {
   // Tabel Pemain
   void fetchDataTable() async {
     try {
-      final response = await _http
-          .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/players');
+      final response = await _http.get('$_baseUrl$_gameplayPlayerEndpoint');
 
       if (response.statusCode == 200) {
         final data = response.body['players'] as List<dynamic>;
@@ -78,8 +111,7 @@ class GamestartController extends GetxController {
   // Tabel Hitpoint
   void fetchDataTableHitpoint() async {
     try {
-      final response = await _http
-          .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/hitpoint');
+      final response = await _http.get('$_baseUrl$_hitpointEndpoint');
 
       if (response.statusCode == 200) {
         final data = response.body['hitpoints'] as List<dynamic>;
@@ -103,7 +135,6 @@ class GamestartController extends GetxController {
             );
           }
         }).toList();
-        ;
 
         listDataTableHit.refresh();
       } else {
@@ -113,14 +144,14 @@ class GamestartController extends GetxController {
       print("Exception occurred while fetching hitpoint data: $e");
     }
   }
-// ==============================================================================================
+  // =============================================================================================
 
-// Logika tombol Ready Pemain
-// ==============================================================================================
+  // Logika tombol Ready Pemain
+  // =============================================================================================
   void updatePlayerStatus(String macAddress, bool isReady) async {
     try {
       final response = await _http.post(
-        'https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/status-by-mac',
+        '$_baseUrl$_gameplayStatusMacEndpoint',
         {'mac_address': macAddress, 'status_ready': isReady ? 1 : 0},
       );
 
@@ -137,7 +168,7 @@ class GamestartController extends GetxController {
   Future<void> updateWeaponStatus(String macAddress, bool statusWeapon) async {
     try {
       final response = await _http.post(
-        'https://l7xgct6c-3001.asse.devtunnels.ms/api/game-sessions/updateSessionNative', // Endpoint untuk memperbarui status weapon
+        '$_baseUrl$_gameSessionEndpoint', // Endpoint untuk memperbarui status weapon
         {'mac_address': macAddress, 'status_weapon': statusWeapon ? 1 : 0},
       );
 
@@ -153,8 +184,8 @@ class GamestartController extends GetxController {
 
   Future<void> fetchCheckGameStatus() async {
     try {
-      final response = await _http.get(
-          'https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/check-status');
+      final response =
+          await _http.get('$_baseUrl$_gameplayCheckStatusEndpoint');
       if (response.statusCode == 200) {
         final status = response.body['game_status'];
         print('Check Game Status: $status');
@@ -169,18 +200,13 @@ class GamestartController extends GetxController {
 
   Future<void> fetchGameStatus() async {
     try {
-      final response = await _http
-          .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/status');
+      final response = await _http.get('$_baseUrl$_gameplayStatusEndpoint');
       if (response.statusCode == 200) {
         final status = response.body['game_status'];
         gameStarted.value = (status == 1);
 
         // Tampilkan kemenangan hanya jika status == 2
-        if (status == 2) {
-          // Tampilkan dialog atau UI "Game Ended" atau "Team Win"
-          Get.snackbar("Game Ended", "Permainan telah selesai!");
-          // Atau update state lain sesuai kebutuhan
-        }
+        if (status == 2) {}
         print('Game status updated: $status');
         print('Game status fetch response: ${response.body}');
       } else {
@@ -194,15 +220,9 @@ class GamestartController extends GetxController {
   void startGame() async {
     if (isStartEnabled.value) {
       // Panggil endpoint backend untuk start game
-      final response = await _http.post(
-          'https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/start-button',
-          {});
+      final response = await _http.post('$_baseUrl$_gameplayStartEndpoint', {});
       print('Start game response: ${response.body}');
       if (response.statusCode == 200) {
-        Get.snackbar("Success", "Game Started!");
-        print("Game Started!");
-
-        // Fetch status game dari backend agar gameStarted.value ikut update
         await fetchGameStatus();
 
         // Update status weapon & log health untuk setiap pemain
@@ -217,36 +237,29 @@ class GamestartController extends GetxController {
         // Mulai auto-refresh hitpoint
         startHealthUpdate();
       } else {
-        Get.snackbar("Error", "Failed to start game!");
         print('Failed to start game: ${response.statusCode}');
       }
     } else {
-      Get.snackbar("Error",
-          "Both teams must have at least one player and all players must be ready!");
       print(
           "Game cannot start, teams are incomplete or not all players are ready!");
     }
   }
 
   Future<void> endGame() async {
-    final response = await _http
-        .post('https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/end', {});
+    final response = await _http.post('$_baseUrl$_gameplayEndEndpoint', {});
     print('End game response: ${response.body}');
     if (response.statusCode == 200) {
       await fetchGameStatus(); // Agar status game di FE ikut update ke 2
       fetchDataTable();
       fetchDataTableHitpoint();
       gameStarted.value = false;
-      Get.snackbar("Game Ended", "Permainan telah selesai!");
     } else {
       print('Failed to end game: ${response.statusCode}');
-      Get.snackbar("Error", "Failed to end game!");
     }
   }
 
   Future<void> resetGame() async {
-    final response = await _http.post(
-        'https://l7xgct6c-3001.asse.devtunnels.ms/api/gameplay/reset', {});
+    final response = await _http.post('$_baseUrl$_gameplayResetEndpoint', {});
     print('Reset response: ${response.body}');
     if (response.statusCode == 200) {
       print('Game reset successfully');
@@ -275,7 +288,7 @@ class GamestartController extends GetxController {
   Future<void> logHealth(String macAddress, int health, int hitpoint) async {
     try {
       final response = await _http.post(
-        'https://l7xgct6c-3001.asse.devtunnels.ms/api/hitpoint/healthUpdate',
+        '$_baseUrl$_hitpointUpdateEndpoint',
         {
           'mac_address': macAddress,
           'health': health,
@@ -312,15 +325,6 @@ class GamestartController extends GetxController {
   void stopHitpointAutoRefresh() {
     hitpointTimer?.cancel();
     hitpointTimer = null;
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    fetchDataTable();
-    fetchDataTableHitpoint();
-    startPlayerAutoRefresh();
-    fetchCheckGameStatus();
   }
 
   @override

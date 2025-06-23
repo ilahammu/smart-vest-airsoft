@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ChartController extends GetxController {
   var playerList = <Map<String, dynamic>>[].obs;
@@ -7,9 +8,21 @@ class ChartController extends GetxController {
   var currentPage = 0.obs;
   static const int pageSize = 5;
 
+  late String _baseUrl;
+  late String _playerEndpoint;
+  late String _hitpointLogEndpoint;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _baseUrl = dotenv.env['BASE_URL']!;
+    _playerEndpoint = dotenv.env['ADD_PLAYER']!;
+    _hitpointLogEndpoint = dotenv.env['HITPOINT_LOG']!;
+    fetchPlayers();
+  }
+
   Future<void> fetchPlayers() async {
-    final response = await GetConnect()
-        .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/add/player');
+    final response = await GetConnect().get('$_baseUrl$_playerEndpoint');
     if (response.statusCode == 200) {
       playerList.value =
           List<Map<String, dynamic>>.from(response.body['players']);
@@ -17,8 +30,8 @@ class ChartController extends GetxController {
   }
 
   Future<void> fetchHitpointLog(String name) async {
-    final response = await GetConnect()
-        .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/hitpoint/log/$name');
+    final response =
+        await GetConnect().get('$_baseUrl$_hitpointLogEndpoint/$name');
     if (response.statusCode == 200) {
       hitpointLog.value = List<Map<String, dynamic>>.from(response.body['log']);
     } else {
@@ -26,7 +39,6 @@ class ChartController extends GetxController {
     }
   }
 
-  // Mapping bagian mutlak
   static const List<String> bagianLabels = [
     "Bahu Kiri",
     "Bahu Kanan",
@@ -38,9 +50,7 @@ class ChartController extends GetxController {
     "Pusar",
   ];
 
-  // BarChart: selalu 8 bar, label tetap, nilai sesuai hitpointLog
   List<Map<String, dynamic>> get chartData {
-    // Hitung jumlah per bagian (1-8)
     List<int> counts = List.filled(8, 0);
     for (var log in hitpointLog) {
       int bagian = (log['hitpoint'] ?? 0) as int;
@@ -48,19 +58,11 @@ class ChartController extends GetxController {
         counts[bagian - 1]++;
       }
     }
-    // Hasilkan 8 bar dengan label tetap
     return List.generate(
         8,
         (i) => {
               'label': bagianLabels[i],
               'blue': counts[i],
             });
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    fetchPlayers();
-    // chartData otomatis 8 bar dengan nilai 0 jika belum ada data
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vest_keren/app/data/TablePerson.dart';
 
 class TeaminfoController extends GetxController {
@@ -16,53 +17,37 @@ class TeaminfoController extends GetxController {
 
   final RxList<DataTablePerson> listDataTable = <DataTablePerson>[].obs;
 
-//======================================================================================
+  late String _baseUrl;
+  late String _addPlayerEndpoint;
+  late String _deletePlayerEndpoint;
 
   void fetchDataTable() async {
-    final response = await _http
-        .get('https://l7xgct6c-3001.asse.devtunnels.ms/api/add/player');
+    final response = await _http.get('$_baseUrl$_addPlayerEndpoint');
     if (response.statusCode == 200) {
       final data = response.body['players'] as List<dynamic>;
-      print('Data received from API: $data'); // Logging data received from API
       listDataTable.value =
           data.map((item) => DataTablePerson.fromJson(item)).toList();
-    } else {
-      print('Error: ${response.statusCode}');
     }
   }
-
-//======================================================================================
 
   Future<void> deletePlayer(String macAddress) async {
     try {
-      print(
-          "Deleting player with mac_address: $macAddress"); // Log nilai mac_address
-
       final response = await _http.delete(
-        'https://l7xgct6c-3001.asse.devtunnels.ms/api/delete/player/$macAddress',
+        '$_baseUrl$_deletePlayerEndpoint/$macAddress',
       );
-
       if (response.statusCode == 200) {
-        Get.snackbar('Success', 'Player deleted successfully!');
-        fetchDataTable(); // Refresh daftar pemain setelah penghapusan
-      } else {
-        Get.snackbar('Error', 'Failed to delete player: ${response.body}');
+        fetchDataTable();
       }
-    } catch (e) {
-      Get.snackbar('Error', 'An unexpected error occurred: $e');
-    }
+    } catch (e) {}
   }
 
   void startAutoRefresh() {
-    // Timer untuk memuat ulang data setiap 5 detik
     timer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
-      fetchDataTable(); // Panggil fungsi untuk memuat ulang data
-      print("Data refreshed at ${DateTime.now()}"); // Log waktu refresh
+      fetchDataTable();
     });
   }
 
   void stopAutoRefresh() {
-    // Hentikan timer jika tidak diperlukan
     timer?.cancel();
     timer = null;
   }
@@ -70,14 +55,16 @@ class TeaminfoController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _baseUrl = dotenv.env['BASE_URL']!;
+    _addPlayerEndpoint = dotenv.env['ADD_PLAYER']!;
+    _deletePlayerEndpoint = dotenv.env['DELETE_PLAYER']!;
     fetchDataTable();
-    startAutoRefresh(); // Mulai timer saat controller diinisialisasi
+    startAutoRefresh();
   }
 
   @override
   void onClose() {
-    print("TeaminfoController is being closed...");
-    stopAutoRefresh(); // Hentikan timer saat controller ditutup
+    stopAutoRefresh();
     super.onClose();
   }
 }
