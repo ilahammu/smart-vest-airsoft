@@ -139,8 +139,6 @@ class CustomDatatabelperson extends StatelessWidget {
                           icon: Icon(Icons.delete,
                               color: const Color.fromARGB(255, 0, 0, 0)),
                           onPressed: () {
-                            print(
-                                "Deleting player with PlayerID: ${data.macAddress}");
                             onDelete(data.macAddress
                                 .toString()); // Panggil fungsi onDelete dengan id
                           },

@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   // Index menu yang aktif
-  HomeController() {
-    print("[HomeController] HomeController initialized");
-  }
+  HomeController() {}
   var selectedIndex = 0.obs;
 
   // Scroll controller untuk halaman utama

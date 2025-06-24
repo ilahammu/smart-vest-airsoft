@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vest_keren/app/data/TablePerson.dart';
 
 class TeaminfoController extends GetxController {
@@ -17,9 +17,17 @@ class TeaminfoController extends GetxController {
 
   final RxList<DataTablePerson> listDataTable = <DataTablePerson>[].obs;
 
-  late String _baseUrl;
-  late String _addPlayerEndpoint;
-  late String _deletePlayerEndpoint;
+  static const String _baseUrl = String.fromEnvironment('BASE_URL');
+  static const String _addPlayerEndpoint = String.fromEnvironment('ADD_PLAYER');
+  static const String _deletePlayerEndpoint =
+      String.fromEnvironment('DELETE_PLAYER');
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchDataTable();
+    startAutoRefresh();
+  }
 
   void fetchDataTable() async {
     final response = await _http.get('$_baseUrl$_addPlayerEndpoint');
@@ -37,8 +45,23 @@ class TeaminfoController extends GetxController {
       );
       if (response.statusCode == 200) {
         fetchDataTable();
+        Get.defaultDialog(
+          title: "Success",
+          middleText: "Player berhasil dihapus!",
+          textConfirm: "OK",
+          confirmTextColor: Colors.white,
+          onConfirm: () => Get.back(),
+        );
       }
-    } catch (e) {}
+    } catch (e) {
+      Get.defaultDialog(
+        title: "Error",
+        middleText: "Gagal menghapus player: $e",
+        textConfirm: "OK",
+        confirmTextColor: Colors.white,
+        onConfirm: () => Get.back(),
+      );
+    }
   }
 
   void startAutoRefresh() {
@@ -50,16 +73,6 @@ class TeaminfoController extends GetxController {
   void stopAutoRefresh() {
     timer?.cancel();
     timer = null;
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    _baseUrl = dotenv.env['BASE_URL']!;
-    _addPlayerEndpoint = dotenv.env['ADD_PLAYER']!;
-    _deletePlayerEndpoint = dotenv.env['DELETE_PLAYER']!;
-    fetchDataTable();
-    startAutoRefresh();
   }
 
   @override

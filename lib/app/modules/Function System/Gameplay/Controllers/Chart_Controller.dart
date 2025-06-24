@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ChartController extends GetxController {
   var playerList = <Map<String, dynamic>>[].obs;
@@ -8,16 +7,14 @@ class ChartController extends GetxController {
   var currentPage = 0.obs;
   static const int pageSize = 5;
 
-  late String _baseUrl;
-  late String _playerEndpoint;
-  late String _hitpointLogEndpoint;
+  static const String _baseUrl = String.fromEnvironment('BASE_URL');
+  static const String _playerEndpoint = String.fromEnvironment('ADD_PLAYER');
+  static const String _hitpointLogEndpoint =
+      String.fromEnvironment('HITPOINT_LOG');
 
   @override
   void onInit() {
     super.onInit();
-    _baseUrl = dotenv.env['BASE_URL']!;
-    _playerEndpoint = dotenv.env['ADD_PLAYER']!;
-    _hitpointLogEndpoint = dotenv.env['HITPOINT_LOG']!;
     fetchPlayers();
   }
 

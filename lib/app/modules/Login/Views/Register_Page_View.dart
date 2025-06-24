@@ -25,7 +25,29 @@ class RegisterPage extends StatelessWidget {
                 obscureText: true),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => authC.register(emailC.text, passC.text),
+              onPressed: () async {
+                final success = await authC.register(emailC.text, passC.text);
+                if (success) {
+                  Get.defaultDialog(
+                    title: "Success",
+                    middleText: "Data Berhasil Ditambahkan",
+                    textConfirm: "OK",
+                    confirmTextColor: Colors.white,
+                    onConfirm: () {
+                      Get.back();
+                      // fetchDataTable(currentPage); // Hapus atau sesuaikan jika tidak perlu
+                    },
+                  );
+                } else {
+                  Get.defaultDialog(
+                    title: "Error",
+                    middleText: "Register gagal, coba lagi.",
+                    textConfirm: "OK",
+                    confirmTextColor: Colors.white,
+                    onConfirm: () => Get.back(),
+                  );
+                }
+              },
               child: Text("Register"),
             ),
           ],

@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class TambahorangController extends GetxController {
   Timer? timer;
@@ -16,19 +16,24 @@ class TambahorangController extends GetxController {
     "Team B",
   ];
 
-  late String _baseUrl;
-  late String _addEspEndpoint;
-  late String _addPlayerEndpoint;
+  static const String _baseUrl = String.fromEnvironment('BASE_URL');
+  static const String _addEspEndpoint = String.fromEnvironment('ADD_ESP');
+  static const String _addPlayerEndpoint = String.fromEnvironment('ADD_PLAYER');
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchMacAddresses();
+  }
 
   void fetchMacAddresses() async {
     isLoading.value = true;
     try {
-      final response = await GetConnect().get(
-        '$_baseUrl$_addEspEndpoint',
-      );
+      final response = await GetConnect().get('$_baseUrl$_addEspEndpoint');
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        // Tidak perlu json.decode lagi!
+        Map<String, dynamic> jsonResponse = response.body;
 
         if (jsonResponse['success'] == true &&
             jsonResponse.containsKey('esp32s')) {
@@ -45,6 +50,7 @@ class TambahorangController extends GetxController {
         }
       }
     } catch (e) {
+      print("Error fetching MAC addresses: $e");
     } finally {
       isLoading.value = false;
     }
@@ -74,14 +80,23 @@ class TambahorangController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        Map<String, dynamic> jsonResponse =
+            response.body; // <-- perbaiki di sini
 
         if (jsonResponse['success'] == true) {
           fetchMacAddresses();
           IdChoice.value = null;
+          Get.defaultDialog(
+            title: "Success",
+            middleText: "Player berhasil ditambahkan!",
+            textConfirm: "OK",
+            confirmTextColor: Colors.white,
+            onConfirm: () => Get.back(),
+          );
         }
       }
     } catch (e) {
+      print("Error adding player: $e");
     } finally {
       isLoading.value = false;
     }
@@ -96,15 +111,6 @@ class TambahorangController extends GetxController {
   void stopAutoRefresh() {
     timer?.cancel();
     timer = null;
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    _baseUrl = dotenv.env['BASE_URL']!;
-    _addEspEndpoint = dotenv.env['ADD_ESP']!;
-    _addPlayerEndpoint = dotenv.env['ADD_PLAYER']!;
-    fetchMacAddresses();
   }
 
   @override

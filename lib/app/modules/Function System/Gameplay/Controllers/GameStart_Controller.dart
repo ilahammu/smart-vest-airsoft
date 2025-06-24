@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../../../../data/Table-Hitpoint-Gameplay.dart';
 import '../../../../data/TableGameplay.dart';
@@ -32,32 +31,30 @@ class GamestartController extends GetxController {
   };
 
   // Endpoint dari .env
-  late String _baseUrl;
-  late String _gameplayPlayerEndpoint;
-  late String _hitpointEndpoint;
-  late String _gameplayStatusMacEndpoint;
-  late String _gameSessionEndpoint;
-  late String _gameplayCheckStatusEndpoint;
-  late String _gameplayStatusEndpoint;
-  late String _gameplayStartEndpoint;
-  late String _gameplayEndEndpoint;
-  late String _gameplayResetEndpoint;
-  late String _hitpointUpdateEndpoint;
+  static const String _baseUrl = String.fromEnvironment('BASE_URL');
+  static const String _gameplayPlayerEndpoint =
+      String.fromEnvironment('GAMEPLAY_PLAYER');
+  static const String _hitpointEndpoint = String.fromEnvironment('HITPOINT');
+  static const String _gameplayStatusMacEndpoint =
+      String.fromEnvironment('GAMEPLAY_STATUS_MAC');
+  static const String _gameSessionEndpoint =
+      String.fromEnvironment('GAMESESSION');
+  static const String _gameplayCheckStatusEndpoint =
+      String.fromEnvironment('GAMEPLAY_CHECK_STATUS');
+  static const String _gameplayStatusEndpoint =
+      String.fromEnvironment('GAMEPLAY_STATUS');
+  static const String _gameplayStartEndpoint =
+      String.fromEnvironment('GAMEPLAY_START');
+  static const String _gameplayEndEndpoint =
+      String.fromEnvironment('GAMEPLAY_END');
+  static const String _gameplayResetEndpoint =
+      String.fromEnvironment('GAMEPLAY_RESET');
+  static const String _hitpointUpdateEndpoint =
+      String.fromEnvironment('HITPOINT_UPDATE');
 
   @override
   void onInit() {
     super.onInit();
-    _baseUrl = dotenv.env['BASE_URL']!;
-    _gameplayPlayerEndpoint = dotenv.env['GAMEPLAY_PLAYER']!;
-    _hitpointEndpoint = dotenv.env['HITPOINT']!;
-    _gameplayStatusMacEndpoint = dotenv.env['GAMEPLAY_STATUS_MAC']!;
-    _gameSessionEndpoint = dotenv.env['GAMESESSION']!;
-    _gameplayCheckStatusEndpoint = dotenv.env['GAMEPLAY_CHECK_STATUS']!;
-    _gameplayStatusEndpoint = dotenv.env['GAMEPLAY_STATUS']!;
-    _gameplayStartEndpoint = dotenv.env['GAMEPLAY_START']!;
-    _gameplayEndEndpoint = dotenv.env['GAMEPLAY_END']!;
-    _gameplayResetEndpoint = dotenv.env['GAMEPLAY_RESET']!;
-    _hitpointUpdateEndpoint = dotenv.env['HITPOINT_UPDATE']!;
     fetchDataTable();
     fetchDataTableHitpoint();
     startPlayerAutoRefresh();
