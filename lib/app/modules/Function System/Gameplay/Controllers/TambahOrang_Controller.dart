@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:convert';
 
 class TambahorangController extends GetxController {
   Timer? timer;
@@ -16,9 +15,10 @@ class TambahorangController extends GetxController {
     "Team B",
   ];
 
-  static const String _baseUrl = String.fromEnvironment('BASE_URL');
-  static const String _addEspEndpoint = String.fromEnvironment('ADD_ESP');
-  static const String _addPlayerEndpoint = String.fromEnvironment('ADD_PLAYER');
+  // Hardcode endpoint
+  static const String _baseUrl = "https://api-vest.stas-rg.com";
+  static const String _addEspEndpoint = "/api/add/esp32";
+  static const String _addPlayerEndpoint = "/api/add/player";
 
   @override
   void onInit() {
@@ -32,7 +32,6 @@ class TambahorangController extends GetxController {
       final response = await GetConnect().get('$_baseUrl$_addEspEndpoint');
 
       if (response.statusCode == 200) {
-        // Tidak perlu json.decode lagi!
         Map<String, dynamic> jsonResponse = response.body;
 
         if (jsonResponse['success'] == true &&
@@ -80,8 +79,7 @@ class TambahorangController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> jsonResponse =
-            response.body; // <-- perbaiki di sini
+        Map<String, dynamic> jsonResponse = response.body;
 
         if (jsonResponse['success'] == true) {
           fetchMacAddresses();

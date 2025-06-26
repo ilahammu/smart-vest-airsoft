@@ -30,27 +30,21 @@ class GamestartController extends GetxController {
     'HP': 'health',
   };
 
-  // Endpoint dari .env
-  static const String _baseUrl = String.fromEnvironment('BASE_URL');
-  static const String _gameplayPlayerEndpoint =
-      String.fromEnvironment('GAMEPLAY_PLAYER');
-  static const String _hitpointEndpoint = String.fromEnvironment('HITPOINT');
+  // Endpoint di-hardcode
+  static const String _baseUrl = 'https://api-vest.stas-rg.com';
+  static const String _gameplayPlayerEndpoint = '/api/gameplay/players';
+  static const String _hitpointEndpoint = '/api/hitpoint';
   static const String _gameplayStatusMacEndpoint =
-      String.fromEnvironment('GAMEPLAY_STATUS_MAC');
+      '/api/gameplay/status-by-mac';
   static const String _gameSessionEndpoint =
-      String.fromEnvironment('GAMESESSION');
+      '/api/game-sessions/updateSessionNative';
   static const String _gameplayCheckStatusEndpoint =
-      String.fromEnvironment('GAMEPLAY_CHECK_STATUS');
-  static const String _gameplayStatusEndpoint =
-      String.fromEnvironment('GAMEPLAY_STATUS');
-  static const String _gameplayStartEndpoint =
-      String.fromEnvironment('GAMEPLAY_START');
-  static const String _gameplayEndEndpoint =
-      String.fromEnvironment('GAMEPLAY_END');
-  static const String _gameplayResetEndpoint =
-      String.fromEnvironment('GAMEPLAY_RESET');
-  static const String _hitpointUpdateEndpoint =
-      String.fromEnvironment('HITPOINT_UPDATE');
+      '/api/gameplay/check-status';
+  static const String _gameplayStatusEndpoint = '/api/gameplay/status';
+  static const String _gameplayStartEndpoint = '/api/gameplay/start-button';
+  static const String _gameplayEndEndpoint = '/api/gameplay/end';
+  static const String _gameplayResetEndpoint = '/api/gameplay/reset';
+  static const String _hitpointUpdateEndpoint = '/api/hitpoint/healthUpdate';
 
   @override
   void onInit() {
@@ -127,7 +121,7 @@ class GamestartController extends GetxController {
             return DataTableHitpoint(
               name: "Unknown",
               team: "Unknown",
-              hitpoint: int.tryParse("Unknown") ?? 0,
+              hitpoint: 0,
               timestamp: DateTime.now(),
             );
           }
@@ -203,7 +197,10 @@ class GamestartController extends GetxController {
         gameStarted.value = (status == 1);
 
         // Tampilkan kemenangan hanya jika status == 2
-        if (status == 2) {}
+        if (status == 2) {
+          // Tampilkan dialog atau UI "Game Ended" atau "Team Win"
+          // Get.snackbar("Game Ended", "Permainan telah selesai!");
+        }
         print('Game status updated: $status');
         print('Game status fetch response: ${response.body}');
       } else {
@@ -220,6 +217,7 @@ class GamestartController extends GetxController {
       final response = await _http.post('$_baseUrl$_gameplayStartEndpoint', {});
       print('Start game response: ${response.body}');
       if (response.statusCode == 200) {
+        // Fetch status game dari backend agar gameStarted.value ikut update
         await fetchGameStatus();
 
         // Update status weapon & log health untuk setiap pemain
@@ -250,6 +248,7 @@ class GamestartController extends GetxController {
       fetchDataTable();
       fetchDataTableHitpoint();
       gameStarted.value = false;
+      // Get.snackbar("Game Ended", "Permainan telah selesai!");
     } else {
       print('Failed to end game: ${response.statusCode}');
     }

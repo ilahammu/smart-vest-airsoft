@@ -17,10 +17,10 @@ class TeaminfoController extends GetxController {
 
   final RxList<DataTablePerson> listDataTable = <DataTablePerson>[].obs;
 
-  static const String _baseUrl = String.fromEnvironment('BASE_URL');
-  static const String _addPlayerEndpoint = String.fromEnvironment('ADD_PLAYER');
-  static const String _deletePlayerEndpoint =
-      String.fromEnvironment('DELETE_PLAYER');
+  // Hardcode endpoint
+  static const String _baseUrl = "https://api-vest.stas-rg.com";
+  static const String _addPlayerEndpoint = "/api/add/player";
+  static const String _deletePlayerEndpoint = "/api/delete/player";
 
   @override
   void onInit() {

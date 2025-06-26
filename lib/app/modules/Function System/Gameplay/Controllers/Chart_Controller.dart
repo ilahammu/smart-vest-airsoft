@@ -7,10 +7,10 @@ class ChartController extends GetxController {
   var currentPage = 0.obs;
   static const int pageSize = 5;
 
-  static const String _baseUrl = String.fromEnvironment('BASE_URL');
-  static const String _playerEndpoint = String.fromEnvironment('ADD_PLAYER');
-  static const String _hitpointLogEndpoint =
-      String.fromEnvironment('HITPOINT_LOG');
+  // Hardcode endpoint
+  static const String _baseUrl = "https://api-vest.stas-rg.com";
+  static const String _playerEndpoint = "/api/add/player";
+  static const String _hitpointLogEndpoint = "/api/hitpoint/log";
 
   @override
   void onInit() {
