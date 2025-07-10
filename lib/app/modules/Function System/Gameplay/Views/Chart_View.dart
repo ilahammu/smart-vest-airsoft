@@ -337,8 +337,8 @@ class ChartView extends GetView<ChartController> {
           DataColumn(label: Text('Timestamp', style: headerStyle)),
         ],
         rows: [],
-        dataRowColor: MaterialStatePropertyAll(Color(0xFF232323)),
-        headingRowColor: MaterialStatePropertyAll(Color(0xFF2E2E2E)),
+        dataRowColor: WidgetStatePropertyAll(Color(0xFF232323)),
+        headingRowColor: WidgetStatePropertyAll(Color(0xFF2E2E2E)),
         dividerThickness: 0.5,
       );
     }
@@ -378,8 +378,8 @@ class ChartView extends GetView<ChartController> {
           ],
         );
       }).toList(),
-      dataRowColor: MaterialStatePropertyAll(Color(0xFF232323)),
-      headingRowColor: MaterialStatePropertyAll(Color(0xFF2E2E2E)),
+      dataRowColor: WidgetStatePropertyAll(Color(0xFF232323)),
+      headingRowColor: WidgetStatePropertyAll(Color(0xFF2E2E2E)),
       dividerThickness: 0.5,
     );
   }
