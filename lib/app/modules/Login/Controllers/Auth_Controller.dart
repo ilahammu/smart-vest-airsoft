@@ -24,6 +24,8 @@ class AuthController extends GetxController {
     });
   }
 
+// mantab
+
   void checkLoginStatus() {
     String? token = box.read('token');
     isLoggedIn.value = token != null && token.isNotEmpty;
